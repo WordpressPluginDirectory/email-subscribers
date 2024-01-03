@@ -298,6 +298,7 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		}
 
 		public static function prepare_campaign_data( $campaign_data ) {
+			
 			$list_id     = ! empty( $campaign_data['list_ids'] ) ? $campaign_data['list_ids']      : '';
 			$template_id = ! empty( $campaign_data['template_id'] ) ? $campaign_data['template_id']: '';
 			$meta        = ! empty( $campaign_data['meta']    ) ? $campaign_data['meta']           : array();
@@ -306,7 +307,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			$campaign_data['base_template_id'] = $template_id;
 			$campaign_data['list_ids']         = $list_id;
 			$meta                              = ! empty( $campaign_data['meta'] ) ? $campaign_data['meta'] : array();
-			$meta['scheduling_option']         = ! empty( $campaign_data['scheduling_option'] ) ? $campaign_data['scheduling_option'] : 'schedule_now';
+			 $meta['scheduling_option']         = ! empty( $campaign_data['scheduling_option'] ) ? $campaign_data['scheduling_option'] : 'schedule_now';
+
 			$meta['es_schedule_date']          = ! empty( $campaign_data['es_schedule_date'] ) ? $campaign_data['es_schedule_date'] : '';
 			$meta['es_schedule_time']          = ! empty( $campaign_data['es_schedule_time'] ) ? $campaign_data['es_schedule_time'] : '';
 
@@ -326,7 +328,7 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			$meta = apply_filters( 'ig_es_before_save_campaign_meta', $meta, $campaign_data );
 
 			$campaign_data['meta'] = maybe_serialize( $meta );
-
+			
 			return $campaign_data;
 		}
 

@@ -120,6 +120,10 @@ if ( ! class_exists( 'ES_Gallery' ) ) {
 					$main_js_data['sender_details']['reply_to_email'] = $from_email;
 					$main_js_data['sender_details']['from_name'] = $from_name;
 					$main_js_data['sender_details']['reply_to_name'] = $from_name;
+
+					$main_js_data['tracking_details']['is_track_email_opens'] =get_option( 'ig_es_track_email_opens', 'yes' );
+					$main_js_data['tracking_details']['ig_es_track_link_clicks'] = get_option( 'ig_es_track_link_click', 'no' );
+					$main_js_data['tracking_details']['ig_es_track_utm'] = get_option( 'ig_es_track_utm', 'no' );
 				}
 
 				if ( ! wp_script_is( 'wp-i18n' ) ) {

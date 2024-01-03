@@ -6,7 +6,7 @@ Tags: email marketing, subscription, autoresponder, post notification, welcome e
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.5
+Stable tag: 5.7.6
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -440,13 +440,17 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.5 =
+= 5.7.6 =
 
-* New: Added "Save as Template" option in campaigns
-* Fix: Email content not preserved when switching from Drag-n-Drop editor to Classic editor
-* Improvements: Disallow change in recipients after campaign has started sending
+* Fix: Set tracking options according to plugin settings for new campaigns
+* Fix: Previous scheduled date/time not shown when editing the scheduled campaign
 
 == Changelog ==
+
+**5.7.6 (03.01.2024)**
+
+* Fix: Set tracking options according to plugin settings for new campaigns
+* Fix: Previous scheduled date/time not shown when editing the scheduled campaign
 
 **5.7.5 (28.12.2023)**
 
