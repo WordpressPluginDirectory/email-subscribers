@@ -6,7 +6,7 @@ Tags: email marketing, subscription, autoresponder, post notification, welcome e
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.6
+Stable tag: 5.7.7
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -440,12 +440,21 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.6 =
+= 5.7.7 =
 
-* Fix: Set tracking options according to plugin settings for new campaigns
-* Fix: Previous scheduled date/time not shown when editing the scheduled campaign
+* New: Show recipients' counts in campaigns
+* Improvements: Drag-n-Drop editor UI improvements
+* Update: PHP 8.2 compatibility
+* Fix: Fatal error when sending preview email in post digest [MAX]
 
 == Changelog ==
+
+**5.7.7 (10.01.2024)**
+
+* New: Show recipients' counts in campaigns
+* Improvements: Drag-n-Drop editor UI improvements
+* Update: PHP 8.2 compatibility
+* Fix: Fatal error when sending preview email in post digest [MAX]
 
 **5.7.6 (03.01.2024)**
 

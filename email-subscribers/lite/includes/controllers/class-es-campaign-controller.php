@@ -1219,6 +1219,52 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		}
 
 
+		public static function get_matching_recipients_count ( $recipient_rule) {
+	
+			$can_access_audience = ES_Common::ig_es_can_access( 'audience' );
+			$can_access_campaign = ES_Common::ig_es_can_access( 'campaigns' );
+			if ( ! ( $can_access_audience || $can_access_campaign ) ) {
+				return 0;
+			}
+			$status     = $recipient_rule['status'];
+			$conditions = $recipient_rule['list_conditions'];
+		
+			$expected_statuses = array( 'subscribed', 'unsubscribed', 'unconfirmed', 'confirmed', 'all' );
+	
+			if ( ! in_array( $status, $expected_statuses, true ) ) {
+				return 0;
+			}
+	
+			$response_data = array();
+	
+			if ( ! empty( $conditions ) ) {
+				$conditions = IG_ES_Campaign_Rules::remove_empty_conditions( $conditions );
+				
+				if ( ! empty( $conditions ) ) {
+					$args                   = array(
+						'conditions'        => $conditions,
+						'status'            => $status,
+						'subscriber_status' => array( 'verified' ),
+						'return_count'      => true,
+					);
+					$query                  = new IG_ES_Subscribers_Query();
+					$response_data['total'] = $query->run( $args );
+						
+				} else {
+					$response_data['total'] = 0;
+				}
+			
+			} else {
+				$response_data['total'] = ES()->lists_contacts_db->get_total_count_by_list($status );
+			}
+			if ( ! empty( $response_data['total'] ) ) {
+				$response_data['total'] = number_format_i18n( $response_data['total'] );
+			}
+			
+			return $response_data;
+		}
+
+
 	}
 
 }

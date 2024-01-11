@@ -2667,6 +2667,9 @@ input[type="time"] {
 .z-50 {
   z-index: 50;
 }
+.float-right {
+  float: right;
+}
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -3190,6 +3193,9 @@ input[type="time"] {
 }
 .pl-3 {
   padding-left: 0.75rem;
+}
+.pr-2 {
+  padding-right: 0.5rem;
 }
 .pr-4 {
   padding-right: 1rem;
