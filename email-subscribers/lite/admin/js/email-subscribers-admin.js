@@ -3632,6 +3632,15 @@
 			});
 		});
 
+		$(document).on('es_drag_and_drop_editor_loaded', function(){
+			/**
+			 * When typing 'n' key in the DnD editor text-block, Jetpack captures the key event and shows its notification panel.
+			 * This prevents our users from typing 'n' key in the text-block.
+			 * To prevent this, we are setting iframe element name to 'editor-canvas' because Jetpack doesn't triggers its code for elements with this name attribute.
+			 */
+			window.esVisualEditor.Canvas.getFrameEl().name = 'editor-canvas';
+		});
+
 	});
 
 	function ig_es_uc_first(string){

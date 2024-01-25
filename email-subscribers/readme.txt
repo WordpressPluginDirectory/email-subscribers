@@ -6,7 +6,7 @@ Tags: email marketing, subscription, autoresponder, post notification, welcome e
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.7
+Stable tag: 5.7.9
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -440,14 +440,25 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.7 =
+= 5.7.9 =
 
-* New: Show recipients' counts in campaigns
-* Improvements: Drag-n-Drop editor UI improvements
-* Update: PHP 8.2 compatibility
-* Fix: Fatal error when sending preview email in post digest [MAX]
+* Fix: Unsubscribe not working for Weekly summary email in few cases
+* Fix: Emails not sending for posts created with Yoast Duplicate Post plugin
+* Fix: Issue with typing 'n' key in Drag-n-Drop editor when Jetpack plugin is active
 
 == Changelog ==
+
+**5.7.9 (25.01.2024)**
+
+* Fix: Unsubscribe not working for Weekly summary email in few cases
+* Fix: Emails not sending for posts created with Yoast Duplicate Post plugin
+* Fix: Issue with typing 'n' key in Drag-n-Drop editor when Jetpack plugin is active
+
+**5.7.8 (17.01.2024)**
+
+* Improvements: Added 'Show block manager' toolbar option for the 'Add Posts' block in the Drag-n-Drop editor
+* Fix: Default subject and content were not set properly while creating a new campaign in some cases
+* Fix: Workflow emails not sending when using the Icegram email sending service with email tracking enabled
 
 **5.7.7 (10.01.2024)**
 

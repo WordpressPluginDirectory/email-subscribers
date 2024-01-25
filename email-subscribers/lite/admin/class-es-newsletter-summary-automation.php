@@ -21,7 +21,7 @@ class ES_Newsletter_Summary_Automation {
 		add_action( 'ig_es_plugin_activate', array( $this, 'maybe_enable_newsletter_summary_automation' ) );
 		add_action( 'ig_es_enable_newsletter_summary_automation', array( $this, 'maybe_enable_newsletter_summary_automation' ) );
 		add_action( 'ig_es_plugin_deactivate', array( $this, 'clear_scheduled_automation' ) );
-		add_action( 'admin_init' , array( $this, 'maybe_disable_automation' ) );
+		add_action( 'init' , array( $this, 'maybe_disable_automation' ) );
 	}
 
 	/**
