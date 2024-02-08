@@ -1263,7 +1263,26 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			
 			return $response_data;
 		}
+		
+		public static function get_posts_by_post_type( $post_type) {
+			$posts  = ES()->campaigns_db->get_posts_by_type( $post_type );
+			echo json_encode($posts);
+			wp_die();
+		}
 
+		public static function replace_posts_blocks( $campaign_content) {
+			
+			$response_data=array();
+			$innerHTML= '{{campaign.posts}}' . $campaign_content['innerHTML'] . '{{/campaign.posts}}';
+			$postIds=[ $campaign_content['postIds'] ];
+
+			$replaced_inner_HTML=ES_common::replace_posts_blocks($innerHTML, $postIds); 
+			$response_data['preview_HTML']=$replaced_inner_HTML;
+			
+			return $response_data;
+			 
+		}
+		
 
 	}
 

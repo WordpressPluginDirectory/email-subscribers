@@ -6,7 +6,7 @@ Tags: email marketing, subscription, autoresponder, post notification, welcome e
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.9
+Stable tag: 5.7.10
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -440,13 +440,15 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.9 =
+= 5.7.10 =
 
-* Fix: Unsubscribe not working for Weekly summary email in few cases
-* Fix: Emails not sending for posts created with Yoast Duplicate Post plugin
-* Fix: Issue with typing 'n' key in Drag-n-Drop editor when Jetpack plugin is active
+* New: Added Post/Custom Post block for broadcast campaigns [PRO]
 
 == Changelog ==
+
+**5.7.10 (08.02.2024)**
+
+* New: Added Post/Custom Post block for broadcast campaigns [PRO]
 
 **5.7.9 (25.01.2024)**
 

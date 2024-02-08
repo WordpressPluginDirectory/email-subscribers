@@ -526,6 +526,28 @@ class ES_DB_Campaigns extends ES_DB {
 	}
 
 	/**
+	 * Get posts by post type
+	 *
+	 * @param int $post_types
+	 *
+	 * @return array|object|null
+	 */
+
+	public function get_posts_by_type( $post_types ) {
+
+	global $wpbd;
+	$posts_type_count       = count( $post_types['postsType'] );
+	$post_type_placeholders = array_fill( 0, $posts_type_count, '%s' );
+	$query                  = $wpbd->prepare(
+		"SELECT ID, post_title, post_content FROM {$wpbd->posts} WHERE post_type IN (" . implode( ',', $post_type_placeholders ) . ')',
+		$post_types['postsType']
+	);
+	$posts                  = $wpbd->get_results( $query, ARRAY_A );
+	return $posts;
+	}
+
+	
+	/**
 	 * Get Active Campaigns
 	 *
 	 * @return array|object|null
