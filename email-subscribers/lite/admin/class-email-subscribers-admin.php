@@ -340,7 +340,12 @@ class Email_Subscribers_Admin {
 
 			// Load required html/js for dynamic WordPress editor.
 			ig_es_wp_js_editor_admin_scripts();
+		} elseif ( 'es_sequence' === $page ) {
+			add_filter( 'tiny_mce_before_init', array( 'ES_Common', 'override_tinymce_formatting_options' ), 10, 2 );
+			add_filter( 'mce_external_plugins', array( 'ES_Common', 'add_mce_external_plugins' ) );
 		}
+
+
 
 		// timepicker
 		wp_register_script( $this->email_subscribers . '-timepicker', plugin_dir_url( __FILE__ ) . 'js/jquery.timepicker.js', array( 'jquery' ), ES_PLUGIN_VERSION, true );
