@@ -6,7 +6,7 @@ Tags: email marketing, subscription, autoresponder, post notification, welcome e
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.11
+Stable tag: 5.7.12
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -440,12 +440,15 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.11 =
+= 5.7.12 =
 
-* Fix: Post notifications were not getting sent for campaigns created using the Drag-n-Drop editor
-* Fix: Unable to edit sequence campaigns [MAX]
+* Fix: XSS vulnerability on Reports page [Thanks to Patchstack team]
 
 == Changelog ==
+
+**5.7.12 (28.02.2024)**
+
+* Fix: XSS vulnerability on Reports page [Thanks to Patchstack team]
 
 **5.7.11 (14.02.2024)**
 

@@ -3036,7 +3036,6 @@ class ES_Common {
 				$replace .= ES_Handle_Post_Notification::prepare_body( $posts_block_inner_content, $post_id, 0 );
 			}
 		}
-		// Replace only the first occurrence
 		$content = preg_replace( '/' . preg_quote( $find, '/' ) . '/', $replace, $content, 1 );
 		return $content;
 	}	
