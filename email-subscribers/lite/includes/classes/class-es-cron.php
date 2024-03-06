@@ -303,9 +303,11 @@ class ES_Cron {
 		);
 
 		$schedules = array_merge( $schedules, $es_schedules );
-
+		
 		return $schedules;
 	}
+
+	
 
 	/**
 	 * Get Cron Interval

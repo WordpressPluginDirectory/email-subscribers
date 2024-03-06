@@ -3029,14 +3029,23 @@ class ES_Common {
 	
 	public static function replace_single_posts_block( $content, $single_block_post_ids ) {
 		$posts_block_inner_content = self::get_in_between_content( $content, '{{campaign.posts}}', '{{/campaign.posts}}' );
-		$find                      = '{{campaign.posts}}' . $posts_block_inner_content . '{{/campaign.posts}}';
-		$replace                   = '';	
-		if ( ! empty( $single_block_post_ids ) ) {
-			foreach ( $single_block_post_ids as $post_id ) {
-				$replace .= ES_Handle_Post_Notification::prepare_body( $posts_block_inner_content, $post_id, 0 );
+		$search_start = '{{campaign.posts}}';
+		$search_end   = '{{/campaign.posts}}';
+		$start_pos    = strpos($content, $search_start);
+		if ( false !== $start_pos ) {
+			// Find the corresponding closing tag
+			$end_pos = strpos($content, $search_end, $start_pos + strlen($search_start));
+			$replace                   = '';	
+			if ( false !== $end_pos ) {
+				if ( ! empty( $single_block_post_ids ) ) {
+					foreach ( $single_block_post_ids as $post_id ) {
+						$replace .= ES_Handle_Post_Notification::prepare_body( $posts_block_inner_content, $post_id, 0 );
+					}
+				}
+				// Replace the entire block with the replacement content
+				$content = substr_replace($content, $replace, $start_pos, $end_pos + strlen($search_end) - $start_pos);
 			}
 		}
-		$content = preg_replace( '/' . preg_quote( $find, '/' ) . '/', $replace, $content, 1 );
 		return $content;
 	}	
 

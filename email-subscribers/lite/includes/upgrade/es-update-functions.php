@@ -2216,3 +2216,42 @@ function ig_es_update_571_db_version() {
 }
 
 /* --------------------- ES 5.6.3(End)--------------------------- */
+
+/* --------------------- ES 5.7.13(Start)--------------------------- */
+
+/**
+ * Trial expires email for existing users
+ */
+
+function ig_es_trial_expires_email_for_existing_users() {
+
+	if ( ES()->is_premium() || ! ES()->trial->is_trial_valid() ) {
+		return;
+	}
+
+	$trial_started_at = get_option('ig_es_trial_started_at');
+
+	if (!empty($trial_started_at)) {
+		$trial_expires_at = $trial_started_at + ES()->trial->get_trial_period();
+		$trial_expires_before_one_day = strtotime(gmdate('Y-m-d', $trial_expires_at) . '-1 day');
+		$current_time = time();
+		// Don't schedule event if we already passed the trial email expiry sending window(1 day before trial expiry)
+		if ( $current_time > $trial_expires_before_one_day ) {
+			return;
+		}
+
+		wp_schedule_single_event( $trial_expires_before_one_day, 'ig_es_expires_email_send_action', array(), true );
+	}
+}
+
+
+ /**
+ * Update DB version
+ *
+ * @since 5.7.13
+ */
+function ig_es_update_5713_db_version() {
+	ES_Install::update_db_version( '5.7.13' );
+}
+
+/* --------------------- ES 5.7.13(End)--------------------------- */

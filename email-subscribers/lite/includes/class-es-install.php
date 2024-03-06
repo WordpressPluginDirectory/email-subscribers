@@ -322,6 +322,10 @@ if ( ! class_exists( 'ES_Install' ) ) {
 				'ig_es_migrate_ess_daily_limit_to_monthly_limits',
 				'ig_es_update_571_db_version',
 			),
+			'5.7.13' => array(
+				'ig_es_trial_expires_email_for_existing_users',
+				'ig_es_update_5713_db_version',
+			),
 		);
 
 		/**

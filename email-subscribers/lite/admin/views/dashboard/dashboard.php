@@ -90,7 +90,7 @@ if ( $show_trial_optin ) {
 			/* translators: %d: Trial period in days */
 			'title'        => sprintf( __( 'Your free %d days trial is on', 'email-subscribers' ), $trial_period_in_days ),
 			/* translators: %s: Number of days remaining in trial */
-			'desc'         => sprintf( __( 'Hope you are enjoying the premium features of Icegram Express (formerly known as Email Subscribers & Newsletters). It will expire on %s. You can anytime upgrade it to MAX.', 'email-subscribers' ), $formatted_trial_expiry_date ),
+			'desc'         => sprintf( __( 'Hope you are enjoying the premium features of Icegram Express. It will expire on %s. You can anytime upgrade it to MAX.', 'email-subscribers' ), $formatted_trial_expiry_date ),
 			'cta_text'     => __( 'Upgrade to Max', 'email-subscribers' ),
 			'feature_url'  => 'https://www.icegram.com/email-subscribers-pricing/?utm_source=in_app&utm_medium=upsell&utm_campaign=es_upsell',
 		),

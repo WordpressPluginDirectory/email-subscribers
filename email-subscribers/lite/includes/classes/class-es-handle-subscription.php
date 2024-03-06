@@ -355,6 +355,8 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 								$data['ip_address'] = $this->ip_address;
 							}
 
+							$data = apply_filters( 'ig_es_add_custom_field_data' , $data, $form_data );
+
 							if ( ! empty( $data ) ) {
 								$data['updated_at'] = ig_get_current_date_time();
 								ES()->contacts_db->update( $contact_id, $data );

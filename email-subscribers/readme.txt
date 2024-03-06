@@ -6,7 +6,7 @@ Tags: email marketing, subscription, autoresponder, post notification, welcome e
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.12
+Stable tag: 5.7.13
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -440,11 +440,21 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.12 =
+= 5.7.13 =
 
-* Fix: XSS vulnerability on Reports page [Thanks to Patchstack team]
+* New: Allow admin to manually confirm subscription through confirmation email link
+* Fix: Special characters issue in post notification emails
+* Fix: Custom field not updating when resubscribing
+* Fix: Drag-n-drop editor's blocks not updating when campaign type is changed in templates
 
 == Changelog ==
+
+**5.7.13 (06.03.2024)**
+
+* New: Allow admin to manually confirm subscription through confirmation email link
+* Fix: Special characters issue in post notification emails
+* Fix: Custom field not updating when resubscribing
+* Fix: Drag-n-drop editor's blocks not updating when campaign type is changed in templates
 
 **5.7.12 (28.02.2024)**
 
