@@ -22,98 +22,8 @@ $settings_url              = admin_url( 'admin.php?page=es_settings' );
 $facebook_url              = 'https://www.facebook.com/groups/2298909487017349/';
 
 
-$feature_blocks = array(
-
-	'form'                => array(
-		'title'        => __( 'Add a Subscription Form', 'email-subscribers' ),
-		'desc'         => __( 'Grow subscribers. Add a newsletter signup form to your site.', 'email-subscribers' ),
-		'cta_text'     => __( 'Create', 'email-subscribers' ),
-		'feature_url'  => $new_form_url,
-		'graphics_img' => 'lite/admin/images/dashboard-subscriber-form.png',
-	),
-
-	'import_contacts'     => array(
-		'title'        => __( 'Import Contacts', 'email-subscribers' ),
-		'desc'         => __( 'Coming from another email marketing system? Upload a CSV file to import subscribers.', 'email-subscribers' ),
-		'cta_text'     => __( 'Import', 'email-subscribers' ),
-		'feature_url'  => admin_url( 'admin.php?page=es_subscribers&action=import' ),
-		'graphics_img' => 'lite/admin/images/dashboard-import-contacts.png',
-	),
-
-	'setup_email_sending' => array(
-		'title'        => __( 'Configure Email Sending', 'email-subscribers' ),
-		'desc'         => __( ' Essential for high email delivery and reaching the inbox. SMTP, email service providers... set it all up.', 'email-subscribers' ),
-		'cta_text'     => __( 'Setup', 'email-subscribers' ),
-		'feature_url'  => admin_url( 'admin.php?page=es_settings#tabs-email_sending' ),
-		'graphics_img' => 'lite/admin/images/dashboard-configure-email-sending.png',
-	),
-
-	'broadcast'           => array(
-		'title'        => __( 'Send a Newsletter', 'email-subscribers' ),
-		'desc'         => __( 'Broadcast a newsletter campaign to all or selected subscribers.', 'email-subscribers' ),
-		'cta_text'     => __( 'Begin', 'email-subscribers' ),
-		'feature_url'  => $new_broadcast_url,
-		'graphics_img' => 'lite/admin/images/dashboard-send-newsletter.png',
-	),
-
-	'autoresponder'       => array(
-		'title'             => __( 'Create an Auto-responder Sequence', 'email-subscribers' ),
-		'desc'              => __( 'Welcome emails, drip campaigns... Send automatic emails at regular intervals to engage readers.', 'email-subscribers' ),
-		'cta_text'          => __( 'Start', 'email-subscribers' ),
-		'feature_url'       => $new_sequence_url,
-		'graphics_img'      => 'lite/admin/images/dashboard-autoresponder-sequence.png',
-		'documentation_url' => 'https://www.icegram.com/documentation/email-sequence/?utm_source=in_app&utm_medium=sequence&utm_campaign=es_doc_upsell',
-	),
-);
-
-$trial_block      = array();
-$show_trial_optin =  ! ES()->trial->is_trial() && ! ES()->is_premium();
-if ( $show_trial_optin ) {
-	$trial_period_in_days = ES()->trial->get_trial_period( 'in_days' );
-
-	$trial_block = array(
-		'trial-optin' => array(
-			'title'        => __( 'Try Icegram Express (formerly known as Email Subscribers & Newsletters) Premium', 'email-subscribers' ),
-			/* translators: %d: Trial period in days */
-			'desc'         => sprintf( __( 'Start your %d days free trial to get automatic email sending, advance spam protection and more.', 'email-subscribers' ), $trial_period_in_days),
-			'cta_text'     => __( 'Start trial', 'email-subscribers' ),
-			'feature_url'  => '#',
-		),
-	);
-} elseif ( ! ES()->is_premium() && ES()->trial->is_trial() && ES()->trial->is_trial_valid() ) {
-	$trial_period_in_days        = ES()->trial->get_trial_period( 'in_days' );
-	$trial_expiry_date           = ES()->trial->get_trial_expiry_date();
-	$formatted_trial_expiry_date = ig_es_format_date_time( $trial_expiry_date );
-
-	$trial_block = array(
-		'trial-active' => array(
-			/* translators: %d: Trial period in days */
-			'title'        => sprintf( __( 'Your free %d days trial is on', 'email-subscribers' ), $trial_period_in_days ),
-			/* translators: %s: Number of days remaining in trial */
-			'desc'         => sprintf( __( 'Hope you are enjoying the premium features of Icegram Express. It will expire on %s. You can anytime upgrade it to MAX.', 'email-subscribers' ), $formatted_trial_expiry_date ),
-			'cta_text'     => __( 'Upgrade to Max', 'email-subscribers' ),
-			'feature_url'  => 'https://www.icegram.com/email-subscribers-pricing/?utm_source=in_app&utm_medium=upsell&utm_campaign=es_upsell',
-		),
-	);
-} elseif ( ! ES()->is_premium() && ES()->trial->is_trial() && ES()->trial->is_trial_expired() ) {
-	$trial_period_in_days = ES()->trial->get_trial_period( 'in_days' );
-
-	$trial_block = array(
-		'trial-expired' => array(
-			/* translators: %d: Trial period in days */
-			'title'        => sprintf( __( 'Your %d days trial is expired', 'email-subscribers' ), $trial_period_in_days ),
-			'desc'         => __( 'Upgrade now to continue uninterrupted use of premium features like automatic email sending and more.', 'email-subscribers' ),
-			'cta_text'     => __( 'Upgrade to Max', 'email-subscribers' ),
-			'feature_url'  => 'https://www.icegram.com/email-subscribers-pricing/?utm_source=in_app&utm_medium=upsell&utm_campaign=es_upsell',
-		),
-	);
-}
-
-$feature_blocks = array_merge( $trial_block, $feature_blocks );
-$feature_blocks = apply_filters( 'ig_es_admin_dashboard_feature_blocks', $feature_blocks );
-
 $topics = ES_Common::get_useful_articles();
-$allowed_html_tags = ig_es_allowed_html_tags_in_esc();
+$allowed_html_tags = ig_es_allowed_html_tags_in_esc(); 
 
 ?>
 <div class="wrap pt-4 font-sans" id="ig-es-container">
@@ -125,13 +35,7 @@ $allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 				</h2>
 			</div>
 			<div class="flex mt-4 md:mt-0 md:ml-4">
-				<a href="<?php echo esc_url( $audience_url ); ?>">
-				<span class="rounded-md shadow-sm">
-				<button type="button" class="inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:shadow-outline focus:border-blue-300">
-					<?php echo esc_html__( 'Audience', 'email-subscribers' ); ?>
-				</button>
-				</span>
-				</a>
+				
 				<span class="ml-3 rounded-md shadow-sm">
 				<div id="ig-es-create-button" class="relative inline-block text-left">
 						<div>
@@ -178,160 +82,124 @@ $allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 	</header>
 
 	<main class="mx-auto max-w-7xl">
-
-		<section id="es-dashboard-stats" class="py-4 my-8 bg-white rounded-lg shadow md:flex md:items-start md:justify-between sm:px-4 sm:grid sm:grid-cols-3">
-			<div class="flex-auto min-w-0 es-w-40 pl-2">
-				<p class="pb-3 text-lg font-medium leading-6 text-gray-400">
-					<span class="leading-7">
+		<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+			<!-- Recent campaigns section -->
+			<section class="py-4 my-8 es-w-20 flex-auto bg-white rounded-lg shadow md:flex md:items-start md:justify-between sm:px-4 sm:grid sm:grid-cols-2 relative">
+				<div class="flex-auto min-w-0 es-w-65 pr-3">
+					<p class="text-lg font-medium leading-6 text-gray-400">
 						<?php
-							/* translators: %s. Number of days */
-							echo sprintf( esc_html__( 'Subscribers activities in last %d days', 'email-subscribers' ), esc_html( $days ) );
+							echo esc_html__( 'Recent Campaigns', 'email-subscribers' );
 						?>
-					</span>
-					<span class="float-right">
-						<select id="filter_by_list">
-							<?php
-							$lists_dropdown = ES_Common::prepare_list_dropdown_options( '', __( 'All lists', 'email-subscribers' ) );
-							echo wp_kses( $lists_dropdown, $allowed_html_tags );
-							?>
-						</select>
-					</span>
-				</p>
-				<?php
-				ES_Admin::get_view(
-					'dashboard/subscribers-stats',
-					array(
-						'reports_data' => $reports_data,
-						'days'         => $days,
-					)
-				);
-				?>
-				<?php
-				$campaign_args     = array(
-					'include_types' => array(
-						'sequence_message'
-					)
-				);
-				$sequence_messages = ES()->campaigns_db->get_campaigns( $campaign_args );
-				ES_Admin::get_view(
-					'dashboard/sequence',
-					array(
-						'sequence_messages' => $sequence_messages,
-						'upsell'            => ! ES()->is_pro()
-					)
-				);
-				?>
-			</div>
-			<div class="flex-auto min-w-0 es-w-25 px-3">
-				<?php
-				$countries_count = 5;
-				?>
-				<p class="px-3 text-lg font-medium leading-7 text-gray-400">
+					</p>
 					<?php
-						/* Translators: %s. Country count */
-						echo sprintf( esc_html__( 'Top %s countries', 'email-subscribers' ), esc_html( $countries_count ) );
-					?>
-					<?php
-					if ( ! ES()->is_pro() ) {
-						$utm_args = array(
-							'utm_medium' => 'dashboard-top-countries',
-							'url'		 => 'https://www.icegram.com/documentation/what-analytics-does-email-subscribers-track/'
+						ES_Admin::get_view(
+							'dashboard/recent-campaigns', 
+							array(
+								'campaigns' => $campaigns,
+							)
 						);
-				
-						$pricing_url = ES_Common::get_utm_tracking_url( $utm_args );
 						?>
-						<a  target="_blank" href="<?php echo esc_url( $pricing_url ); ?>">
-							<span class="premium-icon inline-block"></span>
-						</a>
+				</div>
+			</section>
+			
+			<!-- Audience Activity -->
+			<section class="py-4 my-8 es-w-20 flex-auto bg-white rounded-lg shadow md:flex md:items-start md:justify-between sm:px-4 sm:grid sm:grid-cols-2 relative">
+				<div class="flex-auto min-w-0 es-w-65 pr-3">
+					<p class="text-lg font-medium leading-6 text-gray-400">
 						<?php
-					}
-					?>
-				</p>
-				<?php
-					do_action( 'ig_es_show_top_countries_stats', $countries_count );
-				?>
-			</div>
-			<div class="flex-auto min-w-0 es-w-35 pr-2">
-				<p class="text-lg font-medium leading-6 text-gray-400">
-					<span class="leading-7">
-						<?php
-							echo esc_html__( 'Recent activities', 'email-subscribers' );
+							echo esc_html__( 'Audience Activity', 'email-subscribers' );
 						?>
-						<?php
-						if ( ! ES()->is_pro() ) {
-							$utm_args = array(
-								'utm_medium' => 'dashboard-recent-activites',
-							);
-					
-							$pricing_url = ES_Common::get_utm_tracking_url( $utm_args );
-							?>
-							<a  target="_blank" href="<?php echo esc_url( $pricing_url ); ?>">
-								<span class="premium-icon inline-block"></span>
+					</p>
+					<?php
+						ES_Admin::get_view(
+							'dashboard/audience-activity', 
+							array(
+								'audience_activity' => $audience_activity,
+							)
+						);
+						?>
+				</div>
+			</section>
+
+			<!-- Forms & Lists -->
+			<section class="py-4 my-8 es-w-20 flex-auto bg-white rounded-lg shadow md:flex md:items-start md:justify-between sm:px-4 sm:grid sm:grid-cols-2">
+				<div class="flex-auto min-w-0 es-w-65 pr-3">
+					<div class="flex items-center pr-2 py-2 md:justify-between">
+						<p class="text-lg font-medium leading-6 text-gray-400">
+							<?php echo esc_html__( 'Forms', 'email-subscribers' ); ?>
+						</p>
+						<p class="px-2 es_helper_text">
+							<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/add-subscription-box-to-website" target="_blank">
+								<?php echo esc_html__( 'How to add a form?', 'email-subscribers' ); ?>
 							</a>
-							<?php
-						}
-						?>
-					</span>
+						</p>
+					</div>
 					<?php
-					if ( ES()->is_pro() ) {
-						?>
-					<span class="float-right">
-						<?php
-						$activities = array(
-							IG_CONTACT_SUBSCRIBE   => esc_html__( 'Subscribes', 'email-subscribers' ),
-							IG_CONTACT_UNSUBSCRIBE => esc_html__( 'Unsubscribes', 'email-subscribers' ),
-							IG_MESSAGE_SENT        => esc_html__( 'Received', 'email-subscribers' ),
-							IG_MESSAGE_OPEN        => esc_html__( 'Opens', 'email-subscribers' ),
-							IG_LINK_CLICK          => esc_html__( 'Clicks', 'email-subscribers' ),
-							IG_MESSAGE_SOFT_BOUNCE => esc_html__( 'Soft bounces', 'email-subscribers' ),
-							IG_MESSAGE_HARD_BOUNCE => esc_html__( 'Hard bounces', 'email-subscribers' ),
+						ES_Admin::get_view(
+							'dashboard/forms-and-list', 
+							array(
+								'forms' => $forms,
+								'lists' => $lists,
+							)
 						);
 						?>
-						<select id="filter_by_activity">
-							<option value="">
-								<?php echo esc_html__( 'All activities', 'email-subscribers' ); ?>
-							</option>
-							<?php
-							foreach ( $activities as $activity_id => $activity ) {
-								?>
-								<option value="<?php echo esc_attr( $activity_id ); ?>"><?php echo esc_html( $activity ); ?></option>
-								<?php
-							}
-							?>
-						</select>
-					</span>
-					<?php
-					}
-					?>
-				</p>
-				<?php
-					do_action( 'ig_es_show_recent_activities' );
-				?>
-			</div>
-		</section>
+				</div>
+			</section>
+		</div>
 
-		<section id="es-campaign-stats" class="py-4 my-8 bg-white rounded-lg shadow md:flex md:items-start md:justify-between sm:px-4 sm:grid sm:grid-cols-2">
-			<div class="flex-auto min-w-0 es-w-65 pr-3">
-				<p class="px-2 text-lg font-medium leading-6 text-gray-400">
-					<?php
-						echo esc_html__( 'Recent campaigns', 'email-subscribers' );
-					?>
-				</p>
+		
+		<section class="py-4 my-8 bg-white rounded-lg shadow md:flex md:items-start md:justify-between sm:px-4 sm:grid sm:grid-cols-2">
+			<!-- Trial-optin form -->
+			<div class="flex-auto min-w-0 es-w-35 pr-3">
 				<?php
-					$campaigns = ! empty( $reports_data ) ? $reports_data['campaigns'] : array();
 					ES_Admin::get_view(
-						'dashboard/recent-campaigns',
-						array(
-							'campaigns' => $campaigns,
-							'upsell'    => ! ES()->is_pro(),
-						)
+						'dashboard/trial-optin-ess'
 					);
 					?>
 			</div>
+			
+			<!-- Email sending service section -->
+			<div class="flex-auto min-w-0 es-w-35 pr-3">
+				<?php
+				if ( ES_Service_Email_Sending::is_onboarding_completed() ) {
+					$current_month        = ig_es_get_current_month();
+					$service_status      = ES_Service_Email_Sending::get_sending_service_status();
+					$ess_data            = get_option( 'ig_es_ess_data', array() );
+					$used_limit          = isset( $ess_data['used_limit'][$current_month] ) ? $ess_data['used_limit'][$current_month]: 0;
+					$allocated_limit     = isset( $ess_data['allocated_limit'] ) ? $ess_data['allocated_limit']                    : 0;
+					$interval            = isset( $ess_data['interval'] ) ? $ess_data['interval']                                  : '';
+					$current_mailer_name = ES()->mailer->get_current_mailer_name();
+
+					ES_Admin::get_view(
+						'dashboard/ess-account-overview',
+						array(
+							'service_status'      => $service_status,
+							'allocated_limit'     => $allocated_limit,
+							'used_limit'          => $used_limit,
+							'interval'            => $interval,
+							'current_mailer_name' => $current_mailer_name,
+							'settings_url'        => $settings_url,
+						)
+					);
+				} else {
+					$ess_onboarding_step = get_option( 'ig_es_ess_onboarding_step', 1 );
+					$ess_optin           = ig_es_get_request_data( 'ess_optin' );
+					ES_Admin::get_view(
+						'dashboard/ess-onboarding', 
+						array(
+							'ess_onboarding_step' => (int) $ess_onboarding_step,
+							'ess_optin'           => $ess_optin,
+						)
+					);
+				}
+				?>
+			</div>
+			
+			<!--Tips and Trick section -->
 			<div class="flex-auto min-w-0 es-w-35 pr-2">
 				<p class="text-lg font-medium leading-6 text-gray-400">
 					<span>
-						<?php
+						<?php 
 							echo esc_html__( 'Tips & Tricks', 'email-subscribers' );
 						?>
 					</span>
@@ -346,68 +214,9 @@ $allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 					?>
 			</div>
 		</section>
-
-		<section class="my-16">
-			<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-			<?php
-			foreach ( $feature_blocks as $feature => $data ) {
-				$is_trial_block = strpos( $feature, 'trial' ) !== false;
-				$bg             = $is_trial_block ? 'bg-teal-100' : 'bg-white';
-				?>
-				<div id="ig-es-<?php echo esc_attr( $feature ); ?>-block" class="relative p-6 rounded-lg shadow <?php echo esc_attr( $bg ); ?>">
-					<h3 class="text-lg font-medium tracking-tight text-gray-900">
-						<?php echo esc_html( $data['title'] ); ?>
-					</h3>
-					<?php
-					if ( ! empty( $data['graphics_img'] ) ) {
-						$extra_css = ! empty( $data['graphics_img_class'] ) ? $data['graphics_img_class'] : '';
-						?>
-						<img
-						class="absolute bottom-0 right-0 w-24 -mr-3 <?php echo esc_attr( $extra_css ); ?>"
-						src= "<?php echo esc_url( ES_PLUGIN_URL . $data['graphics_img'] ); ?>"
-						/>
-						<?php
-					}
-					?>
-					<div class="block-description" style="width: calc(100% - 4rem)">
-						<p class="pt-3 xl:pr-3 2xl:pr-0 text-sm text-gray-500">
-							<?php
-							if ( ! empty( $data['html_desc'] ) ) {
-								echo wp_kses_post( $data['html_desc'] );
-							} else {
-								echo esc_html( $data['desc'] );
-							}
-							?>
-						</p>
-
-						<?php
-						if ( !empty($data['feature_url'])) {
-							$feature_url = $data['feature_url'];
-							if ( ! ES()->is_pro() && isset( $data['documentation_url'] ) ) {
-								$feature_url = $data['documentation_url'];
-							}
-							?>
-							<a id="ig-es-<?php echo esc_attr( $feature ); ?>-cta" href="<?php echo esc_url( $feature_url ); ?>" target="_blank" class="es_primary_link">
-								<?php echo esc_html( $data['cta_text'] ); ?> &rarr;
-							</a>
-						<?php
-						}
-						?>
-					</div>
-				</div>
-				<?php
-			}
-			?>
-			</div>
-		</section>
-
 	</main>
 </div>
-<?php
-if ( $show_trial_optin ) {
-	include_once 'trial-optin-form.php';
-}
-?>
+
 <script type="text/javascript">
 
 	(function ($) {

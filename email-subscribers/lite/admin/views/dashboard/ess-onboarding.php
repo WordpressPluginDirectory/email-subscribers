@@ -4,7 +4,6 @@
 			<?php echo esc_html__( 'Use our Email Sending Service', 'email-subscribers' ); ?>
 		</span>
 	</p>
-	<img class="absolute bottom-0 right-0 w-24 -mr-3 " src="<?php echo esc_url( ES_PLUGIN_URL . '/lite/admin/images/dashboard-send-newsletter.png' ); ?>">
 	<div class="step-1  block-description" style="width: calc(100% - 4rem)">
 		<ul class="pt-2 pb-1 space-y-2 text-sm font-medium leading-5 text-gray-400">
 			<li class="flex items-start space-x-3 group">

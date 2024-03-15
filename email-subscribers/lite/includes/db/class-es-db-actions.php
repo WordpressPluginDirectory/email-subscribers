@@ -285,7 +285,13 @@ class ES_DB_Actions extends ES_DB {
 
 		$where = array();
 		if ( ! empty( $args['type'] ) ) {
-			$where[] = $wpbd->prepare( 'type = %d', esc_sql( $args['type'] ) );
+			if ( is_array( $args['type'] ) ) {
+				$types_count        = count( $args['type'] );
+				$types_placeholders = array_fill( 0, $types_count, '%d' );
+				$where[] = $wpbd->prepare( 'type IN( ' . implode( ',', $types_placeholders ) . ' )', esc_sql( $args['type'] ) );
+			} else {
+				$where[] = $wpbd->prepare( 'type = %d', esc_sql( $args['type'] ) );
+			}
 		}
 
 		if ( ! empty( $where ) ) {

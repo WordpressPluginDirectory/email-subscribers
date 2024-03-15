@@ -166,12 +166,14 @@ jQuery(document).ready(function() {
 		}
 	};
 
-	jQuery('#ig-ess-optin-cta').on( 'click', function() {
+	jQuery('#ig-ess-optin-cta').on( 'click', function(e) {
+		e.preventDefault();
 		jQuery('#sending-service-benefits').hide();
 		jQuery('#sending-service-onboarding-tasks-list').show();
 		ig_es_start_processing_tasks_queue( 'perform_configuration_tasks' );
 	});
-	jQuery('#ig-es-complete-ess-onboarding').on( 'click', function(){
+	jQuery('#ig-es-complete-ess-onboarding').on( 'click', function(e){
+		e.preventDefault();
 		var btn_elem = jQuery(this);
 		var params = {
 			type: 'POST',

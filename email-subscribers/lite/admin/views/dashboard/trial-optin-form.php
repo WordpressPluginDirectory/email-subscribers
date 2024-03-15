@@ -4,7 +4,7 @@ $admin_email = get_option( 'admin_email' );
 <div id="ig-es-trial-optin-section" class="hidden">
 	<form id="ig-es-trial-optin-form" method="post">
 		<?php wp_nonce_field( 'ig-es-trial-optin-nonce', 'ig_es_trial_optin_nonce' ); ?>
-		<h3 class="text-lg font-medium tracking-tight text-gray-900">
+		<h3 class="pb-3 text-lg font-medium leading-6 text-gray-400">
 			<?php echo esc_html__( 'Sign up now', 'email-subscribers' ); ?>
 		</h3>
 		<div class="pt-1 space-y-2 text-sm">
@@ -105,7 +105,14 @@ $admin_email = get_option( 'admin_email' );
 					if (response.success) {
 						$('#ig-es-trial-optin-form,#ig-es-trial-optin-error-block').addClass('hidden');
 						$('#ig-es-trial-optin-success-block').removeClass('hidden');
-						$('#ig-es-trial-optin-block').removeClass('bg-white').addClass('bg-teal-100');
+
+						/*After 10 second of success block users will see trial-active block*/
+						setTimeout(function(){
+							$('#ig-es-trial-optin-success-block').addClass('hidden');
+							$('#ig-es-trial-active-block').removeClass('hidden');
+						}, 10000);
+
+						//$('#ig-es-trial-optin-block').removeClass('bg-white').addClass('bg-teal-100');
 					} else {
 						if ( response.data.message_text ) {
 							$('#error-message-text').text(response.data.message_text);

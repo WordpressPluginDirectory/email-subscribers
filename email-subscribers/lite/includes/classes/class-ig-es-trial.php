@@ -306,7 +306,6 @@ class IG_ES_Trial {
 	 * @since 4.6.2
 	 */
 	public function show_trial_notices() {
-
 		// Don't show trial notices untill onboarding is completed.
 		if ( ! IG_ES_Onboarding::is_onboarding_completed() ) {
 			return;
@@ -413,6 +412,7 @@ class IG_ES_Trial {
 			$this->add_trial_data( $is_trial, $trial_started_at );
 			$this->trial_expires_email_single_cron($trial_started_at);
 			wp_send_json_success( $response );
+
 		} else {
 			wp_send_json_error( $response );
 		}

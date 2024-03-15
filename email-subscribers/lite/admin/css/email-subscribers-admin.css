@@ -930,6 +930,14 @@ table#top-countries tbody tr:last-child:not(first-child) td, table#recent-subscr
     position: relative;
     top: -3px;
 }
+
+.es-ellipsis-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 220px;
+    white-space: nowrap;
+    display: inline-block;
+}
 /**** Dashboard : end ***/
 
 .es_list_contact_status:before {

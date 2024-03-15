@@ -356,7 +356,7 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 			global $wpdb;
 
 			$campaigns = ES_DB_Mailing_Queue::get_recent_campaigns( $total_campaigns );
-
+			
 			$campaigns_data = array();
 			if ( ! empty( $campaigns ) && count( $campaigns ) > 0 ) {
 
@@ -370,7 +370,7 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 					}
 
 					$results = $wpdb->get_results( $wpdb->prepare( "SELECT type, count(DISTINCT (contact_id) ) as total FROM {$wpdb->prefix}ig_actions WHERE message_id = %d AND campaign_id = %d GROUP BY type", $message_id, $campaign_id ), ARRAY_A );
-
+					
 					$stats     = array();
 					$type      = '';
 					$type_text = '';

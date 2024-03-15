@@ -31,7 +31,7 @@ class ES_Newsletter_Summary_Automation {
 	 */
 	public function maybe_enable_newsletter_summary_automation() {
 		$is_automation_enabled = get_option( $this->option_name, 'yes' );
-		
+
 		if ( 'yes' === $is_automation_enabled ) {
 			$this->schedule_summary_automation( true, false );
 		} else {

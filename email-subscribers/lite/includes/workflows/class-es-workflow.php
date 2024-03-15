@@ -533,6 +533,23 @@ class ES_Workflow {
 	}
 
 	/**
+	 * Run workflow if validation passes
+	 * 
+	 * @since 5.7.14
+	 */
+	public function maybe_run( $data_layer = array() ) {
+		$this->setup( $data_layer );
+		if ( $this->is_missing_required_data() ) {
+			return;
+		}
+		if ( ! $this->validate_workflow() ) {
+			return;
+		}
+		$this->run();
+		$this->cleanup();
+	}
+
+	/**
 	 * Execute workflow actions.
 	 * 
 	 * @return bool
@@ -1235,5 +1252,14 @@ class ES_Workflow {
 			return $last_ran_at;
 		}
 		return '';
+	}
+
+	/**
+	 * Check if workflow requires queuing
+	 * 
+	 * @since 5.7.14
+	 */
+	public function requires_queueing() {
+		return apply_filters( 'ig_es_workflow_requires_queueing', false );
 	}
 }

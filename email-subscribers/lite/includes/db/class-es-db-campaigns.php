@@ -923,7 +923,9 @@ class ES_DB_Campaigns extends ES_DB {
 		$order           = ! empty( $args['order'] ) ? $args['order'] : '';
 	   
 		if (! empty( $args['is_campaigns_listing'] )) {
-		$order .= '    LIMIT ' . $args['offset'] . ', ' . $args['per_page'];
+			$order .= '    LIMIT ' . $args['offset'] . ', ' . $args['per_page'];
+		} elseif (!empty($args['limit'])) {
+			$order .= '    LIMIT ' . $args['limit'];
 		}
 
 		return $this->get_by_conditions( $where, $output, $use_cache, $order_by_column, $order );

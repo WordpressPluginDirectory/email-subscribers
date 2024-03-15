@@ -974,7 +974,6 @@ if ( ! class_exists( 'Email_Subscribers' ) ) {
 				'lite/includes/workflows/queue/class-es-workflow-queue.php',
 				'lite/includes/workflows/queue/class-es-workflow-queue-factory.php',
 				'lite/includes/workflows/queue/class-es-workflow-queue-handler.php',
-				'lite/includes/workflows/queue/class-es-workflow-queue-runner.php',
 
 				// Workflow Loader
 				'lite/includes/workflows/class-es-workflow-loader.php',

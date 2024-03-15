@@ -26,11 +26,12 @@
 	<div id="subscribers-stats" class="clear-both">
 		<div class="grid grid-cols-3 gap-4 py-4 text-gray-600 text-center">
 			<div class="p-1">
-				<span class="text-2xl font-bold leading-none text-indigo-600">
-					<?php echo esc_html( $allocated_limit ); ?>
-				</span>
-				/ 
-				<span><?php echo esc_html( $interval ); ?></span>
+				<div class="md:flex md:items-center">
+					<span class="text-2xl font-bold leading-none text-indigo-600 pr-1">
+						<?php echo esc_html( $allocated_limit ); ?>
+					</span>
+					<span class="pt-2"><?php echo esc_html( ' / ' . substr($interval, 0, 2) ); ?></span>
+				</div>
 				<p class="mt-1 font-medium leading-6 text-gray-500">
 					<?php
 						echo esc_html__( 'Allocated limit', 'email-subscribers' );
@@ -58,11 +59,19 @@
 				</div>
 			</div>
 		</div>
-		<p class="pt-3 xl:pr-3 2xl:pr-0 text-sm text-gray-500">
+		<p class="xl:pr-3 2xl:pr-0 text-sm text-gray-500">
 			<?php
 				/* translators: Mailer name name */
 				echo sprintf( esc_html__( 'Emails beyond the first %1$d will be sent through %2$s.', 'email-subscribers' ), esc_html( $allocated_limit ), '<a href="' . esc_url( $settings_url ) . '" target="_blank">' . esc_html( $current_mailer_name ) . '</a>' );
 			?>
 		</p>
+		<p class="py-3 xl:pr-3 2xl:pr-0 text-sm text-gray-500">
+			<?php
+				echo esc_html__( 'If you have more email to send for a month consider our premium plans of Email Sending', 'email-subscribers' );
+			?>
+		</p>
+		<a href="https://www.icegram.com/email-sending-service/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01" target="_blank" class="inline-flex justify-center px-1.5 py-1 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-indigo-600 border border-indigo-500 rounded-md cursor-pointer select-none focus:outline-none focus:shadow-outline-indigo focus:shadow-lg hover:bg-indigo-500 hover:text-white  hover:shadow-md md:px-2 lg:px-3 xl:px-4 mt-3">
+			<?php echo esc_html( 'Upgrade', 'email-subscribers' ); ?> &rarr;
+		</a>
 	</div>
 </div>

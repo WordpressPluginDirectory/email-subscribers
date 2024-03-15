@@ -1845,7 +1845,7 @@ function ig_es_upsell_redirect_to_url() {
 		$pricing_url = ES_Common::get_utm_tracking_url( $utm_args );
 		?>
 		<a href="<?php echo esc_url( $pricing_url ); ?>" target="_blank">
-			<div class="block w-full mx-4 pb-8">
+			<div class="block w-full mx-4">
 				<div class="py-2">
 					<input type="radio" class="form-radio" id="redirect_to_url" />					
 					<label for="redirect_to_url"

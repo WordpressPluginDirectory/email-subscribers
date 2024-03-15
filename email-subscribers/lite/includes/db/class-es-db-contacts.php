@@ -142,6 +142,30 @@ class ES_DB_Contacts extends ES_DB {
 		return $columns;
 	}
 
+
+	/**
+	 * Get all contacts based on passed arguements
+	 *
+	 * @param array $args Contacts arguements
+	 *
+	 * @return array Array of contacts
+	 *
+	 */
+	public function get_contacts( $args = array() ) {
+		global $wpbd;
+		$where = '';
+		$output          = ! empty( $args['output'] ) ? $args['output'] : ARRAY_A;
+		$use_cache       = false; 
+		$order_by_column = ! empty( $args['order_by_column'] ) ? $args['order_by_column'] : '';
+		$order           = ! empty( $args['order'] ) ? $args['order'] : '';
+	   
+		if (!empty($args['limit'])) {
+			$order .= '    LIMIT ' . $args['limit'];
+		}
+
+		return $this->get_by_conditions( $where, $output, $use_cache, $order_by_column, $order );
+	}
+
 	/**
 	 * Get by id
 	 *

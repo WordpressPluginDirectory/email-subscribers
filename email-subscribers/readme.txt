@@ -1,27 +1,27 @@
-===  Icegram Express – Email Marketing, Newsletters and Automation for WordPress & WooCommerce ===
+===  Email Subscribers by Icegram Express - Email Marketing, Newsletters, Automation for WordPress & WooCommerce ===
 Contributors: icegram, niravmehta, sandhyam, storeapps, malayladu, Mansi Shah, kishanranawat, asmipatel, shubhanshukandani
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BMFRMVXQ87JWA&source=url
 Author URI: https://www.icegram.com/
-Tags: email marketing, subscription, autoresponder, post notification, welcome email
+Tags: email marketing, email subscribers, newsletters, autoresponders, email automation
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.13
+Stable tag: 5.7.14
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
 
-Add subscription forms on the website and send beautiful newsletters & automatically send post notification about new blog posts once it gets published.
+Add subscription forms on the website and send newsletters & automatically send post notification about new blog posts once it gets published.
 
 == Description ==
 
-### Collect leads via forms, build and segment lists, automate sending newsletters, emails, post notifications to convert subscribers to customers.
+### Grow email subscribers, build & segment lists, automate new post notifications, send newsletters & broadcasts, set up autoresponders & convert subscribers to customers.
 
-[Icegram Express](https://www.icegram.com/express/),  is the easiest, pocket-friendly, fluent and best WordPress email marketing, email subscribers and newsletters plugin. Perfect for list building, list engagement, sending newsletters and targeted emails, and converting leads into customers.
+[Icegram Express](https://www.icegram.com/express/), is the simplest, pocket-friendly, most reliable WordPress email marketing, email subscribers and newsletters plugin. Perfect for list building, list engagement, sending newsletters and targeted emails, and converting leads into customers.
 
-It’s a fully-featured automated email marketing plugin with seamless integration with the most popular themes, plugins, and SMTP / email service providers.
+It’s a fully-featured, automated email marketing plugin with seamless integration with the most popular themes, plugins, and SMTP / email service providers.
 
-That’s why over 162,000 users trust Icegram Express for their WooCommerce and WordPress email marketing needs.
+That’s why over 162,000 users trust Email Subscribers by Icegram Express for their WooCommerce and WordPress email marketing needs.
 
 **Best suited for**
 
@@ -35,24 +35,16 @@ That’s why over 162,000 users trust Icegram Express for their WooCommerce and 
 
 **What will Icegram Express help you achieve?**
 
-Icegram Express will help you achieve more subscribers, more engagements and more loyal customers.
+Email Subscribers by Icegram Express helps you **achieve multiple email marketing activities** on your WordPress and WooCommerce website:
 
-Everyone can be a subscriber. Grow your audience with this WordPress email marketing automation plugin by turning users into subscribers with high-converting opt-ins, lead magnets and emails.
-
-Automate email marketing tasks, reduce customer churn, and streamline your marketing with Icegram Express.
-
-> **Cheaper & More Feature-Rich Alternative to Mailchimp** 
-> I was a long-time Mailchimp user, but when their prices went up, I switched to Icegram. Icegram has more features than Mailchimp and is a fraction of the cost. I can email my members directly from my site and the plugin authors are great at support. I'm so glad I made the switch!
-> -  [brianharper](https://wordpress.org/support/topic/so-far-so-good-1088/)
-
-**Complete WordPress email marketing and newsletter solution**
+**Complete WordPress email marketing and newsletter plugin**
 
 -   Collect leads via subscription forms and lead magnets.
+-   Send **blog post notifications, autoresponders, post digests and broadcasts.** 
+-   Send welcome & confirmation emails, drip campaigns.
 -   Drag and drop blocks to **build responsive newsletters and emails without code.**
 -   **Readymade email templates** for different needs - holiday sales & offers
 -   Compose and send unlimited sequentially triggered emails.
--   Send **blog post notifications, autoresponders, post digests and broadcasts.** 
--   Send welcome & confirmation emails, drip campaigns.
 -   Run cart recovery emails in WooCommerce with coupons.
 -   Automate email workflow with triggers
 -   **List cleanup and rule-based segmentation** for better targeting.
@@ -66,11 +58,19 @@ Automate email marketing tasks, reduce customer churn, and streamline your marke
 -   Integration with top WordPress forms plugins
 -   Integration with top Memberships and other WooCommerce plugins
 
-Do all these straight from your WordPress dashboard, easily and quickly. Use the time you save to build your brand and better relationships with your readers. 
+Do all these straight from your WordPress dashboard, easily and quickly. Use the time you save to build your brand and better relationships with your readers.
 
-Maximize your email marketing results while minimizing costs with Icegram Express. 
+**Maximize your email marketing** results while **minimizing costs** with Icegram Express. 
 
-Try the free version today for better results guaranteed!
+🆓 Try the free version today for better results guaranteed!
+
+> **Cheaper & More Feature-Rich Alternative to Mailchimp** 
+> I was a long-time Mailchimp user, but when their prices went up, I switched to Icegram. Icegram has more features than Mailchimp and is a fraction of the cost. I can email my members directly from my site and the plugin authors are great at support. I'm so glad I made the switch!
+> -  [brianharper](https://wordpress.org/support/topic/so-far-so-good-1088/)
+
+Icegram Express will help you **achieve more subscribers, more engagements and more loyal customers.**
+
+Everyone can be a subscriber. Grow your audience with this WordPress email and newsletter plugin by turning users into subscribers with high-converting opt-ins, lead magnets and emails.
 
 Here’s the [installation guide](https://www.icegram.com/documentation/getting-started/) to get started and in-depth [documentation](https://www.icegram.com/knowledgebase_category/email-subscribers/) to get well-versed with 
 WordPress email marketing automation.
@@ -177,26 +177,18 @@ High on performance and scalability with enterprise-grade security.
 -   Stops WordPress email spam & fake submissions
 -   Easily scales as your audience grows
 
-### Experience the magic of lead generation with Icegram Express from our satisfied customers
+**Here’s what fellow WordPressers say about Icegram Express:**
 
-> 👉 **100% Worth the cost! Must-have plugin for any blogger!** -
-> I've tried a lot of different plugins for managing my subscriber list, but this one is by far the best. Great for Professional Bloggers!! I highly recommend this and the PAID version is worth the cost.
-> - [rickvidallon](https://wordpress.org/support/topic/great-for-professional-bloggers/)
+> **Perfect subscriber solution: Worked where other plugins failed…**
+> Easy setup and instant action. The best part? It actually delivers results! Unlike those big shots, it nails blog entry notifications. Plus, pair it with Icegram Collect for an even better form makeover!
+> - [laurendevine](https://wordpress.org/support/topic/worked-where-other-subscriber-plugins-failed/)
 
-> 👉 **Save 90% Money On Email Marketing, a better alternative to Mailchimp** -
->  This plugin is very helpful to design emails campaigns. Experience unmatched savings – up to 90% less than MailChimp.
-> - [Claudiozanin](https://wordpress.org/support/topic/excellent-alternative-to-save-money-on-email-campaigns/)
-
-> 👉 **Best Customer Support I’ve Ever Experienced** -
+> **Best Customer Support I’ve Ever Experienced** -
 > I’ve been using the free version for several years and recently upgraded to the Max version to get some more features. Instant, precise answers from support transformed my experience.Thrilled with the upgrade and top-notch assistance.
 > - [chaffeeb](https://wordpress.org/support/topic/a-helpful-plug-in/)
 
-> 👉 **Truly deserved 5-star + rating!** -
-> Deserves a Double 5-Star Rating!Let's Support These Devs 🌟 All features run flawlessly, precisely as envisioned. P.S.: I rarely review plugins, but this one? Totally worth it! Kudos for the sincere and exceptional work.
-> - [dominus](https://wordpress.org/support/topic/truly-deserved-5-rating-recommend-and-please-support-the-authors/)
-
-### More advanced email marketing with Premium versions
-Icegram Express offers advanced options for premium users in addition to its robust free features – Icegram Pro and Icegram Max.
+###Get more advanced email marketing features with Premium versions
+Email subscribers by Icegram Express offer advanced options for premium users in addition to its robust free features – Icegram Express Pro and Icegram Express Max.
 
 -   Unlimited autoresponder sequences 
 -   Unlimited email scheduling and post digests
@@ -220,9 +212,9 @@ and a lot more!
 
 [Icegram Express premium plans ](https://www.icegram.com/express/pricing) | [Marketing Blog](https://www.icegram.com/blog/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo) | [Support Help Desk](https://www.icegram.com/contact/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo)
 
-> **Perfect subscriber solution: Worked where other plugins failed…**
-> Easy setup and instant action. The best part? It actually delivers results! Unlike those big shots, it nails blog entry notifications. Plus, pair it with Icegram Collect for an even better form makeover!
-> - [laurendevine](https://wordpress.org/support/topic/worked-where-other-subscriber-plugins-failed/)
+> ⭐ **100% Worth the cost! Must-have plugin for any blogger!** -
+> I've tried a lot of different plugins for managing my subscriber list, but this one is by far the best. Great for Professional Bloggers!! I highly recommend this and the PAID version is worth the cost.
+> - [rickvidallon](https://wordpress.org/support/topic/great-for-professional-bloggers/)
 
 ### Why Icegram Express over other plugins
 
@@ -239,6 +231,10 @@ and a lot more!
 -  Well-documented with video tutorials
 -  Clean code and secure
 -  And more to come! 
+
+Don’t believe us? Here’s how Icegram Express compares with other competitors:
+[Icegram Express vs MailPoet](https://www.icegram.com/mailpoet-review/)
+[Icegram Express vs FluentCRM](https://www.icegram.com/fluentcrm-review/)
 
 Icegram Express adds constant value for its smart users.
 
@@ -273,7 +269,9 @@ Let’s Socialize: [Private Facebook Group](https://www.facebook.com/groups/2298
 
 [Offermative](https://wordpress.org/plugins/offermative-discount-pricing-related-products-upsell-funnels-for-woocommerce/) - Dynamic discount pricing, related product recommendations, upsells and funnels for WooCommerce.
 
-[Signup for Free](https://www.icegram.com/express/) | [Resources](https://www.icegram.com/blog/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo) | [Knowledge Base](https://www.icegram.com/knowledgebase_category/email-subscribers/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo) | [Contact Support](https://www.icegram.com/contact/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo)
+[Putler](https://wordpress.org/plugins/woocommerce-putler-connector/) - Multichannel analytics tool that helps aggregate data from multiple stores, payment gateways, shopping carts, Google analytics and provides detailed reports and insights that help take profitable business decisions.
+
+[Signup for Free](https://www.icegram.com/express/) | [Resources](https://www.icegram.com/blog/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo) | [Knowledge Base](https://www.icegram.com/docs/category/icegram-express/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo) | [Contact Support](https://www.icegram.com/contact/?utm_source=repo&utm_medium=wpreadme&utm_campaign=email_subscribers_repo)
 
 == Installation ==
 
@@ -440,14 +438,17 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.13 =
+= 5.7.14 =
 
-* New: Allow admin to manually confirm subscription through confirmation email link
-* Fix: Special characters issue in post notification emails
-* Fix: Custom field not updating when resubscribing
-* Fix: Drag-n-drop editor's blocks not updating when campaign type is changed in templates
+* Fix: Broken Access Control vulnerability for Workflows [Thanks to Patchstack team]
+* Improvements: Revamped dashboard for optimized view
 
 == Changelog ==
+
+**5.7.14 (15.03.2024)**
+
+* Fix: Broken Access Control vulnerability for Workflows [Thanks to Patchstack team]
+* Improvements: Revamped dashboard for optimized view
 
 **5.7.13 (06.03.2024)**
 
