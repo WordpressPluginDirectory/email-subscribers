@@ -76,7 +76,7 @@ if ( ! class_exists( 'ES_Gallery' ) ) {
 					$campaign_status_codes = ES_Common::get_campaign_status_code_map();
 					$post_categories       = ES_Common::get_post_categories();
 					$post_types_name       = ES_Common::get_post_types_name();
-					
+					$optimization_option=ES_Common::get_optimization_details();
 					
 					$main_js_data['campaign_status_names'] = $campaign_status_names;
 					$main_js_data['campaign_status_codes'] = $campaign_status_codes;
@@ -124,6 +124,8 @@ if ( ! class_exists( 'ES_Gallery' ) ) {
 					$main_js_data['tracking_details']['is_track_email_opens'] =get_option( 'ig_es_track_email_opens', 'yes' );
 					$main_js_data['tracking_details']['ig_es_track_link_clicks'] = get_option( 'ig_es_track_link_click', 'no' );
 					$main_js_data['tracking_details']['ig_es_track_utm'] = get_option( 'ig_es_track_utm', 'no' );
+					$main_js_data['optimization_option'] = $optimization_option;
+					
 				}
 
 				if ( ! wp_script_is( 'wp-i18n' ) ) {

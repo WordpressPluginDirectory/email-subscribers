@@ -48,7 +48,8 @@ if ( ! class_exists( 'ES_Dashboard' ) ) {
 
 			$a = array_column($audience_activity, 'id');
 			$b = array_column(ES()->lists_db->get_lists(), 'id');
-			//echo "<pre>"; print_r(ES()->lists_contacts_db->prepare_contact_data( $a, $b)); echo "</pre>";
+
+			//echo "<pre>"; print_r(ES()->lists_contacts_db->get_contacts()); echo "</pre>";
 			/*End*/
 			
 			
@@ -100,6 +101,7 @@ if ( ! class_exists( 'ES_Dashboard' ) ) {
 			);
 			$recent_actions    = ES()->actions_db->get_actions( $recent_activities_args );
 			$recent_activities = $this->prepare_activities_from_actions( $recent_actions );
+			
 			return $recent_activities;
 		}
 
@@ -120,7 +122,7 @@ if ( ! class_exists( 'ES_Dashboard' ) ) {
 					$list_ids   = array_map( 'intval', $list_ids );
 					$lists_name = ES()->lists_db->get_list_name_by_ids( $list_ids );
 				}
-
+			
 				foreach ( $actions as $action ) {
 					$action_type   = $action['type'];
 					$contact_id    = $action['contact_id'];

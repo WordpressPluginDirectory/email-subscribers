@@ -943,6 +943,8 @@ class ES_Forms_Table extends ES_List_Table {
 		// If the delete bulk action is triggered
 		if ( ( 'bulk_delete' === $action ) || ( 'bulk_delete' === $action2 ) ) {
 
+			check_admin_referer( 'bulk-' . $this->_args['plural'] );
+
 			$forms = ig_es_get_request_data( 'forms' );
 
 			if ( ! empty( $forms ) > 0 ) {

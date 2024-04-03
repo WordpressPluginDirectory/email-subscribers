@@ -327,62 +327,90 @@ class ES_Contacts_Table extends ES_List_Table {
 		$es_total_unsubscribed_contacts  = ES_Reports_Data::get_total_unsubscribed_contacts( $args);
 		$es_total_unconfirmed_contacts   = ES_Reports_Data::get_total_unconfirmed_contacts( $args );
 		$es_total_contacts_opened_emails = ES_Reports_Data::get_total_contacts_opened_emails( $args );
+
+		$source         = 'es_subscribers';
+		$override_cache = true;
+		$reports_data   = ES_Reports_Data::get_dashboard_reports_data( $source, $override_cache, $args );
+		$allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 		?>
 		<div class="border-0 mt-8 mb-4">
-			<table class="min-w-full overflow-hidden bg-white rounded-lg shadow font-sans">
+			<table class="contacts-report-table min-w-full overflow-hidden bg-white rounded-lg shadow font-sans">
 				<tr>
-					<td class="w-1/5 border-r lg:px-4">
-						<div class="block pt-3 pb-2 pl-2"><span class="text-lg font-medium text-gray-400"><?php echo esc_html__( 'Total contacts', 'email-subscribers' ); ?></span></div>
-						<div class="flex pt-2 pb-2 h-20">
+					<td class="w-3/6 border-r lg:px-4">
+						<!-- Total Subscriber -->
+						<div class="flex pt-4 pb-2 pl-2">
 							<div class="lg:pl-2 ">
 								<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400 mt-1">
 									<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
 								</svg>
 							</div>
-							<div>
-								<span class="text-4xl font-bold leading-none text-indigo-600 pl-4"><?php echo esc_html( number_format( $es_total_contact ) ); ?></span>
+							<div class="pt-1">
+								<span class="text-3xl font-medium text-gray-400 pl-4"><?php echo esc_html__( 'Total contacts', 'email-subscribers' ); ?></span>
+								<span class="text-3xl font-bold leading-none text-indigo-600 pl-4"><?php echo esc_html( number_format( $es_total_contact ) ); ?></span>
 
 							</div>
 						</div>
+
+						<!-- Subscriber Activity -->
+						<div id="es-dashboard-stats" class="es-w-100 p-4">
+							<p class="pb-3 text-lg font-medium leading-6 text-gray-400">
+								<span class="leading-7">
+									<?php
+										/* translators: %s. Number of days */
+										echo sprintf( esc_html__( 'Subscribers activities in last %d days', 'email-subscribers' ), esc_html( $args['days'] ) );
+									?>
+								</span>
+								<span class="float-right">
+									<select id="filter_by_list">
+										<?php
+										$lists_dropdown = ES_Common::prepare_list_dropdown_options( '', __( 'All lists', 'email-subscribers' ) );
+										echo wp_kses( $lists_dropdown, $allowed_html_tags );
+										?>
+									</select>
+								</span>
+							</p>
+							<?php
+							ES_Admin::get_view(
+								'dashboard/subscribers-stats',
+								array(
+									'reports_data' => $reports_data,
+									'days'         => $args['days'],
+								)
+							);
+							?>
+						</div>
 					</td>
-					<td class="w-4/5">
-						<div class="block pt-4 pb-1"><span class="text-lg font-medium text-gray-400 pl-6"><?php echo esc_html__( 'Last 60 days', 'email-subscribers' ); ?></span></div>
-						<div class="flex">
-							<div class="lg:w-3/12 xl:w-2/12 h-20 pl-6 pt-3 border-r border-gray-200">
-								<div class="mb-1">
-									<span class="text-2xl font-bold leading-none text-gray-700"><?php echo esc_html( number_format( $es_total_subscribed_contacts ) ); ?></span>
-								</div>
-								<div class="text-sm text-gray-400 tracking-wide">
-									<?php echo esc_html__( 'Subscribed', 'email-subscribers' ); ?>
-								</div>
-							</div>
-							<div class="lg:w-3/12 xl:w-2/12 h-20 pl-4 pt-3 mb-2 border-r border-gray-200">
-								<div class=" mb-1">
-									<span class="text-2xl font-bold leading-none text-gray-700"><?php echo esc_html( number_format( $es_total_unsubscribed_contacts ) ); ?></span>
-								</div>
-								<div class="text-sm text-gray-400 tracking-wide">
-									<?php echo esc_html__( 'Unsubscribed', 'email-subscribers' ); ?>
-								</div>
-							</div>
-							<div class="lg:w-3/12 xl:w-2/12 h-20 pl-4 pt-3 mb-2 border-r border-gray-200">
-								<div class=" mb-1">
-									<span class="text-2xl font-bold leading-none text-gray-700"><?php echo esc_html( number_format( $es_total_unconfirmed_contacts ) ); ?></span>
-								</div>
-								<div class="text-sm text-gray-400 tracking-wide">
-									<?php echo esc_html__( 'Unconfirmed', 'email-subscribers' ); ?>
-								</div>
-							</div>
-							<div class="lg:w-3/12 xl:w-2/12 h-20 pl-4 pt-3 border-r border-gray-200">
-								<div class="mb-1">
-									<span class="text-2xl font-bold leading-none text-gray-700"><?php echo esc_html( number_format( $es_total_contacts_opened_emails ) ); ?></span>
-								</div>
-								<div class="text-sm text-gray-400 tracking-wide">
-									<?php echo esc_html__( 'Opened', 'email-subscribers' ); ?>
-								</div>
-							</div>
-							<div class="lg:w-3/12 xl:w-2/12 h-20 pl-4 pt-3">
-								<?php do_action( 'ig_es_after_contacts_kpis' ); ?>
-							</div>
+
+					<td class="w-3/5">
+						<!-- Top 5 Countries -->
+						<div class="es-w-100 p-4">
+							<?php
+							$countries_count = 5;
+							?>
+							<p class="text-lg font-medium leading-7 text-gray-400">
+								<?php
+									/* Translators: %s. Country count */
+									echo sprintf( esc_html__( 'Top %s countries', 'email-subscribers' ), esc_html( $countries_count ) );
+								?>
+								<?php
+								if ( ! ES()->is_pro() ) {
+									$utm_args = array(
+										'utm_medium' => 'dashboard-top-countries',
+										'url'		 => 'https://www.icegram.com/documentation/what-analytics-does-email-subscribers-track/'
+									);
+							
+									$pricing_url = ES_Common::get_utm_tracking_url( $utm_args );
+									?>
+									<a  target="_blank" href="<?php echo esc_url( $pricing_url ); ?>">
+										<span class="premium-icon inline-block max"></span>
+									</a>
+									<?php
+								}
+								?>
+							</p>
+							<?php
+								do_action( 'ig_es_show_top_countries_stats', $countries_count );
+							?>
 						</div>
 					</td>
 				</tr>
@@ -1120,10 +1148,13 @@ class ES_Contacts_Table extends ES_List_Table {
 	 * @since 4.0.0
 	 */
 	public function get_columns() {
+		$lists_tooltip_text   = ES_Common::get_tooltip_html('Contact\'s current lists');
+
 		$columns = array(
 			'cb'   		 => '<input type="checkbox"/>',
 			'subscriber' => __( 'Contact', 'email-subscribers' ),
-			'lists' 	 => __( 'List(s)', 'email-subscribers' ),
+			/* translators: %s List tooltip text. */
+			'lists' 	 => sprintf( __( 'List(s) %s', 'email-subscribers' ), $lists_tooltip_text),
 			'created_at' => __( 'Created', 'email-subscribers' )
 		);
 
@@ -1332,7 +1363,7 @@ class ES_Contacts_Table extends ES_List_Table {
 			$nonce = esc_attr( ig_es_get_request_data( '_wpnonce' ) );
 
 			if ( ! wp_verify_nonce( $nonce, 'ig_es_delete_subscriber' ) ) {
-				die( 'You do not have a permission to delete contact(s)' );
+				die( esc_html__( 'You do not have a permission to delete contact(s)', 'email-subscribers' ) );
 			} else {
 				$subscriber_id = absint( ig_es_get_request_data( 'subscriber' ) );
 				$deleted       = ES()->contacts_db->delete_contacts_by_ids( array( $subscriber_id ) );
@@ -1387,6 +1418,8 @@ class ES_Contacts_Table extends ES_List_Table {
 
 		$actions = array( 'bulk_delete', 'bulk_status_update', 'bulk_list_update', 'bulk_list_add', 'bulk_send_confirmation_email' );
 		if ( in_array( $action, $actions, true ) || in_array( $action2, $actions, true ) ) {
+
+			check_admin_referer( 'bulk-' . $this->_args['plural'] );
 
 			$subscriber_ids = ig_es_get_request_data( 'subscribers' );
 

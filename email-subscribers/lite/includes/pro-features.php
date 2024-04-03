@@ -2142,7 +2142,7 @@ function ig_es_upsell_top_countries_stats( $days, $report_data = array() ) {
 			'AU' => 1200,
 			'ES' => 800,
 			'FR' => 650,
-			'RU' => 144,	
+			'RU' => 144,
 		);
 		ES_Admin::get_view(
 			'dashboard/top-countries',

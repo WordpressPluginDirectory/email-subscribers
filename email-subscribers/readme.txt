@@ -6,7 +6,7 @@ Tags: email marketing, email subscribers, newsletters, autoresponders, email aut
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.14
+Stable tag: 5.7.16
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,12 +438,20 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.14 =
+= 5.7.16 =
 
-* Fix: Broken Access Control vulnerability for Workflows [Thanks to Patchstack team]
-* Improvements: Revamped dashboard for optimized view
+* Fix: XSS vulnerability while importing contacts [Thanks to Wordfence team]
 
 == Changelog ==
+
+**5.7.16 (03.04.2024)**
+
+* Fix: XSS vulnerability while importing contacts [Thanks to Wordfence team]
+
+**5.7.15 (27.03.2024)**
+
+* Fix: SQL vulnerability while importing contacts [Thanks to Wordfence team]
+* Improvements: Added KPIs to audience dashboard
 
 **5.7.14 (15.03.2024)**
 

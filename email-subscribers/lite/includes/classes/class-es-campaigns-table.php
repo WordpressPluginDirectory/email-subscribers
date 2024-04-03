@@ -660,6 +660,8 @@ class ES_Campaigns_Table extends ES_List_Table {
 		// If the delete bulk action is triggered
 		if ( ( 'bulk_delete' === $action ) || ( 'bulk_delete' === $action2 ) ) {
 
+			check_admin_referer( 'bulk-' . $this->_args['plural'] );
+			
 			$ids = ig_es_get_request_data( 'campaigns' );
 
 			if ( is_array( $ids ) && count( $ids ) > 0 ) {

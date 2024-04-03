@@ -770,7 +770,7 @@ class ES_Import_Subscribers {
 			if ( ! empty( $headers ) ) {
 				$html .= '<tr class="border-b border-gray-200 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider rounded-md"><th></th>';
 				foreach ( $headers as $header ) {
-					$html .= '<th class="pl-3 py-3 font-medium">' . $header . '</th>';
+					$html .= '<th class="pl-3 py-3 font-medium">' . esc_html ($header) . '</th>';
 				}
 				$html .= '</tr>';
 			}
@@ -782,7 +782,7 @@ class ES_Import_Subscribers {
 					if ( ! empty( $cell ) && is_email( $cell ) ) {
 						$cell = sanitize_email( strtolower( $cell ) );
 					}
-					$html .= '<td class="pl-3 py-3" title="' . strip_tags( $cell ) . '">' . ( $cell ) . '</td>';
+					$html .= '<td class="pl-3 py-3" title="' . strip_tags( $cell ) . '">' . ( esc_html ( $cell ) ) . '</td>';
 				}
 				$html .= '<tr>';
 			}
@@ -796,7 +796,7 @@ class ES_Import_Subscribers {
 				$data  = str_getcsv( array_pop( $last ), $response['data']['separator'], '"' );
 				$html .= '<tr class="border-b border-gray-200 text-left text-sm leading-4 text-gray-500 tracking-wider"><td class="pl-3 py-3">' . number_format_i18n( $contactcount ) . '</td>';
 				foreach ( $data as $cell ) {
-					$html .= '<td class="pl-3 py-3 " title="' . strip_tags( $cell ) . '">' . ( $cell ) . '</td>';
+					$html .= '<td class="pl-3 py-3 " title="' . strip_tags( $cell ) . '">' . ( esc_html ( $cell ) ) . '</td>';
 				}
 				$html .= '<tr>';
 			}
@@ -1501,7 +1501,6 @@ class ES_Import_Subscribers {
 		for ( $i = 0; $i < $partcount; $i++ ) {
 
 			$part = $parts[ $i ];
-
 			$new_value = base64_encode( serialize( $part ) );
 
 			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}ig_temp_import (data, identifier) VALUES (%s, %s)", $new_value, $identifier ) );
@@ -1533,5 +1532,5 @@ class ES_Import_Subscribers {
 		update_option( 'ig_es_bulk_import', $bulkimport, 'no' );
 
 		return $response;
-	}
+	}	
 }

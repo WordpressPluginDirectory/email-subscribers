@@ -360,7 +360,7 @@ class Email_Subscribers_Admin {
 			wp_enqueue_script( 'select2' );
 		}
 
-		if ( ! empty( $page ) && 'es_dashboard' === $page || 'es_reports' === $page ) {
+		if ( ! empty( $page ) && 'es_dashboard' === $page || 'es_reports' === $page || 'es_subscribers' === $page ) {
 			wp_enqueue_script( 'frappe-js', plugin_dir_url( __FILE__ ) . 'js/frappe-charts.min.iife.js', array( 'jquery' ), '1.5.2', false );
 		}
 
@@ -1442,14 +1442,18 @@ class Email_Subscribers_Admin {
 			return;
 		}
 
+		
 		$completed = false;
 		$errortype = false;
 		
 		$contacts_table = new ES_Contacts_Table();
+		
 		$current_action = $contacts_table->current_action();
 		if ( empty( $current_action ) ) {
 			return;
 		}
+		
+		check_admin_referer( 'bulk-' . $contacts_table->_args['plural'] );
 
 		$current_page = $contacts_table->get_pagenum();
 		$per_page     = $contacts_table->get_items_per_page( $contacts_table::$option_per_page, 200 );

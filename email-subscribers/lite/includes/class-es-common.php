@@ -3155,4 +3155,22 @@ class ES_Common {
 
 		return apply_filters( 'ig_es_site_tags', $site_tags );
 	}
+
+	public static function is_optimizer_enabled() {
+		$send_time_optimizer_enabled = get_option('ig_es_send_time_optimizer_enabled', 'no' );
+		return 'yes' === $send_time_optimizer_enabled;
+	}
+	public static function get_optimization_method() {
+		$optimization_method = get_option('ig_es_send_time_optimization_method', 'subscriber_timezone' );
+		return $optimization_method;
+	}
+
+	public static function get_optimization_details() {
+		if (self::is_optimizer_enabled()) {
+			$optimization_option = self::get_optimization_method();
+			return $optimization_option;
+		}
+		return '';
+	}
+
 }

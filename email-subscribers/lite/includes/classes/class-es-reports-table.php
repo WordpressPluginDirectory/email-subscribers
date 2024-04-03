@@ -578,6 +578,9 @@ class ES_Reports_Table extends ES_List_Table {
 		$action2 = ig_es_get_request_data( 'action2' );
 		// If the delete bulk action is triggered
 		if ( ( 'bulk_delete' === $action ) || ( 'bulk_delete' === $action2 ) ) {
+
+			check_admin_referer( 'bulk-' . $this->_args['plural'] );
+
 			$notification_ids = ig_es_get_request_data( 'bulk_delete' );
 
 			if ( count( $notification_ids ) > 0 ) {

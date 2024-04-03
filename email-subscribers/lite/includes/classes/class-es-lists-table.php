@@ -763,6 +763,8 @@ class ES_Lists_Table extends ES_List_Table {
 		// If the delete bulk action is triggered
 		if ( ( 'bulk_delete' === $action ) || ( 'bulk_delete' === $action2 ) ) {
 
+			check_admin_referer( 'bulk-' . $this->_args['plural'] );
+
 			$lists = ig_es_get_request_data( 'lists' );
 
 			if ( ! empty( $lists ) > 0 ) {
