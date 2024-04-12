@@ -269,13 +269,13 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 					// Check if notification is not sending or already sent then only update the notification.
 					if ( ! in_array( $notification_status, array( 'Sending', 'Sent' ), true ) ) {
 						// Don't update this data.
-						$campaign_data['hash']        = $notification['hash'];
-						$campaign_data['campaign_id'] = $notification['campaign_id'];
-						$campaign_data['created_at']  = $notification['created_at'];
+						$data['hash']        = $notification['hash'];
+						$data['campaign_id'] = $notification['campaign_id'];
+						$data['created_at']  = $notification['created_at'];
 
 						// Check if list has been updated, if yes then we need to delete emails from existing lists and requeue the emails from the updated lists.
 						$should_queue_emails    = true;
-						$campaign_data['count'] = 0;
+						$data['count'] = 0;
 
 						$notification = ES_DB_Mailing_Queue::update_notification( $mailing_queue_id, $data );
 					}
@@ -593,31 +593,24 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 
 			$response = array();
 
-		$email         =  $campaign_data['es_test_email'];
-		$campaign_id   = $campaign_data['id'];
-		$campaign_type = $campaign_data['type'];
-		$template_id   = $campaign_data['base_template_id'];
-		$subject       = $campaign_data['subject'];
-		$content       = $campaign_data['body'];
-		$attachments   = $campaign_data['meta']['attachments'];
-		$preheader   = 	$campaign_data['meta']['pre_header'];
+			$email         = $campaign_data['es_test_email'];
+			$campaign_id   = $campaign_data['id'];
+			$campaign_type = $campaign_data['type'];
+			$template_id   = $campaign_data['base_template_id'];
+			$subject       = $campaign_data['subject'];
+			$content       = $campaign_data['body'];
+			$attachments   = $campaign_data['meta']['attachments'];
+			$preheader     = $campaign_data['meta']['pre_header'];
 	
 			if ( ! empty( $email ) ) {
 
 				$merge_tags = array( 'attachments' => $attachments );
 
 				if ( ! empty( $campaign_id ) ) {
-					$campaign_data = array(
-					'id'               => $campaign_id,
-					'type'             => $campaign_type,
-					'base_template_id' => $template_id,
-					'subject'          => $subject,
-					'body'             => $content,
-					);
 					if ( IG_CAMPAIGN_TYPE_POST_NOTIFICATION === $campaign_type ) {
-						$campaign_data = ES_Campaign_Admin::replace_post_notification_merge_tags_with_sample_post( $campaign_data );
+						$campaign_data = self::replace_post_notification_merge_tags_with_sample_post( $campaign_data );
 					} elseif ( IG_CAMPAIGN_TYPE_POST_DIGEST === $campaign_type ) {
-						$campaign_data = ES_Campaign_Admin::replace_post_digest_merge_tags_with_sample_posts( $campaign_data );
+						$campaign_data = self::replace_post_digest_merge_tags_with_sample_posts( $campaign_data );
 					}
 
 					$merge_tags['campaign_id'] = $campaign_id;
@@ -801,20 +794,12 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				}
 				
 				$campaign_body = $campaign_data['body'];
-				$campaign_body = ES_Common::es_process_template_body( $campaign_body, $template_id, $campaign_id );
 				$campaign_body = ES_Common::replace_keywords_with_fallback( $campaign_body, array(
 					'FIRSTNAME' => $first_name,
 					'NAME'      => $username,
 					'LASTNAME'  => $last_name,
 					'EMAIL'     => $useremail
 				) );
-
-				$subscriber_tags = array(
-					'subscriber.first_name' => $first_name,
-					'subscriber.name'      => $username,
-					'subscriber.last_name'  => $last_name,
-					'subscriber.email'     => $useremail
-				);
 
 				$custom_field_values = array();
 				foreach ( $contact_data as $merge_tag_key => $merge_tag_value ) {
@@ -861,6 +846,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 
 				$campaign_body = apply_filters( 'the_content', $campaign_body );
 
+				$campaign_body = ES_Common::es_process_template_body( $campaign_body, $template_id, $campaign_id );
+
 				$campaign_data['body'] = $campaign_body;
 
 			}
@@ -871,15 +858,12 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		public static function replace_post_notification_merge_tags_with_sample_post( $campaign_data ) {
 			if ( ! empty( $campaign_data['id'] ) ) {
 
-			$categories_str = $campaign_data['categories'];
-			$categories       = ES_Common::convert_categories_string_to_array( $categories_str, true );
-			
-			$meta=$campaign_data['meta'];
-			$no_of_posts      = ( !empty( $meta['rules']) && !empty( $meta['rules']['no_of_posts'] ) ) ? $meta['rules']['no_of_posts'] : array();
-			$sorting_orders      = ( !empty( $meta['rules']) && !empty( $meta['rules']['sorting_orders'] ) ) ? $meta['rules']['sorting_orders'] : array();
-
+				$categories_str  = $campaign_data['categories'];
+				$categories      = ES_Common::convert_categories_string_to_array( $categories_str, true );
+				$meta            = $campaign_data['meta'];
+				$no_of_posts     = ( ! empty( $meta['rules'] ) && ! empty( $meta['rules']['no_of_posts'] ) ) ? $meta['rules']['no_of_posts'] : array();
 				$categories_data = $categories;
-				$campaign_post_ids = array();
+
 				foreach ($categories_data as $index => $category ) {
 					$include_all_post = false;
 					$include_no_post  = false;
@@ -913,8 +897,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 							'cat'            => ( ! $include_all_post ) ? implode( ',', $categories ) : '',
 							'meta_query'     => array(
 								array(
-								 'key'     => $meta_key,
-								 'compare' => 'NOT EXISTS', 
+									'key'     => $meta_key,
+									'compare' => 'NOT EXISTS', 
 								),
 							),
 						);
@@ -929,8 +913,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 							'order'          => 'DESC',
 							'meta_query'     => array(
 								array(
-								 'key'     => $meta_key,
-								 'compare' => 'NOT EXISTS' 
+									'key'     => $meta_key,
+									'compare' => 'NOT EXISTS' 
 								),
 							),
 						);
@@ -940,9 +924,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 					
 				}
 
-
 				if ( count( $recent_posts ) > 0 ) {
-					$post = array_shift( $recent_posts );
+					$post             = array_shift( $recent_posts );
 					$post_id          = $post->ID;
 					$template_id      = $campaign_data['id'];
 					$campaign_body    = ! empty( $campaign_data['body'] ) ? $campaign_data['body'] : '';

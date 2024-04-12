@@ -6,7 +6,7 @@ Tags: email marketing, email subscribers, newsletters, autoresponders, email aut
 Requires at least: 3.9
 Tested up to: 6.4.2
 Requires PHP: 5.6
-Stable tag: 5.7.16
+Stable tag: 5.7.17
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,11 +438,21 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.16 =
+= 5.7.17 =
 
-* Fix: XSS vulnerability while importing contacts [Thanks to Wordfence team]
+* Fix: Unable to select campaign recipient rules in a few cases
+* Fix: Inline CSS not working in campaign preview [PRO]
+* Fix: Keywords were not reflected in the post-notification test email [MAX]
+* Fix: Broadcasts were not getting sent after re-editing
 
 == Changelog ==
+
+**5.7.17 (12.04.2024)**
+
+* Fix: Unable to select campaign recipient rules in a few cases
+* Fix: Inline CSS not working in campaign preview [PRO]
+* Fix: Keywords were not reflected in the post-notification test email [MAX]
+* Fix: Broadcasts were not getting sent after re-editing
 
 **5.7.16 (03.04.2024)**
 
