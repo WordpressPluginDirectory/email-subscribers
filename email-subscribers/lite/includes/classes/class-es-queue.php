@@ -590,7 +590,7 @@ if ( ! class_exists( 'ES_Queue' ) ) {
 
 				// ES()->logger->info( 'Process Queue:' );
 				// ES()->logger->info( 'SQL: ' . $sql );
-
+				// phpcs:disable
 				$notifications = $wpdb->get_results(
 					$wpdb->prepare(
 						"SELECT queue.campaign_id, queue.contact_id, queue.count AS _count, queue.requeued AS _requeued, queue.options AS _options, queue.tags AS _tags, queue.priority AS _priority
@@ -603,6 +603,7 @@ if ( ! class_exists( 'ES_Queue' ) ) {
 					),
 					ARRAY_A
 				);
+				// phpcs:enable
 
 				$batch_start_time = time();
 

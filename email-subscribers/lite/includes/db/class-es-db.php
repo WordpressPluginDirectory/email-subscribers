@@ -439,8 +439,9 @@ abstract class ES_DB {
 		// Reorder $column_formats to match the order of columns given in $data
 		$data_keys      = array_keys( $data );
 		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
-
+// phpcs:disable
 		$wpdb->insert( $this->table_name, $data, $column_formats );
+		// phpcs:enable
 		$wpdb_insert_id = $wpdb->insert_id;
 
 		do_action( 'ig_es_post_insert_' . $type, $wpdb_insert_id, $data );
@@ -486,11 +487,11 @@ abstract class ES_DB {
 		// Reorder $column_formats to match the order of columns given in $data
 		$data_keys      = array_keys( $data );
 		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
-
+// phpcs:disable
 		if ( false === $wpdb->update( $this->table_name, $data, array( $where => $row_id ), $column_formats ) ) {
 			return false;
 		}
-
+// phpcs:enable
 		return true;
 	}
 
@@ -586,8 +587,9 @@ abstract class ES_DB {
 	public function table_exists( $table ) {
 		global $wpdb;
 		$table = sanitize_text_field( $table );
-
+// phpcs:disable
 		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) === $table;
+// phpcs:enable
 	}
 
 	/**

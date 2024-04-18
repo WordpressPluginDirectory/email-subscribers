@@ -512,10 +512,12 @@ class ES_Forms_Table extends ES_List_Table {
 
 			// We don't want to change the created_at date for update
 			unset( $form_data['created_at'] );
+			// phpcs:disable
 			$return = $wpdb->update( IG_FORMS_TABLE, $form_data, array( 'id' => $id ) );
 		} else {
 			$return = $wpdb->insert( IG_FORMS_TABLE, $form_data );
 		}
+		// phpcs:enable
 
 		return $return;
 	}

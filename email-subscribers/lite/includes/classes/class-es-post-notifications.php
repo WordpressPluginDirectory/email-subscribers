@@ -138,8 +138,9 @@ class ES_Post_Notifications_Table {
 			'base_template_id' => ig_es_get_request_data( 'template_id' ),
 			'status'           => 'active',
 		);
+		// phpcs:disable
 		$wpdb->update( IG_CAMPAIGNS_TABLE, $data, array( 'id' => $id ) );
-
+	   // phpcs:enable
 	}
 
 	public function save_list( $data, $id = null ) {

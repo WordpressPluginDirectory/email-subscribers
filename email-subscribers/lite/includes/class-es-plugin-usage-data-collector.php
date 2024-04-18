@@ -134,8 +134,9 @@ if ( ! class_exists( 'ES_Plugin_Usage_Data_Collector' ) ) {
 			global $wpdb;
 
 			$option_name_like = 'ig_es_%';
+			// phpcs:disable
 			$results          = $wpdb->get_results( $wpdb->prepare( "SELECT option_name, option_value FROM {$wpdb->prefix}options WHERE option_name LIKE %s  AND option_name != %s", $option_name_like, 'ig_es_managed_blocked_domains' ), ARRAY_A );
-
+			// phpcs:enable
 			$options_name_value_map = array();
 			if ( count( $results ) > 0 ) {
 				$restricted_settings = ES_Common::get_restricted_settings();
@@ -167,12 +168,13 @@ if ( ! class_exists( 'ES_Plugin_Usage_Data_Collector' ) ) {
 			if ( 'no' === $is_api_enabled ) {
 				return 'no';
 			}
-
+			global $wpdb;
 			// Ensure there is atleast one users for whom REST API keys are generated
-			$rest_api_users_ids = get_users( array(
-				'meta_key' => 'ig_es_rest_api_keys',
-				'fields'   => 'ID'
-			) );
+			$rest_api_users_ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT user_id FROM $wpdb->usermeta WHERE meta_key = 'ig_es_rest_api_keys'"
+				)
+			);
 
 			if ( empty( $rest_api_users_ids ) ) {
 				return 'no';

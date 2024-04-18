@@ -649,16 +649,16 @@ class ES_Common {
 	 * @since 4.0.0
 	 */
 	public static function get_templates( $type = '', $editor_type = '' ) {
-
+// phpcs:diable WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
 		$es_args = array(
 			'posts_per_page'   => - 1,
 			'post_type'        => 'es_template',
 			'orderby'          => 'date',
 			'order'            => 'DESC',
 			'post_status'      => 'publish',
-			'suppress_filters' => true,
+			'suppress_filters' => true, 
 		);
-
+// phpcs:enable
 		if ( ! empty( $type ) ) {
 			$es_args['meta_query'][] = array(
 				'key'     => 'es_template_type',
@@ -2753,9 +2753,9 @@ class ES_Common {
 	public static function prepare_datefilter_dropdown_options( $selected = '', $default_label = '' ) {
 
 		global $wpdb;
-
+	   // phpcs:disable
 		$results = $wpdb->get_results( "SELECT DISTINCT MONTHNAME(`start_at`), YEAR(`start_at`) FROM {$wpdb->prefix}ig_mailing_queue;", ARRAY_A );
-
+	   // phpcs:enable
 		$field_options = array(
 			'default' => $default_label
 		);

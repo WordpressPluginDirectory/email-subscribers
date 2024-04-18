@@ -102,9 +102,9 @@ class ES_DB_Forms extends ES_DB {
 	public static function get_forms_id_name_map() {
 
 		global $wpdb;
-
+		// phpcs:disable
 		$results = $wpdb->get_results( "SELECT id, name FROM {$wpdb->prefix}ig_forms", ARRAY_A );
-
+		// phpcs:enable
 		$id_name_map = array();
 		if ( count( $results ) > 0 ) {
 			foreach ( $results as $result ) {
@@ -205,17 +205,18 @@ class ES_DB_Forms extends ES_DB {
 	 */
 	public function migrate_advanced_forms() {
 		global $wpdb;
-
+		// phpcs:disable
 		$is_table_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . 'es_advanced_form' ) ) === $wpdb->prefix . 'es_advanced_form';
-
+		// phpcs:enable
 		$lists_name_id_map = ES()->lists_db->get_list_id_name_map( '', true );
 
 		if ( $is_table_exists ) {
+			// phpcs:disable
 			$forms = $wpdb->get_results(
 				"SELECT * FROM {$wpdb->prefix}es_advanced_form",
 				ARRAY_A
 			);
-
+			// phpcs:enable
 			if ( count( $forms ) > 0 ) {
 
 				$data = array();

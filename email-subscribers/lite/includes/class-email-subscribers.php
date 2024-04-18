@@ -1060,7 +1060,6 @@ if ( ! class_exists( 'Email_Subscribers' ) ) {
 
 			$this->loader->add_filter( 'set-screen-option', $plugin_admin, 'save_screen_options', 20, 3 );
 			$this->loader->add_action( 'wp_ajax_count_contacts_by_list', $plugin_admin, 'count_contacts_by_list' );
-			$this->loader->add_action( 'wp_ajax_get_template_content', $plugin_admin, 'get_template_content' );
 			$this->loader->add_action( 'admin_print_scripts', $plugin_admin, 'remove_other_admin_notices' );
 
 			// Start-IG-Code.

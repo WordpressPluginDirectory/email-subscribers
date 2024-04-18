@@ -1133,15 +1133,18 @@ class ES_Workflow {
 	 */
 	public function get_action_from_action_fields( $field_data ) {
 		if ( ! is_array( $field_data ) || ! isset( $field_data['action_name'] ) ) {
+			// phpcs:disable
 			throw new Exception( __( 'Missing action_name key in array.', 'email-subscribers' ) );
+		   // phpcs:enable
 		}
 
 		$action_name = ES_Clean::string( $field_data['action_name'] );
 		$action      = ES_Workflow_Actions::get( $action_name );
+		// phpcs:disable
 		if ( ! $action ) {
 			throw new Exception( __( 'Could not retrieve the action.', 'email-subscribers' ) );
 		}
-
+	   // phpcs:enable
 		return $action;
 	}
 

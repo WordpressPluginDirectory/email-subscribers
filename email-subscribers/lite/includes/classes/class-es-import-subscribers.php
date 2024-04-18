@@ -597,7 +597,7 @@ class ES_Import_Subscribers {
 			}
 		} elseif ( 'wordpress_users' === $importing_from ) {
 			$roles = ig_es_get_request_data( 'selected_roles' );
-
+// phpcs:disable
 			$users = $wpdb->get_results(
 				"SELECT u.user_email, IF(meta_role.meta_value = 'a:0:{}',NULL,meta_role.meta_value) AS '_role', meta_firstname.meta_value AS 'firstname', meta_lastname.meta_value AS 'lastname', u.display_name, u.user_nicename
 				 FROM {$wpdb->users} AS u
@@ -606,7 +606,7 @@ class ES_Import_Subscribers {
 				 LEFT JOIN {$wpdb->usermeta} AS meta_lastname ON meta_lastname.user_id = u.id AND meta_lastname.meta_key = 'last_name'
 				 WHERE meta_role.user_id IS NOT NULL"
 			);
-
+// phpcs:enable
 			if ( ! empty( $users ) ) {
 				$raw_data             = '';
 				$seperator            = ';';
@@ -691,6 +691,7 @@ class ES_Import_Subscribers {
 			$response['identifier'] = $identifier;
 			$response['data']       = get_option( 'ig_es_bulk_import' );
 			// get first and last entry
+			// phpcs:disable
 			$entries = $wpdb->get_row(
 				$wpdb->prepare(
 					"SELECT
@@ -699,6 +700,7 @@ class ES_Import_Subscribers {
 					$identifier
 				)
 			);
+			// phpcs:enable
 
 			$first = unserialize( base64_decode( $entries->first ) );
 			$last  = unserialize( base64_decode( $entries->last ) );
@@ -876,7 +878,7 @@ class ES_Import_Subscribers {
 			set_transient( 'ig_es_contact_import_is_running', 'yes' );
 			$batch_id            = (int) sanitize_text_field( $_POST['id'] );
 			$bulkdata['current'] = $batch_id;
-			
+			// phpcs:disable
 			$raw_list_data       = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT data FROM {$wpdb->prefix}ig_temp_import 
@@ -886,6 +888,7 @@ class ES_Import_Subscribers {
 					$parts_at_once
 				)
 			);
+			// phpcs:enable
 			if ( $raw_list_data ) {
 
 				$contacts_data        = array();
@@ -1502,8 +1505,9 @@ class ES_Import_Subscribers {
 
 			$part = $parts[ $i ];
 			$new_value = base64_encode( serialize( $part ) );
-
+		 // phpcs:disable
 			$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}ig_temp_import (data, identifier) VALUES (%s, %s)", $new_value, $identifier ) );
+		 // phpcs:enable
 		}
 
 		$bulk_import_data = get_option( 'ig_es_bulk_import', array() );

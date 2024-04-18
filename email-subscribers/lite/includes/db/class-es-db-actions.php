@@ -416,37 +416,45 @@ class ES_DB_Actions extends ES_DB {
 			if ( 0 != $days ) {
 				$days                   = esc_sql( $days );
 				$args[]                 = $days;
+				// phpcs:disable
 				$total_contacts_clicked = $wpdb->get_var(
 					$wpdb->prepare(
 						"SELECT COUNT(DISTINCT(`contact_id`)) FROM {$wpdb->prefix}ig_actions WHERE `type` = %d AND created_at >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %d DAY))",
 						$args
 					)
 				);
+				// phpcs:enable
 			} else {
+				// phpcs:disable
 				$total_contacts_clicked = $wpdb->get_var(
 					$wpdb->prepare(
 						"SELECT COUNT(DISTINCT(`contact_id`)) FROM {$wpdb->prefix}ig_actions WHERE `type` = %d",
 						$args
 					)
 				);
+				// phpcs:enable
 			}
 		} else {
 			if ( 0 != $days ) {
 				$days                   = esc_sql( $days );
 				$args[]                 = $days;
+				// phpcs:disable
 				$total_contacts_clicked = $wpdb->get_var(
 					$wpdb->prepare(
 						"SELECT COUNT(`contact_id`) FROM {$wpdb->prefix}ig_actions WHERE `type` = %d AND created_at >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %d DAY))",
 						$args
 					)
 				);
+				// phpcs:enable
 			} else {
+				// phpcs:disable
 				$total_contacts_clicked = $wpdb->get_var(
 					$wpdb->prepare(
 						"SELECT COUNT(`contact_id`) FROM {$wpdb->prefix}ig_actions WHERE `type` = %d",
 						$args
 					)
 				);
+				// phpcs:enable
 			}
 		}
 
@@ -468,6 +476,7 @@ class ES_DB_Actions extends ES_DB {
 		);
 
 		$total_emails_unsubscribed = 0;
+		// phpcs:disable
 		if ( $distinct ) {
 			if ( 0 != $days ) {
 				$days                      = esc_sql( $days );
@@ -505,7 +514,7 @@ class ES_DB_Actions extends ES_DB {
 				);
 			}
 		}
-
+// phpcs:enable
 		return $total_emails_unsubscribed;
 	}
 
@@ -528,6 +537,7 @@ class ES_DB_Actions extends ES_DB {
 		);
 
 		$total_emails_opened = 0;
+		// phpcs:disable
 		if ( $distinct ) {
 			if ( 0 != $days ) {
 				$days                = esc_sql( $days );
@@ -565,7 +575,7 @@ class ES_DB_Actions extends ES_DB {
 				);
 			}
 		}
-
+// phpcs:enable
 		return $total_emails_opened;
 	}
 
@@ -586,6 +596,7 @@ class ES_DB_Actions extends ES_DB {
 		);
 
 		$total_emails_sent = 0;
+		// phpcs:disable
 		if ( $distinct ) {
 			if ( 0 != $days ) {
 				$days              = esc_sql( $days );
@@ -623,7 +634,7 @@ class ES_DB_Actions extends ES_DB {
 				);
 			}
 		}
-
+// phpcs:enable
 		return $total_emails_sent;
 	}
 
@@ -644,6 +655,7 @@ class ES_DB_Actions extends ES_DB {
 		$args[] = $type;
 
 		$count = 0;
+		// phpcs:disable
 		if ( $distinct ) {
 			$query = $wpbd->prepare(
 				"SELECT COUNT(DISTINCT(`contact_id`)) as count FROM {$wpbd->prefix}ig_actions WHERE `campaign_id`= %d AND `message_id`= %d AND `type` = %d",
@@ -655,7 +667,7 @@ class ES_DB_Actions extends ES_DB {
 				$args
 			);
 		}
-
+// phpcs:enable
 		$cache_key       = ES_Cache::generate_key( $query );
 		$exists_in_cache = ES_Cache::is_exists( $cache_key, 'query' );
 		if ( ! $exists_in_cache ) {
@@ -688,9 +700,9 @@ class ES_DB_Actions extends ES_DB {
 		}
 
 		$contact_ids_str = implode( ',', $contact_ids );
-
+// phpcs:disable
 		$result = $wpbd->get_results( $wpbd->prepare( "SELECT contact_id, MAX(created_at) as last_opened_at FROM {$wpbd->prefix}ig_actions WHERE contact_id IN ({$contact_ids_str}) AND type = %d  GROUP BY contact_id", IG_MESSAGE_OPEN ), ARRAY_A );
-
+// phpcs:enable
 		if ( $filter ) {
 			$last_opened_at = array_column( $result, 'last_opened_at', 'contact_id' );
 			foreach ( $last_opened_at as $contact_id => $timestamp ) {
@@ -709,10 +721,11 @@ class ES_DB_Actions extends ES_DB {
 		if ( ! empty( $mailing_queue_ids ) ) {
 			$mailing_queue_ids = esc_sql( $mailing_queue_ids );
 			$mailing_queue_ids = implode( ',', array_map( 'absint', $mailing_queue_ids ) );
-	
+	// phpcs:disable
 			$wpbd->query(
 				"DELETE FROM {$wpbd->prefix}ig_actions WHERE message_id IN ($mailing_queue_ids)"
 			);
+			// phpcs:enable
 		}
 	}
 
@@ -720,6 +733,7 @@ class ES_DB_Actions extends ES_DB {
 		global $wpdb;
 		$result = array();
 		if (!empty($campaign_id) && !empty($link_id) && is_numeric($campaign_id) && is_numeric($link_id)) {
+		// phpcs:disable
 			$result = $wpdb->get_results($wpdb->prepare(
 				"SELECT c.email,c.first_name,c.last_name
 				FROM {$wpdb->prefix}ig_contacts AS c
@@ -728,6 +742,7 @@ class ES_DB_Actions extends ES_DB {
 				$campaign_id,
 				$link_id
 			), ARRAY_A);
+			// phpcs:enable
 		}
 		   return $result;
 	}

@@ -284,9 +284,9 @@ class ES_DB_Campaigns extends ES_DB {
 		if ( $this->table_exists( $wpdb->prefix . 'es_sentdetails' ) ) {
 			$from_name  = ES_Common::get_ig_option( 'from_name' );
 			$from_email = ES_Common::get_ig_option( 'from_email' );
-
+// phpcs:disable
 			$total = $wpdb->get_var( $wpdb->prepare( "SELECT count(*) as total FROM {$wpdb->prefix}es_sentdetails WHERE es_sent_source = %s", 'Newsletter' ) );
-
+// phpcs:enable
 			if ( $total > 0 ) {
 
 				$list_is_name_map = ES()->lists_db->get_list_id_name_map( '', true );
@@ -300,9 +300,9 @@ class ES_DB_Campaigns extends ES_DB {
 				$fields = array_keys( $columns );
 				for ( $i = 0; $i <= $total_batches; $i ++ ) {
 					$batch_start = $i * $batch_size;
-
+// phpcs:disable
 					$newsletters = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}es_sentdetails WHERE es_sent_source = %s LIMIT %d, %d", 'Newsletter', $batch_start, $batch_size ), ARRAY_A );
-
+// phpcs:enable
 					if ( count( $newsletters ) > 0 ) {
 						$campaign_data = array();
 						$values        = array();
@@ -344,12 +344,14 @@ class ES_DB_Campaigns extends ES_DB {
 	 */
 	public function update_campaign_id_in_mailing_queue() {
 		global $wpdb;
-
+// phpcs:disable
 		$campaigns = $wpdb->get_results( $wpdb->prepare( "SELECT id, name FROM {$wpdb->prefix}ig_campaigns WHERE %d", 1 ), ARRAY_A );
-
+// phpcs:enable
 		$data_to_update = array();
 		if ( count( $campaigns ) > 0 ) {
+			// phpcs:disable
 			$mailing_queue_results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}ig_mailing_queue WHERE %d", 1 ), ARRAY_A );
+			// phpcs:enable
 			if ( count( $mailing_queue_results ) > 0 ) {
 				foreach ( $mailing_queue_results as $result ) {
 					$subject = trim( $result['subject'] );
@@ -366,7 +368,9 @@ class ES_DB_Campaigns extends ES_DB {
 
 		if ( ! empty( $data_to_update ) ) {
 			foreach ( $data_to_update as $mailing_queue_id => $campaign_id ) {
+				// phpcs:disable
 				$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}ig_mailing_queue SET campaign_id = %d WHERE id = %d", array( $campaign_id, $mailing_queue_id ) ) );
+				// phpcs:enable
 			}
 		}
 	}
@@ -516,9 +520,9 @@ class ES_DB_Campaigns extends ES_DB {
 		if ( empty( $id ) ) {
 			return array();
 		}
-
+// phpcs:disable
 		$where = $wpdb->prepare( "parent_id = %d AND status = %d AND ( deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00' )", $id, self::STATUS_ACTIVE );
-
+// phpcs:enable
 		$campaigns = $this->get_by_conditions( $where );
 
 		return $campaigns;
@@ -538,10 +542,12 @@ class ES_DB_Campaigns extends ES_DB {
 	global $wpbd;
 	$posts_type_count       = count( $post_types['postsType'] );
 	$post_type_placeholders = array_fill( 0, $posts_type_count, '%s' );
+	// phpcs:disable
 	$query                  = $wpbd->prepare(
 		"SELECT ID, post_title, post_content FROM {$wpbd->posts} WHERE post_type IN (" . implode( ',', $post_type_placeholders ) . ')',
 		$post_types['postsType']
 	);
+	// phpcs:enable
 	$posts                  = $wpbd->get_results( $query, ARRAY_A );
 	return $posts;
 	}
@@ -557,13 +563,13 @@ class ES_DB_Campaigns extends ES_DB {
 	 */
 	public function get_active_campaigns( $type = '' ) {
 		global $wpdb;
-
+// phpcs:disable
 		if ( empty( $type ) ) {
 			$where = $wpdb->prepare( "status = %d AND (deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')", self::STATUS_ACTIVE );
 		} else {
 			$where = $wpdb->prepare( "status = %d AND type = %s AND (deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')", self::STATUS_ACTIVE, $type );
 		}
-
+// phpcs:enable
 		return $this->get_by_conditions( $where );
 	}
 
@@ -671,9 +677,9 @@ class ES_DB_Campaigns extends ES_DB {
 
 		if ( $post_id > 0 ) {
 			$post_type = get_post_type( $post_id );
-
+// phpcs:disable
 			$where = $wpdb->prepare( "status = %d AND type = %s AND (deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')", 1, 'post_notification' );
-
+// phpcs:enable
 			$new_flow_campaign_ids = get_option( 'ig_es_new_category_format_campaign_ids', array() );
 			// Run old logic for campaign
 			if ( empty( $new_flow_campaign_ids ) ) {

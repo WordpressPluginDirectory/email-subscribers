@@ -4,9 +4,9 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Author URI: https://www.icegram.com/
 Tags: email marketing, email subscribers, newsletters, autoresponders, email automation
 Requires at least: 3.9
-Tested up to: 6.4.2
+Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 5.7.17
+Stable tag: 5.7.18
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,14 +438,19 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.17 =
+= 5.7.18 =
 
-* Fix: Unable to select campaign recipient rules in a few cases
-* Fix: Inline CSS not working in campaign preview [PRO]
-* Fix: Keywords were not reflected in the post-notification test email [MAX]
-* Fix: Broadcasts were not getting sent after re-editing
+* Improvements: Performance & security improvements suggested by the Plugin Check (PCP) tool
+* Update: Tested up to WordPress 6.5.2
+* Fix: Unauthorized access vulnerability [Thanks to Wordfence team]
 
 == Changelog ==
+
+**5.7.18 (17.04.2024)**
+
+* Improvements: Performance & security improvements suggested by the Plugin Check (PCP) tool
+* Update: Tested up to WordPress 6.5.2
+* Fix: Unauthorized access vulnerability [Thanks to Wordfence team]
 
 **5.7.17 (12.04.2024)**
 

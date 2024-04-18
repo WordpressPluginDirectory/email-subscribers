@@ -3,11 +3,11 @@
  * Plugin Name: Icegram Express - Email Subscribers, Newsletters and Marketing Automation Plugin
  * Plugin URI: https://www.icegram.com/
  * Description: Add subscription forms on website, send HTML newsletters & automatically notify subscribers about new blog posts once it is published.
- * Version: 5.7.17
+ * Version: 5.7.18
  * Author: Icegram
  * Author URI: https://www.icegram.com/
  * Requires at least: 3.9
- * Tested up to: 6.4.1
+ * Tested up to: 6.5.2
  * WC requires at least: 3.6.0
  * WC tested up to: 8.0.2
  * ES Woo: 7120515:9f4c7f8bb491260ef19edf9699db73e6
@@ -187,7 +187,7 @@ if ( 'premium' === $ig_es_plan ) {
 /* ***************************** Initial Compatibility Work (End) ******************* */
 
 if ( ! defined( 'ES_PLUGIN_VERSION' ) ) {
-	define( 'ES_PLUGIN_VERSION', '5.7.17' );
+	define( 'ES_PLUGIN_VERSION', '5.7.18' );
 }
 
 // Plugin Folder Path.
@@ -268,7 +268,9 @@ if ( ! function_exists( 'activate_email_subscribers' ) ) {
 		if ( is_multisite() && $network_wide ) {
 
 			// Get all active blogs in the network and activate plugin on each one
+			// phpcs:disable
 			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE deleted = %d", 0 ) );
+			// phpcs:enable
 			foreach ( $blog_ids as $blog_id ) {
 				ig_es_activate_on_blog( $blog_id );
 			}
@@ -295,7 +297,9 @@ if ( ! function_exists( 'deactivate_email_subscribers' ) ) {
 			global $wpdb;
 
 			// Get all active blogs in the network.
+			// phpcs:disable
 			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE deleted = %d", 0 ) );
+			// phpcs:enable
 			foreach ( $blog_ids as $blog_id ) {
 				// Run deactivation code on each one
 				ig_es_trigger_deactivation_in_multisite( $blog_id );

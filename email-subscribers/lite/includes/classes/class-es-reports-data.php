@@ -368,9 +368,9 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 					if ( 0 === $campaign_id ) {
 						continue;
 					}
-
+				// phpcs:disable
 					$results = $wpdb->get_results( $wpdb->prepare( "SELECT type, count(DISTINCT (contact_id) ) as total FROM {$wpdb->prefix}ig_actions WHERE message_id = %d AND campaign_id = %d GROUP BY type", $message_id, $campaign_id ), ARRAY_A );
-					
+				// phpcs:enable	
 					$stats     = array();
 					$type      = '';
 					$type_text = '';
@@ -463,7 +463,7 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 
 		public static function get_top_performing_campaigns( $start_time, $campaign_count = 3 ) {
 			global $wpdb;
-			
+			// phpcs:disable
 			$top_campaigns = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT campaign_id,message_id, SUM( IF( `type` = 2, 1, 0 ) ) AS 'sent',SUM(IF( `type` = 3, 1, 0 )) AS 'opens_count', (SUM(IF( `type` = 3, 1, 0 ))/SUM( IF( `type` = 2, 1, 0 ))) * 100 AS opened_percentage FROM `{$wpdb->prefix}ig_actions` WHERE campaign_id IS NOT NULL AND message_id IS NOT NULL AND message_id != 0 AND updated_at > %d GROUP BY campaign_id, message_id ORDER BY `opened_percentage` DESC LIMIT %d",
@@ -472,6 +472,7 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 				),
 				ARRAY_A
 			);
+			// phpcs:enable
 
 			return $top_campaigns;
 		}

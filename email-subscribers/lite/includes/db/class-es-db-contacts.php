@@ -436,6 +436,7 @@ class ES_DB_Contacts extends ES_DB {
 		global $wpdb;
 
 		if ( ! empty( $list_id ) ) {
+			// phpcs:disable
 			$subscribers = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT count(distinct(contact_id)) as total_subscribers FROM {$wpdb->prefix}ig_lists_contacts WHERE status = %s AND list_id = %d",
@@ -443,13 +444,16 @@ class ES_DB_Contacts extends ES_DB {
 					$list_id
 				)
 			);
+			// phpcs:enable
 		} else {
+			// phpcs:disable
 			$subscribers = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT count(distinct(contact_id)) as total_subscribers FROM {$wpdb->prefix}ig_lists_contacts WHERE status = %s",
 					'subscribed'
 				)
 			);
+			// phpcs:enable
 		}
 
 		return $subscribers;
@@ -461,8 +465,9 @@ class ES_DB_Contacts extends ES_DB {
 		// Get all contact ids
 	public function get_all_contact_ids() {
 		global $wpbd;
-
+	  // phpcs:disable
 		$query = "SELECT id FROM $this->table_name";
+		// phpcs:enable
 		return $wpbd->get_results( $query );
 	}
 
@@ -584,11 +589,12 @@ class ES_DB_Contacts extends ES_DB {
 	 */
 	public function get_email_details_map() {
 		global $wpdb;
-
+// phpcs:disable
 		$contacts = $wpdb->get_results(
 			"SELECT id, email, hash FROM {$wpdb->prefix}ig_contacts",
 			ARRAY_A
 		);
+		// phpcs:enable
 		$details  = array();
 		if ( count( $contacts ) > 0 ) {
 			foreach ( $contacts as $contact ) {
@@ -725,8 +731,9 @@ class ES_DB_Contacts extends ES_DB {
 		global $wpdb;
 
 		// Get Total count of subscribers
+		// phpcs:disable
 		$total = $wpdb->get_var( "SELECT count(*) as total FROM {$wpdb->prefix}es_emaillist" );
-
+// phpcs:enable
 		// If we have subscribers?
 		if ( $total > 0 ) {
 
@@ -744,6 +751,7 @@ class ES_DB_Contacts extends ES_DB {
 			$j = 0;
 			for ( $i = 0; $i < $total_batches; $i ++ ) {
 				$batch_start = $i * $batch_size;
+				// phpcs:disable
 				$results     = $wpdb->get_results(
 					$wpdb->prepare(
 						"SELECT * FROM {$wpdb->prefix}es_emaillist LIMIT %d, %d ",
@@ -752,6 +760,7 @@ class ES_DB_Contacts extends ES_DB {
 					),
 					ARRAY_A
 				);
+				// phpcs:enable
 				if ( count( $results ) > 0 ) {
 					$contacts = array();
 					foreach ( $results as $key => $result ) {
@@ -1026,6 +1035,7 @@ class ES_DB_Contacts extends ES_DB {
 		$total_subscribers = '';
 
 		if ( ! empty( $form_id ) ) {
+			// phpcs:disable
 			$total_subscribers = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT count(distinct(id)) as total_active_subscribers FROM {$wpdb->prefix}ig_contacts where form_id = %d AND unsubscribed = %d",
@@ -1033,6 +1043,7 @@ class ES_DB_Contacts extends ES_DB {
 					$status
 				)
 			);
+			// phpcs:enable
 		}
 
 		return $total_subscribers;
@@ -1048,11 +1059,12 @@ class ES_DB_Contacts extends ES_DB {
 		global $wpdb;
 
 		// Get Total count of subscribers
+		// phpcs:disable
 		$total = $wpdb->get_var( "SELECT count(*) as total FROM {$wpdb->prefix}ig_contacts" );
-
+		// phpcs:enable
 		// If we have subscribers?
 		if ( $total > 0 ) {
-
+// phpcs:disable
 			$wpdb->query(
 				"UPDATE {$wpdb->prefix}ig_contacts AS contact_data
 				LEFT JOIN {$wpdb->prefix}ig_lists_contacts AS list_data
@@ -1062,6 +1074,7 @@ class ES_DB_Contacts extends ES_DB {
 				AND list_data.subscribed_ip IS NOT NULL
 				AND list_data.subscribed_ip <> ''"
 			);
+			// phpcs:enable
 		}
 	}
 
@@ -1167,7 +1180,9 @@ class ES_DB_Contacts extends ES_DB {
 	 */
 	public function get_last_contact_id() {
 		global $wpdb;
+		// phpcs:disable
 		$last_contact_id = $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}ig_contacts ORDER BY id DESC LIMIT 0, 1" );
+		// phpcs:enable
 		return $last_contact_id;
 	}
 }

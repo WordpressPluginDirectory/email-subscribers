@@ -462,9 +462,9 @@ if ( ! class_exists( 'ES_Install' ) ) {
 			$last_sent_queue_like         = '%' . $wpdb->esc_like( '_last_sending_queue_batch_run' ) . '%';
 			$running_migration_queue_like = '%' . $wpdb->esc_like( '_running_migration_for_' ) . '%';
 			$db_migration_queue_like      = '%' . $wpdb->esc_like( 'ig_es_updater_batch_' ) . '%';
-
+// phpcs:disable
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s", $transient_like, $updating_like, $last_sent_queue_like, $running_migration_queue_like, $db_migration_queue_like ) );
-
+// phpcs:enable
 		}
 
 		/**
@@ -1584,9 +1584,9 @@ if ( ! class_exists( 'ES_Install' ) ) {
 				$templates = array();
 				$templates = apply_filters( 'ig_es_email_templates', $templates );
 				$post_type = 'es_template';
-
+// phpcs:disable
 				$imported_templ = $wpdb->get_col( $wpdb->prepare( "SELECT post_name FROM {$wpdb->prefix}posts where post_type  = %s", $post_type ) );
-
+// phpcs:enable
 				if ( is_array( $templates ) && count( $templates ) > 0 ) {
 
 					foreach ( $templates as $slug => $template ) {

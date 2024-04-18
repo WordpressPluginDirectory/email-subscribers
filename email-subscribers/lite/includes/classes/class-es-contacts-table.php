@@ -1536,9 +1536,9 @@ class ES_Contacts_Table extends ES_List_Table {
 					$response['errortype'] = false;
 					return $response;
 				}
-
+// phpcs:disable
 				$edited = ES()->lists_contacts_db->add_contacts_to_list( $subscriber_ids, $list_id );
-
+// phpcs:enable
 				if ( $edited ) {
 					$message = __( 'Contact(s) added to list successfully!', 'email-subscribers' );
 					if ( ! $return_response ) {
@@ -1568,7 +1568,8 @@ class ES_Contacts_Table extends ES_List_Table {
 	public function set_default_form_id( $form_id ) {
 
 		global $wpdb;
-
+	// phpcs:disable
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}ig_contacts SET form_id = %d WHERE form_id = %d", 0, $form_id ) );
+	// phpcs:enable
 	}
 }

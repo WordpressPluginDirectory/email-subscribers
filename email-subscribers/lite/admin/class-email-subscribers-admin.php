@@ -846,26 +846,6 @@ class Email_Subscribers_Admin {
 		die( json_encode( $response_data ) );
 	}
 
-	public function get_template_content() {
-		global $ig_es_tracker;
-
-		$template_id = (int) ig_es_get_request_data( 'template_id', 0 );
-		if ( 0 == $template_id ) {
-			return 0;
-		}
-		$post_temp_arr     = get_post( $template_id );
-		$result['subject'] = ! empty( $post_temp_arr->post_title ) ? $post_temp_arr->post_title : '';
-		$result['body']    = ! empty( $post_temp_arr->post_content ) ? $post_temp_arr->post_content : '';
-		// get meta data of template
-		// $active_plugins = $ig_es_tracker::get_active_plugins();
-		if ( ES()->is_starter() ) {
-			$result['inline_css']      = get_post_meta( $template_id, 'es_custom_css', true );
-			$result['es_utm_campaign'] = get_post_meta( $template_id, 'es_utm_campaign', true );
-		}
-
-		die( json_encode( $result ) );
-	}
-
 	/**
 	 * Get Icegram Express' screen options
 	 *

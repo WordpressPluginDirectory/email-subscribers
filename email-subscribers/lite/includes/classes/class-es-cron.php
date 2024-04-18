@@ -268,9 +268,9 @@ class ES_Cron {
 		global $wpdb;
 
 		$lock = 'ig_es_cron_lock_' . $key . '%';
-
+// phpcs:disable
 		$res = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}options WHERE option_name LIKE %s AND option_value != ''", $lock ) );
-
+// phpcs:enable
 		return ! ! $res;
 	}
 

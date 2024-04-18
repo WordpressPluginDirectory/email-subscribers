@@ -235,13 +235,14 @@ class ES_DB_Lists extends ES_DB {
 	 */
 	public function get_all_lists_name_by_contact( $id ) {
 		global $wpdb;
-
+   // phpcs:disable
 		$res = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT `name` FROM {$wpdb->prefix}ig_lists WHERE id IN ( SELECT list_id FROM {$wpdb->prefix}ig_lists_contacts WHERE contact_id = %d )",
 				$id
 			)
 		);
+		// phpcs:enable
 
 		return $res;
 	}

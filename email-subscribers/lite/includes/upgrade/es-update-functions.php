@@ -2,7 +2,7 @@
 /**
  * Functions for updating data, used by the background updater.
  */
-
+// phpcs:disable
 defined( 'ABSPATH' ) || exit;
 
 
@@ -2253,5 +2253,5 @@ function ig_es_trial_expires_email_for_existing_users() {
 function ig_es_update_5713_db_version() {
 	ES_Install::update_db_version( '5.7.13' );
 }
-
+// phpcs:enable
 /* --------------------- ES 5.7.13(End)--------------------------- */

@@ -889,13 +889,14 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 					$post_count = ! empty( $no_of_posts[$index] ) ? $no_of_posts[$index] : 5;
 					$meta_key = 'ig_es_post_notified_' . $campaign_data['id'];
 					if ( ( ! empty( $categories ) || $include_all_post ) && ! $include_no_post ) {
+						//phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						$post_args =  array(
 							'post_type'      => 'post',
 							'posts_per_page' => $post_count,
 							'orderby'        => 'date',
 							'order'          => 'DESC',
 							'cat'            => ( ! $include_all_post ) ? implode( ',', $categories ) : '',
-							'meta_query'     => array(
+							'meta_query'     => array( 
 								array(
 									'key'     => $meta_key,
 									'compare' => 'NOT EXISTS', 
@@ -911,14 +912,14 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 							'posts_per_page' => $post_count,
 							'orderby'        => 'date',
 							'order'          => 'DESC',
-							'meta_query'     => array(
+							'meta_query'     => array( 
 								array(
 									'key'     => $meta_key,
 									'compare' => 'NOT EXISTS' 
 								),
 							),
 						);
-						
+						// phpcs:enable
 						$recent_posts = get_posts( $custom_post_args );
 					}
 					
@@ -1015,13 +1016,14 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				$post_count = ! empty( $no_of_posts[$index] ) ? $no_of_posts[$index] : 5;
 				$meta_key = 'ig_es_post_notified_' . $campaign_id;
 				if ( ( ! empty( $categories ) || $include_all_post ) && ! $include_no_post ) {
+				//phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					$post_args =  array(
 						'post_type'      => 'post',
 						'posts_per_page' => $post_count,
 						'orderby'        => 'date',
 						'order'          => 'DESC',
 						'cat'            => ( ! $include_all_post ) ? implode( ',', $categories ) : '',
-						'meta_query'     => array(
+						'meta_query'     => array( 
 							array(
 							 'key'     => $meta_key,
 							 'compare' => 'NOT EXISTS', // Fetch the post which weren't included in previous notifications
@@ -1035,16 +1037,18 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 							'after'   => gmdate( 'Y-m-d H:i:s', $last_run )
 						);
 					}
+					// phpcs:enable
 					$post_ids = get_posts( $post_args );
 				}
 				$custom_post_ids = array();
 				if ( ! empty( $custom_post_type ) ) {
+					//phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					$custom_post_args = array(
 						'post_type'      => $custom_post_type,
 						'posts_per_page' => $post_count,
 						'orderby'        => 'date',
 						'order'          => 'DESC',
-						'meta_query'     => array(
+						'meta_query'     => array( 
 							array(
 							 'key'     => $meta_key,
 							 'compare' => 'NOT EXISTS' // Fetch the post which weren't included in previous notifications
@@ -1057,6 +1061,7 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 							'after'   => gmdate( 'Y-m-d H:i:s', $last_run )
 						);
 					}
+					// phpcs:enable
 					$custom_post_ids = get_posts( $custom_post_args );
 				}
 				$posts = array_merge( $post_ids, $custom_post_ids );
@@ -1140,13 +1145,14 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			$post_ids = array();
 			$meta_key = 'ig_es_post_notified_' . $campaign_id;
 			if ( ( ! empty( $categories ) || $include_all_post ) && ! $include_no_post ) {
+				//phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				$post_args =  array(
 					'post_type'      => 'post',
 					'posts_per_page' => $no_of_posts,
 					'orderby'        => 'date',
 					'order'          => 'DESC',
 					'cat'            => ( ! $include_all_post ) ? implode( ',', $categories ) : '',
-					'meta_query'     => array(
+					'meta_query'     => array( 
 						array(
 						 'key'     => $meta_key,
 						 'compare' => 'NOT EXISTS', // Fetch the post which weren't included in previous notifications
@@ -1160,22 +1166,25 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 						'after'   => gmdate( 'Y-m-d H:i:s', $last_run )
 					);
 				}
+				// phpcs:enable
 				$post_ids = get_posts( $post_args );
 			}
 			$custom_post_ids = array();
 			if ( ! empty( $custom_post_type ) ) {
+				//phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				$custom_post_args = array(
 					'post_type'      => $custom_post_type,
 					'posts_per_page' => $no_of_posts,
 					'orderby'        => 'date',
 					'order'          => 'DESC',
-					'meta_query'     => array(
+					'meta_query'     => array( 
 						array(
 						 'key'     => $meta_key,
 						 'compare' => 'NOT EXISTS' // Fetch the post which weren't included in previous notifications
 						),
 					),
 				);
+				// phpcs:enable
 				$custom_post_ids  = get_posts( $custom_post_args );
 			}
 			$posts = array_merge( $post_ids, $custom_post_ids );
