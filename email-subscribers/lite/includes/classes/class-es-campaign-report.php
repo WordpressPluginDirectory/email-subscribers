@@ -125,6 +125,14 @@ class ES_Campaign_Report extends ES_List_Table {
 	 * @version 5.4.2
 	 */
 	public function view_report_description_lite( $notification, $report_kpi_statistics ) {
+		if ( ! empty( $notification['type'] ) ) {
+			$campaign_url = '';
+			 if ( IG_CAMPAIGN_TYPE_SEQUENCE === $notification['type'] ) {
+				 $campaign_url = '?page=es_sequence&action=edit&id=' . $notification['campaign_id'];
+			 } else {
+				 $campaign_url = '?page=es_campaigns#!/campaign/edit/' . $notification['campaign_id'];
+			 }
+		 }
 		?>
 		<div class="wrap max-w-7xl w-full">
 			<div class="wp-heading-inline flex items-center justify-between">
@@ -138,7 +146,9 @@ class ES_Campaign_Report extends ES_List_Table {
 				<div class="w-3/4">
 					<div class="flex pl-6 pt-4">
 						<div class="w-auto inline-block text-xl text-gray-600 font-medium leading-7 truncate">
-							<?php echo esc_html( $notification['subject'] ); ?>
+							<a href="<?php echo esc_url( $campaign_url ); ?>" target="_blank" title="<?php echo esc_attr__( 'Go to campaign', 'email-subscribers' ); ?>">
+								<?php echo esc_html( $notification['subject'] ); ?>
+							</a>
 						</div>
 						<div class="inline-block ml-2 font-semibold leading-5 tracking-wide text-xs">
 							<?php

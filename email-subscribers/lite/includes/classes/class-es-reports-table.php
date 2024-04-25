@@ -606,6 +606,7 @@ class ES_Reports_Table extends ES_List_Table {
 					</div>
 					<div class="flex justify-center mt-8">
 						<button id="es_close_preview" class="px-4 py-2 text-sm font-medium tracking-wide text-gray-700 border rounded select-none no-outline focus:outline-none focus:shadow-outline-red hover:border-red-400 active:shadow-lg "><?php echo esc_html__( 'Close', 'email-subscribers' ); ?></button>
+						
 					</div>
 				</div>
 			</div>

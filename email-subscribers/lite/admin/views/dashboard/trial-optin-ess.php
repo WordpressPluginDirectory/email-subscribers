@@ -15,9 +15,9 @@ if ( $show_trial_optin ) {
 			/* translators: %s Trial days */
 			'features_heading' => sprintf( esc_html__( 'Here is what you get for the next %s', 'email-subscribers' ), $trial_period_in_days . ' days' ),
 			'features_list' => array(
-				'feature_first' => __( "<a class='font-bold' href='https://www.icegram.com/docs/category/icegram-express-premium/add-utm-parameters-email/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01' target='_blank'>UTM tracking</a> - Google Analytics UTM tracking", 'email-subscribers' ),
-				'feature_second' => __( "<a class='font-bold' href='https://www.icegram.com/docs/category/icegram-express-premium/check-spam-score#what-to-do-if-my-spam-score-is-higher-than-5/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01' target='_blank'>Spam score checking</a> - Stop lading your email in spams", 'email-subscribers' ),
-				'feature_third' => __( "<a class='font-bold' href='https://www.icegram.com/docs/category/icegram-express-premium/enable-automatic-cron/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01' target='_blank'>Background email sending</a> - To ensure reliable email sending", 'email-subscribers' ),
+				'feature_first' => __( "<a class='font-bold' href='https://www.icegram.com/docs/category/icegram-express-premium/add-utm-parameters-email/?utm_source=es&utm_medium=in_app&utm_campaign=revamp-01' target='_blank'>UTM tracking</a> - Google Analytics UTM tracking", 'email-subscribers' ),
+				'feature_second' => __( "<a class='font-bold' href='https://www.icegram.com/docs/category/icegram-express-premium/check-spam-score#what-to-do-if-my-spam-score-is-higher-than-5/?utm_source=es&utm_medium=in_app&utm_campaign=revamp-01' target='_blank'>Spam score checking</a> - Stop lading your email in spams", 'email-subscribers' ),
+				'feature_third' => __( "<a class='font-bold' href='https://www.icegram.com/docs/category/icegram-express-premium/enable-automatic-cron/?utm_source=es&utm_medium=in_app&utm_campaign=revamp-01' target='_blank'>Background email sending</a> - To ensure reliable email sending", 'email-subscribers' ),
 			),
 		),
 	);
@@ -79,21 +79,21 @@ if ( $show_trial_optin ) {
 			'features_heading' => '',
 			'features_list' => array(
 				/* translators: 1. Anchor start tag 2. Anchor close tag */
-				'feature_first' => sprintf( __( ' %1$sFluentCRM vs. Icegram Express%2$s', 'email-subscribers' ), '<a class="font-bold" href="https://www.icegram.com/fluentcrm-vs-icegram-express/" target="_blank">', '</a>' ),
+				'feature_first' => sprintf( __( ' %1$sFluentCRM vs. Icegram Express%2$s', 'email-subscribers' ), '<a class="font-bold" href="https://www.icegram.com/fluentcrm-vs-icegram-express/?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help" target="_blank">', '</a>' ),
 				
 				/* translators: 1. Anchor start tag 2. Anchor close tag */
-				'feature_second' => sprintf( __( ' %1$sMailpoet vs. Icegram Express%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/mailpoet-review-best-mailpoet-alternative/' target='_blank'>", '</a>' ),
+				'feature_second' => sprintf( __( ' %1$sMailpoet vs. Icegram Express%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/mailpoet-review-best-mailpoet-alternative/?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help' target='_blank'>", '</a>' ),
 				
 				/* translators: 1. Anchor start tag 2. Anchor close tag */
-				'feature_third' => sprintf( __( ' %1$sOrganize email newsletter content calendar%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/how-to-organize-email-newsletter-content-calendar/' target='_blank'>", '</a>' ),
+				'feature_third' => sprintf( __( ' %1$sOrganize email newsletter content calendar%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/how-to-organize-email-newsletter-content-calendar/?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help' target='_blank'>", '</a>' ),
 			),
 			'features_sub_heading' => sprintf( esc_html__('Other products we have', 'email-subscribers')),
 			'features_sub_list' => array(
 				/* translators: 1. Anchor start tag 2. Anchor close tag */
-				'feature_first' => sprintf( __( ' %1$sIcegram Engage%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/engage/' target='_blank'>", '</a>' ),
+				'feature_first' => sprintf( __( ' %1$sIcegram Engage%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/engage/?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help' target='_blank'>", '</a>' ),
 				
 				/* translators: 1. Anchor start tag 2. Anchor close tag */
-				'feature_second' => sprintf( __( ' %1$sIcegram Collect%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/collect/' target='_blank'>", '</a>' ),
+				'feature_second' => sprintf( __( ' %1$sIcegram Collect%2$s', 'email-subscribers' ), "<a class='font-bold' href='https://www.icegram.com/collect/?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help' target='_blank'>", '</a>' ),
 			),
 		),
 	);

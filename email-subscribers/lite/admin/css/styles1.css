@@ -260,7 +260,7 @@ table td
 
   .template-editor, 
   .sidebar, 
-  .form-fields{
+  .form-fields, #es-admin-contact-form, #es-admin-lists-form {
     label {
       @apply block text-sm font-medium leading-6 text-gray-900;
     }
@@ -269,6 +269,13 @@ table td
     }
     input[type="radio"]:checked {
       @apply bg-primary;
+    }
+    /*contact form input field padding effect*/
+    input.ig-es-contact-first-name, input.ig-es-contact-last-name {
+      @apply pl-10 pr-12;
+    }
+    textarea {
+      @apply block w-full rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-[0.5px] ring-inset ring-lighter-gray placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-tertiary sm:text-sm sm:leading-6;
     }
   }
 
@@ -343,7 +350,7 @@ table td
   }
 
   .overview {
-    @apply flex flex-col bg-white space-y-5 p-4 mt-5 mr-5 border border-lighter-gray rounded-md;
+    @apply flex flex-col bg-white space-y-5 p-4 mt-5 ml-5 mr-5 border border-lighter-gray rounded-md;
 
     .kpi {
       @apply flex justify-between w-full px-3 py-2 items-center rounded-md bg-light-gray;
@@ -379,20 +386,45 @@ table td
   .search {
     @apply block w-full px-4 py-1.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-sm bg-white focus:ring-[0.5px] focus:ring-tertiary !important;
   }
-  .ig-es-list-table {
+  
+  .ig-es-list-table, .es-audience-view, .es-lists-table {
     @apply flex flex-col bg-white space-y-5 p-4 mt-5;
-    .table {
-      @apply -mx-4 ring-1 ring-lighter-gray sm:mx-0 sm:rounded-sm w-full;
-      table {
+    h2{
+      @apply -mt-5;
+    }
+    .table, #post-body-content{
+      @apply -mx-4 sm:mx-0 sm:rounded-sm w-full;
+      table, .contacts, .lists {
         @apply min-w-full divide-y divide-lighter-gray w-full;
+      }
+      .contacts, .lists{
+        @apply border-0 mt-5;
+        thead, tfoot{
+          tr{
+            td,th{
+              @apply border-b-0 border-t-0;
+
+            }
+          }
+        }
+        tbody {
+          tr{
+            @apply bg-white;
+          }
+        }
       }
       input.checkbox {
         @apply absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary;
       }
       thead {
-        @apply text-xs font-medium text-gray-600;
+        @apply text-xs font-medium text-gray-600 bg-light-gray;
+
+        input#cb-select-all-1 {
+          @apply absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary -ml-0;
+        }
+
         th:first-of-type {
-          @apply relative px-7 sm:w-12 sm:px-6;
+          @apply relative px-7  sm:px-6;
         }
         th:nth-child(2) {
           @apply py-2 pl-4 pr-3 text-left  sm:pl-6;
@@ -404,11 +436,21 @@ table td
           @apply px-3 py-2 text-center lg:table-cell;
         }
         th:last-of-type {
-          @apply relative py-2 pl-3 pr-4 sm:pr-6 text-right;
+          @apply relative py-2 pl-3 pr-4 sm:pr-6 text-left;
         }
       }
       tbody {
-        @apply divide-y divide-lighter-gray;
+        @apply divide-y divide-lighter-gray border-0;
+        
+        th:first-of-type {
+          @apply relative px-7  sm:px-6;
+          input.checkbox {
+            @apply -ml-0;
+          }
+        }
+        tr:first-of-type {
+          @apply border-0;
+        }
         td:first-of-type {
           @apply relative px-7 sm:w-12 sm:px-6;
         }
@@ -422,7 +464,7 @@ table td
           @apply px-3 py-3.5 text-sm text-center text-gray-500;
         }
         td:last-of-type {
-          @apply relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6;
+          @apply relative py-3.5 pl-3 pr-4 text-left text-sm font-medium sm:pr-6;
         }
 
         .list-item {
@@ -451,6 +493,30 @@ table td
           .sub-text {
             @apply text-gray-400 text-[13px];
           }
+        }
+      }
+
+      tfoot {
+        @apply text-xs font-medium text-gray-600 bg-light-gray;
+
+        input#cb-select-all-2 {
+          @apply absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary -ml-0;
+        }
+
+        th:first-of-type {
+          @apply relative px-7  sm:px-6;
+        }
+        th:nth-child(2) {
+          @apply py-2 pl-4 pr-3 text-left  sm:pl-6;
+        }
+        th {
+          @apply px-3 py-2 text-left lg:table-cell;
+        }
+        th:nth-child(6) {
+          @apply px-3 py-2 text-center lg:table-cell;
+        }
+        th:last-of-type {
+          @apply relative py-2 pl-3 pr-4 sm:pr-6 text-left;
         }
       }
     }
@@ -493,6 +559,66 @@ table td
   }
 
 }
+
+/* Audience Import page tab option, this css apply on current tab */
+.es-import-option {
+  [type="radio"]:checked + .es-mailer-logo {
+    @apply transition-all duration-100 ease-in-out transform scale-110;
+    box-shadow: 0 0 3px 1px rgba(90, 103, 216);
+  }
+  
+  [type="radio"]:checked + .es-mailer-logo:hover {
+    @apply border border-gray-200;
+  }
+  
+  .border-0 {
+      border-width: 0px;
+  }
+}
+
+/* Audience Import page wordpress-users tab, checkbox CSS */
+#wordpress-users, #ig-es-wc-order-statuses-wrapper{
+  input.checkbox {
+    @apply -mt-2 h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary;
+  }
+}
+
+/* Audience page tooltip CSS */
+.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip {
+  @apply align-middle;
+  span.tooltip-text {
+    @apply bg-white w-64 p-3 py-2 shadow-lg rounded-sm;
+  }
+
+  svg.tooltip-arrow {
+    @apply fill-white;
+  }
+}
+
+/* Audience page advance filter CSS */
+.icegram-express_page_es_subscribers .es-collapsible {
+  .ig-es-conditions {
+    @apply py-6 mx-28;
+  }
+
+  .ig-es-condition-group {
+    @apply border border-gray-200 rounded-md pb-12 relative block rounded-lg;
+    .add-or-condition {
+      @apply bottom-5;
+    }
+  }
+}
+
+.progress,
+.importing-progress {
+  @apply w-full h-8 bg-gray-200 overflow-hidden relative text-right leading-4 mt-1.5 rounded;
+}
+
+.progress span.bar,
+.importing-progress span.bar {
+  @apply block absolute leading-10 py-1 top-0 bottom-0 left-0 rounded overflow-hidden bg-gradient-to-r from-indigo-800 to-indigo-500 bg-indigo-400;
+}
+
 
 #timePickerDropdown {
   top: 100%;
@@ -567,7 +693,7 @@ table td
   @apply float-right border-0 relative !important;
 }
 
-.icegram-express_page_es_gallery, .icegram-express_page_es_campaigns{
+.icegram-express_page_es_gallery, .icegram-express_page_es_campaigns, .icegram-express_page_es_subscribers, .icegram-express_page_es_lists {
  #wpcontent{
   padding-left: 0;
   background-color: white;

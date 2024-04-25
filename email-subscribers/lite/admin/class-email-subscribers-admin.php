@@ -159,7 +159,7 @@ class Email_Subscribers_Admin {
 		}
 
 		$current_page          = ig_es_get_request_data( 'page' );
-		$enqueue_tailwind 	   = in_array( $current_page, array( 'es_gallery', 'es_campaigns' ), true );
+		$enqueue_tailwind 	   = in_array( $current_page, array( 'es_gallery', 'es_campaigns', 'es_subscribers', 'es_lists' ), true );
 		
 		if ( ! $enqueue_tailwind ) {
 			wp_enqueue_style( 'ig-es-style', plugin_dir_url( __FILE__ ) . 'dist/main.css', array(), $this->version, 'all' );
@@ -407,7 +407,7 @@ class Email_Subscribers_Admin {
 
 			// Add Lists Submenu
 			$hook = add_submenu_page( 'es_dashboard', __( 'Lists', 'email-subscribers' ), '<span id="ig-es-lists">' . __( 'Lists', 'email-subscribers' ) . '</span>', 'edit_posts', 'es_lists', array( $this, 'render_lists' ) );
-			//add_action( "load-$hook", array( 'ES_Lists_Table', 'screen_options' ) );
+			add_action( "load-$hook", array( 'ES_Lists_Table', 'screen_options' ) );
 		}
 
 		if ( in_array( 'forms', $accessible_sub_menus ) ) {

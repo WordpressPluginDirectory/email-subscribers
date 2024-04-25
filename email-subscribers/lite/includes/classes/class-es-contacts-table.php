@@ -90,7 +90,7 @@ class ES_Contacts_Table extends ES_List_Table {
 	public static function screen_options() {
 
 		// Don't show screen option on Import/ Export subscribers page.
-		$action = ig_es_get_request_data( 'action' );
+		//$action = ig_es_get_request_data( 'action' );
 
 		if ( empty( $action ) ) {
 
@@ -184,7 +184,7 @@ class ES_Contacts_Table extends ES_List_Table {
 	 */
 	public function render() {
 		?>
-		<div class="wrap pt-4 font-sans">
+		<div class="font-sans">
 
 		<?php
 		$bulk_action = ig_es_get_request_data( 'bulk_action' );
@@ -224,33 +224,12 @@ class ES_Contacts_Table extends ES_List_Table {
 			update_option( 'ig_es_show_sync_tab', 'no' ); // yes/no
 			$this->load_sync();
 		} else {
+			//Display sticky header
+			$this->render_header();
 
-			$audience_tab_main_navigation = array();
-			$active_tab                   = '';
-			$audience_tab_main_navigation = apply_filters( 'ig_es_audience_tab_main_navigation', $active_tab, $audience_tab_main_navigation );
-
+			//Display Subscriber activities and top 5 subscriber countries
+			$this->get_contacts_reports();
 			?>
-			<div class="flex">
-				<div>
-					<h2 class="wp-heading-inline text-3xl font-bold text-gray-700 sm:leading-9 sm:truncate pr-4">
-						<?php
-						echo esc_html__( 'Audience', 'email-subscribers' );
-						?>
-					</h2>
-				</div>
-				<div class="mt-1">
-					<?php
-					ES_Common::prepare_main_header_navigation( $audience_tab_main_navigation );
-					?>
-				</div>
-			</div>
-			<div>
-				<hr class="wp-header-end">
-
-			</div>
-
-			<?php $this->get_contacts_reports(); ?>
-
 			<div id="poststuff" class="es-audience-view es-items-lists">
 				<div id="post-body" class="metabox-holder column-1">
 					<div id="post-body-content">
@@ -315,6 +294,35 @@ class ES_Contacts_Table extends ES_List_Table {
 		$sync->prepare_sync_user();
 	}
 
+
+	/**
+	 * Get Audience dashboard header
+	 */
+	public static function render_header($active_tab = '') {
+		$audience_tab_main_navigation = array();
+		$active_tab                   = $active_tab;
+		$audience_tab_main_navigation = apply_filters( 'ig_es_audience_tab_main_navigation', $active_tab, $audience_tab_main_navigation );
+		?>
+		<div class="sticky top-0 z-10">
+			<header>
+				<nav aria-label="Global" class="pb-5 w-full pt-2">
+					<div class="brand-logo">
+						<span>
+							<img src="<?php echo ES_PLUGIN_URL."lite/admin/images/new/brand-logo/IG LOGO 192X192.svg";?>" alt="brand logo" />
+							<div class="divide"></div>
+							<h1>Audience</h1>
+						</span>
+					</div>
+
+					<div class="cta">
+						<?php ES_Common::prepare_main_header_navigation( $audience_tab_main_navigation ); ?>
+					</div>
+				</nav>
+			</header>
+		</div>
+		<?php
+	}
+
 	/**
 	 * Get Contacts Reports
 	 *
@@ -333,27 +341,26 @@ class ES_Contacts_Table extends ES_List_Table {
 		$reports_data   = ES_Reports_Data::get_dashboard_reports_data( $source, $override_cache, $args );
 		$allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 		?>
-		<div class="border-0 mt-8 mb-4">
-			<table class="contacts-report-table min-w-full overflow-hidden bg-white rounded-lg shadow font-sans">
+		<div class="mb-8 overview">
+			<table class="contacts-report-table overflow-hidden bg-white rounded-lg">
 				<tr>
-					<td class="w-3/6 border-r lg:px-4">
+					<td class="es-w-55 subscriber-right-border-width px-4">
 						<!-- Total Subscriber -->
-						<div class="flex pt-4 pb-2 pl-2">
-							<div class="lg:pl-2 ">
+						<div class="flex pb-2">
+							<div class="lg:pl-2 pt-1">
 								<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400 mt-1">
 									<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
 								</svg>
 							</div>
 							<div class="pt-1">
-								<span class="text-3xl font-medium text-gray-400 pl-4"><?php echo esc_html__( 'Total contacts', 'email-subscribers' ); ?></span>
-								<span class="text-3xl font-bold leading-none text-indigo-600 pl-4"><?php echo esc_html( number_format( $es_total_contact ) ); ?></span>
-
+								<span class="total-contact-count-text font-medium text-gray-400 pl-3"><?php echo esc_html__( 'Total contacts', 'email-subscribers' ); ?></span>
+								<span class="total-contact-count-text font-bold leading-none text-indigo-600 pl-3"><?php echo esc_html( number_format( $es_total_contact ) ); ?></span>
 							</div>
 						</div>
 
 						<!-- Subscriber Activity -->
-						<div id="es-dashboard-stats" class="es-w-100 p-4">
-							<p class="pb-3 text-lg font-medium leading-6 text-gray-400">
+						<div id="es-dashboard-stats" class="es-w-100 pr-4 py-4">
+							<p class="pb-5 text-lg font-medium leading-6 text-gray-400">
 								<span class="leading-7">
 									<?php
 										/* translators: %s. Number of days */
@@ -361,7 +368,7 @@ class ES_Contacts_Table extends ES_List_Table {
 									?>
 								</span>
 								<span class="float-right">
-									<select id="filter_by_list">
+									<select id="filter_by_list" class="w-32 text-sm">
 										<?php
 										$lists_dropdown = ES_Common::prepare_list_dropdown_options( '', __( 'All lists', 'email-subscribers' ) );
 										echo wp_kses( $lists_dropdown, $allowed_html_tags );
@@ -381,18 +388,17 @@ class ES_Contacts_Table extends ES_List_Table {
 						</div>
 					</td>
 
-					<td class="w-3/5">
+					<td class="es-w-45 px-4">
 						<!-- Top 5 Countries -->
-						<div class="es-w-100 p-4">
+						<div class="es-w-100 px-4 pt-2">
 							<?php
 							$countries_count = 5;
 							?>
 							<p class="text-lg font-medium leading-7 text-gray-400">
 								<?php
-									/* Translators: %s. Country count */
-									echo sprintf( esc_html__( 'Top %s countries', 'email-subscribers' ), esc_html( $countries_count ) );
-								?>
-								<?php
+								/* Translators: %s. Country count */
+								echo sprintf( esc_html__( 'Top %s countries', 'email-subscribers' ), esc_html( $countries_count ) );
+								
 								if ( ! ES()->is_pro() ) {
 									$utm_args = array(
 										'utm_medium' => 'dashboard-top-countries',
@@ -610,38 +616,13 @@ class ES_Contacts_Table extends ES_List_Table {
 		}
 		?>
 
-		<div class="max-w-full -mt-3 font-sans">
-			<header class="wp-heading-inline">
-				<div class="md:flex md:items-center md:justify-between justify-center">
-					<div class="flex-1 min-w-0">
-						<nav class="text-gray-400 my-0" aria-label="Breadcrumb">
-							<ol class="list-none p-0 inline-flex">
-								<li class="flex items-center text-sm tracking-wide">
-									<a class="hover:underline " href="admin.php?page=es_subscribers"><?php esc_html_e( 'Audience ', 'email-subscribers' ); ?></a>
-									<svg class="fill-current w-2.5 h-2.5 mx-2 mt-mx" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-										<path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-									</svg>
-								</li>
-							</ol>
-						</nav>
-						<h2 class="-mt-1 text-2xl font-medium text-gray-700 sm:leading-7 sm:truncate">
-							<?php echo esc_html( $title ); ?>
-						</h2>
-					</div>
-
-					<div class="flex md:mt-0">
-						<div id="ig-es-create-button" class="relative inline-block text-left">
-							<?php
-							echo wp_kses_post( $title_action );
-							?>
-						</div>
-					</div>
-				</div>
-			</header>
-			<div>
-				<hr class="wp-header-end">
-			</div>
-			<div class="bg-white shadow-md rounded-lg mt-8">
+		<div class="gap-5">
+			<?php $this->render_header('new_contact'); //Rendering Header ?>
+			
+			<div class="bg-white shadow-md rounded-lg">
+				<h2 class="pt-4 px-3 ml-8 text-2xl font-medium text-gray-700">
+					<?php echo esc_html( $title ); ?>
+				</h2>
 				<?php echo wp_kses_post( $this->prepare_contact_form( $data, $is_new ) ); ?>
 
 			</div>
@@ -816,21 +797,21 @@ class ES_Contacts_Table extends ES_List_Table {
 		}
 
 		?>
-		<form id="es-admin-contact-form" method="post" action="<?php echo esc_attr( $action ); ?>" class="ml-5 mr-4 text-left pt-8 mt-2 item-center ">
+		<form id="es-admin-contact-form" method="post" action="<?php echo esc_attr( $action ); ?>" class="ml-8 mr-4 text-left py-5">
 			<?php wp_nonce_field( 'ig-es-contact-nonce', 'ig_es_contact_nonce' ); ?>
 			<div class="flex flex-row border-b border-gray-100">
-				<div class="flex w-1/5">
-					<div class="ml-4 pt-6">
+				<div class="flex es-w-15">
+					<div class="ml-3 py-4">
 						<label for="firstname"><span class="block ml-4 pt-1 pr-4 text-sm font-medium text-gray-600 pb-2"><?php esc_html_e( 'First name', 'email-subscribers' ); ?></span></label>
 
 					</div>
 				</div>
 				<div class="flex">
-					<div class="ml-16 mb-4 h-10 mr-4 mt-4">
+					<div class="ml-16 mb-4 h-10 mr-4 mt-3">
 						<div class="h-10 relative">
-							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-								<span class="inset-y-0 text-gray-400 sm:text-sm sm:leading-5">
-									<span class="my-2 mr-10 dashicons dashicons-admin-users"></span>
+							<div class="absolute left-0 pl-3 flex items-center pointer-events-none">
+								<span class="text-gray-400">
+									<span class="my-2 dashicons dashicons-admin-users"></span>
 								</span>
 							</div>
 							<input id="ig-es-contact-first-name" class="ig-es-contact-first-name form-input block border-gray-400 w-full pl-10 pr-12 shadow-sm  focus:bg-gray-100 sm:text-sm sm:leading-5" placeholder="<?php esc_html_e( 'Enter first name', 'email-subscribers' ); ?>" name="contact_data[first_name]"
@@ -841,13 +822,13 @@ class ES_Contacts_Table extends ES_List_Table {
 			</div>
 
 			<div class="flex flex-row border-b border-gray-100">
-				<div class="flex w-1/5">
-					<div class="ml-4 pt-6">
+				<div class="flex es-w-15">
+					<div class="ml-3 py-4">
 						<label for="lastname"><span class="block ml-4 pt-1 pr-4 text-sm font-medium text-gray-600 pb-2"><?php esc_html_e( 'Last name', 'email-subscribers' ); ?></span></label>
 					</div>
 				</div>
 				<div class="flex">
-					<div class="ml-16 my-4 h-10 mr-4">
+					<div class="ml-16 my-4 h-10 mt-3">
 						<div class="h-10 relative">
 							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
 								<span class="inset-y-0 text-gray-400 sm:text-sm sm:leading-5">
@@ -861,15 +842,15 @@ class ES_Contacts_Table extends ES_List_Table {
 			</div>
 
 			<div class="flex flex-row border-b border-gray-100">
-				<div class="flex w-1/5">
-					<div class="ml-4 pt-6">
+				<div class="flex es-w-15">
+					<div class="ml-3 py-4 pr-8">
 						<label for="email"><span class="block ml-4 pt-1 pr-4 text-sm font-medium text-gray-600 pb-2"><?php esc_html_e( 'Email', 'email-subscribers' ); ?></span></label>
 					</div>
 				</div>
 				<div class="flex">
-					<div class="ml-16 my-4 mr-4">
+					<div class="ml-16 mr-4 h-10 mt-3">
 						<div class="h-10 relative">
-							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+							<div class="absolute inset-y-0 left-0 pl-3 pt-2 flex items-center pointer-events-none">
 								<svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
 									<path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
 									<path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
@@ -883,27 +864,26 @@ class ES_Contacts_Table extends ES_List_Table {
 
 			<?php if ( $is_new ) { ?>
 				<div class="flex flex-row border-b border-gray-100">
-					<div class="flex w-1/5">
-						<div class="ml-4 pt-4">
+					<div class="flex es-w-15">
+						<div class="ml-3 py-4">
 							<label for="send_email"><span class="block ml-4 pt-1 pr-4 text-sm font-medium text-gray-600 pb-2"><?php esc_html_e( 'Send welcome email?', 'email-subscribers' ); ?></span>
 							</label>
 						</div>
 					</div>
 					<div class="flex">
-						<div class="ml-16 my-4 mr-4">
+						<div class="ml-16 mr-4 h-10 mt-3">
 							<label for="send_email" class=" inline-flex items-center cursor-pointer">
-									<span class="relative">
-										<input id="send_email" type="checkbox" class="absolute es-check-toggle opacity-0 w-0 h-0"
-											   name="contact_data[send_welcome_email]"
-										<?php
-										if ( $send_welcome_email ) {
-											echo "checked='checked'";
-										}
-										?>
-										 />
-										<span class="es-mail-toggle-line"></span>
-										<span class="es-mail-toggle-dot"></span>
-									</span>
+								<span class="relative">
+									<input id="send_email" type="checkbox" class="sr-only peer absolute es-check-toggle opacity-0 w-0 h-0"
+											name="contact_data[send_welcome_email]"
+									<?php
+									if ( $send_welcome_email ) {
+										echo "checked='checked'";
+									}
+									?>
+										/>
+										<div class="w-11 h-6 bg-gray-200 rounded-full peer  dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+								</span>
 							</label>
 						</div>
 					</div>
@@ -911,16 +891,16 @@ class ES_Contacts_Table extends ES_List_Table {
 			<?php } ?>
 
 			<?php do_action( 'es_show_additional_contacts_data', $data ); ?>
-			<div class="flex flex-row border-b border-gray-100">
-				<div class="flex w-1/5">
-					<div class="ml-4 pt-6">
+			<div class="flex flex-row">
+				<div class="flex es-w-15">
+					<div class="ml-3 py-4">
 						<label for="status">
 							<span class="block ml-4 pt-1 pr-4 text-sm font-medium text-gray-600 pb-2"> <?php esc_html_e( 'List(s)', 'email-subscribers' ); ?></span></label>
 							<p class="italic text-xs text-gray-400 mt-2 ml-4 leading-snug pb-8"><?php esc_html_e( 'Contacts will be added into selected list(s)', 'email-subscribers' ); ?></p>
 					</div>
 				</div>
 				<div class="flex">
-					<div class="ml-16 my-4 mr-4">
+					<div class="ml-16 mt-3 mr-4">
 						<div class=" relative">
 							<?php
 							$allowedtags = ig_es_allowed_html_tags_in_esc();
@@ -931,16 +911,16 @@ class ES_Contacts_Table extends ES_List_Table {
 				</div>
 			</div>
 
-			<div class="flex border-b border-gray-100">
+			<div class="flex">
 				<?php
 				$submit_button_text = $is_new ? __( 'Add Contact', 'email-subscribers' ) : __( 'Save Changes', 'email-subscribers' );
 				?>
-				<div class="ml-4 mb-4 pt-6">
+				<div class="ml-3 mb-3 pt-6">
 					<input type="hidden" name="contact_data[created_at]" value="<?php echo esc_attr( $created ); ?>"/>
 					<input type="hidden" name="contact_data[guid]" value="<?php echo esc_attr( $guid ); ?>"/>
 					<input type="hidden" name="submitted" value="submitted"/>
-					<input type="submit" name="submit" class="cursor-pointer align-middle px-4 my-2 py-2 mx-2 ig-es-primary-button hover:shadow-md" value="<?php echo esc_attr( $submit_button_text ); ?>"/>
-					<a href="admin.php?page=es_subscribers" class="cursor-pointer align-middle rounded-md border border-indigo-600 hover:shadow-md focus:outline-none focus:shadow-outline-indigo text-sm leading-5 font-medium transition ease-in-out duration-150 px-4 my-2 py-2 mx-2 "><?php esc_html_e( 'Cancel', 'email-subscribers' ); ?></a>
+					<button type="submit" name="submit" class="primary mr-2"> <?php echo esc_attr( $submit_button_text ); ?> </button>
+					<a href="admin.php?page=es_subscribers"><button type="button" class="secondary"><?php esc_html_e( 'Cancel', 'email-subscribers' ); ?></button></a>
 				</div>
 			</div>
 		</form>
@@ -1017,7 +997,7 @@ class ES_Contacts_Table extends ES_List_Table {
 
 	$selected = ! empty( $list_contact_status_map[ $list_id ] ) ? $list_contact_status_map[ $list_id ] : '';
 
-	$status_dropdown_html  = '<select class="h-8 form-select w-40 mt-2 mr-8 shadow-sm border-gray-400 ig-es-statuses-dropdown shadow-sm  sm:text-sm sm:leading-5" name="contact_data[lists][' . esc_attr( $list_id ) . ']" >';
+	$status_dropdown_html  = '<select class="h-8 form-select w-40 mt-2 mr-4 shadow-sm border-gray-400 ig-es-statuses-dropdown shadow-sm  sm:text-sm sm:leading-5" name="contact_data[lists][' . esc_attr( $list_id ) . ']" >';
 	$status_dropdown_html .= ES_Common::prepare_statuses_dropdown_options( $selected );
 	$status_dropdown_html .= '</select>';
 
@@ -1027,7 +1007,7 @@ class ES_Contacts_Table extends ES_List_Table {
 				}
 	$list_title  = $list_name;
 	$list_name   = strlen( $list_name ) > 15 ? substr( $list_name, 0, 15 ) . '...' : $list_name;
-	$lists_html .= "<td class='pr-1 pt-2 text-sm leading-5 font-normal text-gray-500'>$status_span<span title='$list_title'>$list_name</span></td><td>$status_dropdown_html</td>";
+	$lists_html .= "<td class='pr-2 pt-2 text-sm leading-5 font-normal text-gray-500'>$status_span<span title='$list_title'>$list_name</span></td><td>$status_dropdown_html</td>";
 
 	$i ++;
 			}
@@ -1082,7 +1062,7 @@ class ES_Contacts_Table extends ES_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="subscribers[]" value="%s"/>',
+			'<input type="checkbox" class="checkbox" name="subscribers[]" value="%s"/>',
 			$item['id']
 		);
 	}
@@ -1151,7 +1131,7 @@ class ES_Contacts_Table extends ES_List_Table {
 		$lists_tooltip_text   = ES_Common::get_tooltip_html('Contact\'s current lists');
 
 		$columns = array(
-			'cb'   		 => '<input type="checkbox"/>',
+			'cb'   		 => '<input type="checkbox" class="checkbox"/>',
 			'subscriber' => __( 'Contact', 'email-subscribers' ),
 			/* translators: %s List tooltip text. */
 			'lists' 	 => sprintf( __( 'List(s) %s', 'email-subscribers' ), $lists_tooltip_text),
@@ -1213,8 +1193,8 @@ class ES_Contacts_Table extends ES_List_Table {
 		?>
 		<p class="search-box box-ma10">
 			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $text ); ?>:</label>
-			<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>"/>
-			<?php submit_button( __( 'Search Contacts', 'email-subscribers' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
+			<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>" placeholder="Search"/>
+			<button type="submit" id="search-submit" class="secondary"><?php echo esc_html__( 'Search Contacts', 'email-subscribers'); ?></button>
 		</p>
 
 		<?php if ( ES()->is_pro() ) { ?>
@@ -1234,7 +1214,7 @@ class ES_Contacts_Table extends ES_List_Table {
 
 		<p class="search-box search-group-box box-ma10">
 			<?php $filter_by_status = ig_es_get_request_data( 'filter_by_status' ); ?>
-			<select name="filter_by_status">
+			<select name="filter_by_status" class="w-32 text-sm">
 				<?php
 				$allowedtags = ig_es_allowed_html_tags_in_esc();
 				add_filter( 'safe_style_css', 'ig_es_allowed_css_style' );
@@ -1245,7 +1225,7 @@ class ES_Contacts_Table extends ES_List_Table {
 		</p>
 		<p class="search-box search-group-box box-ma10">
 			<?php $filter_by_list_id = ig_es_get_request_data( 'filter_by_list_id' ); ?>
-			<select name="filter_by_list_id">
+			<select name="filter_by_list_id" class="w-32 text-sm">
 				<?php
 				$lists_dropdown = ES_Common::prepare_list_dropdown_options( $filter_by_list_id, __( 'All Lists', 'email-subscribers' ) );
 				echo wp_kses( $lists_dropdown, $allowedtags );
@@ -1318,7 +1298,7 @@ class ES_Contacts_Table extends ES_List_Table {
 	 * @since 4.0.0
 	 */
 	public function prepare_lists_dropdown() {
-		$data  = '<label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label><select name="list_id" id="list_id" class="groupsselect" style="display: none">';
+		$data  = '<label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label><select name="list_id" id="list_id" class="groupsselect w-32 text-sm" style="display: none">';
 		$data .= ES_Common::prepare_list_dropdown_options();
 		$data .= '</select>';
 
@@ -1332,7 +1312,7 @@ class ES_Contacts_Table extends ES_List_Table {
 	 * @since 4.0.0
 	 */
 	public function prepare_statuses_dropdown() {
-		$data  = '<label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label><select name="status_select" id="status_select" class="statusesselect" style="display:none;">';
+		$data  = '<label for="bulk-action-selector-top" class="screen-reader-text">Select bulk action</label><select name="status_select" id="status_select" class="statusesselect w-32 text-sm" style="display:none;">';
 		$data .= ES_Common::prepare_statuses_dropdown_options();
 		$data .= '</select>';
 

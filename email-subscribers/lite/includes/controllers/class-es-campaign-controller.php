@@ -44,6 +44,26 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			add_filter( 'ig_es_track_open', array( __CLASS__, 'is_open_tracking_enabled' ), 10, 4 );
 		}
 
+		public static function validate_campaign_data( $campaign_data, $action) {
+			$messages = [
+				'subject' => __('Please add subject before', 'email-subscribers'),
+				'body' => __('Please add content before', 'email-subscribers'),
+				'list_conditions' => __('Please add recipients before', 'email-subscribers')
+			];
+			foreach ($messages as $key => $message) {
+				if ('list_conditions' === $key ) {
+					if (empty($campaign_data['meta']['list_conditions'])) {
+						return $message . ' ' . $action . '.';
+					}
+				} else {
+					if (empty($campaign_data[$key])) {
+						return $message . ' ' . $action . '.';
+					}
+				}
+			}
+			return '';
+		}
+
 		public static function save( $campaign_data ) {
 			$response          = array();
 			$campaign_status   = ! empty( $campaign_data['status'] ) ? (int) $campaign_data['status'] : 0;
@@ -52,10 +72,12 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				if ( ! empty( $meta['list_conditions'] ) ) {
 					$meta['list_conditions'] = IG_ES_Campaign_Rules::remove_empty_conditions( $meta['list_conditions'] );
 				}
-				if ( empty( $meta['list_conditions'] ) ) {
+
+				$validation_message = self::validate_campaign_data($campaign_data, 'activating');
+				if ($validation_message) {
 					$response['success'] = false;
-					$response['message'] = __( 'Please add recipients before activating.', 'email-subscribers' );
-					wp_send_json( $response );
+					$response['message'] = $validation_message;
+					wp_send_json($response);
 				}
 			}
 			
@@ -214,10 +236,11 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			if ( ! empty( $meta['list_conditions'] ) ) {
 				$meta['list_conditions'] = IG_ES_Campaign_Rules::remove_empty_conditions( $meta['list_conditions'] );
 			}
-			if ( empty( $meta['list_conditions'] ) ) {
+			$validation_message = self::validate_campaign_data($campaign_data, 'scheduling');
+			if ($validation_message) {
 				$response['success'] = false;
-				$response['message'] = __( 'Please add recipients before scheduling.', 'email-subscribers' );
-				wp_send_json( $response );
+				$response['message'] = $validation_message;
+				wp_send_json($response);
 			}
 
 			$saved_campaign_id = self::save( $campaign_data );

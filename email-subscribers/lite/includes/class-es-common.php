@@ -1459,19 +1459,23 @@ class ES_Common {
 			$is_imp          = ! empty( $navigation['is_imp'] ) ? $navigation['is_imp'] : false;
 			?>
 
-			<a href="<?php echo esc_url( $url ); ?>" class="ig-es-title-button ml-2
+			<a href="<?php echo esc_url( $url ); ?>">
+				<button  class="
 								<?php
 								if ( $is_imp ) {
-									echo esc_attr( ' ig-es-imp-button' );
+									echo esc_attr( 'primary' );
+								} else {
+									echo esc_attr( 'secondary' );
 								}
 								?>
-			"><?php echo esc_html( $action_label ); ?>
+				"><?php echo esc_html( $action_label ); ?>
 				<?php if ( $show_indicator ) { ?>
 					<span class="ig-es-indicator <?php echo esc_attr( $indicator_class ); ?>">
 								<?php echo esc_html( $indicator_label ); ?>
 							</span>
 
 				<?php } ?>
+				</button>
 			</a>
 			<?php
 		}

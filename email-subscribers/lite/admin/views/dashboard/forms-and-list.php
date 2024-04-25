@@ -48,7 +48,7 @@ $list_url = admin_url( 'admin.php?page=es_lists&action=new' );
 		<?php echo esc_html__( 'Lists', 'email-subscribers' ); ?>
 	</p>
 	<p class="es_helper_text">
-		<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/audience-subscription-lists-statuses#lists" target="_blank">
+		<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/audience-subscription-lists-statuses#lists?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help" target="_blank">
 			<?php echo esc_html__('How to create Lists?', 'email-subscribers'); ?>
 		</a>
 	</p>

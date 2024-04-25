@@ -129,7 +129,7 @@ $allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 							<?php echo esc_html__( 'Forms', 'email-subscribers' ); ?>
 						</p>
 						<p class="px-2 es_helper_text">
-							<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/add-subscription-box-to-website" target="_blank">
+							<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/add-subscription-box-to-website?utm_source=es&utm_medium=in_app&utm_campaign=dashboard_help" target="_blank">
 								<?php echo esc_html__( 'How to add a form?', 'email-subscribers' ); ?>
 							</a>
 						</p>

@@ -647,7 +647,7 @@ if ( ! class_exists( 'ES_Form_Admin' ) ) {
 										<div class="pt-4 pb-8 mx-4 pb-2 border-b border-gray-200">						
 										<hr>
 										<p class="mt-4 es_helper_text">
-											<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/add-subscription-box-to-website" target="_blank">
+											<a class="hover:underline text-sm font-medium" href="https://www.icegram.com/docs/category/icegram-express/add-subscription-box-to-website?utm_source=es&utm_medium=in_app&utm_campaign=form_dashboard" target="_blank">
 											<?php esc_html_e( 'How to Add Subscription form to website', 'email-subscribers' ); ?>
 										</a>
 										</p>

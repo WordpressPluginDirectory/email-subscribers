@@ -6,7 +6,7 @@ Tags: email marketing, email subscribers, newsletters, autoresponders, email aut
 Requires at least: 3.9
 Tested up to: 6.5.2
 Requires PHP: 5.6
-Stable tag: 5.7.18
+Stable tag: 5.7.19
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,13 +438,15 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.18 =
+= 5.7.19 =
 
-* Improvements: Performance & security improvements suggested by the Plugin Check (PCP) tool
-* Update: Tested up to WordPress 6.5.2
-* Fix: Unauthorized access vulnerability [Thanks to Wordfence team]
+* Improvements: Added option to navigate to the linked campaign from the report page
 
 == Changelog ==
+
+**5.7.19 (24.04.2024)**
+
+* Improvements: Added option to navigate to the linked campaign from the report page
 
 **5.7.18 (17.04.2024)**
 

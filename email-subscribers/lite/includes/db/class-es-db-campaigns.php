@@ -489,7 +489,7 @@ class ES_DB_Campaigns extends ES_DB {
 		}
 
 		$where = $wpdb->prepare( 'id = %d', $id );
-
+		
 		if ( - 1 !== $status ) {
 			$where .= $wpdb->prepare( ' AND status = %d', $status );
 		}
@@ -503,7 +503,6 @@ class ES_DB_Campaigns extends ES_DB {
 
 		return $campaign;
 	}
-
 	/**
 	 * Get campaigns by parent id
 	 *
@@ -618,14 +617,19 @@ class ES_DB_Campaigns extends ES_DB {
 	 * @since 4.3.4
 	 */
 	public function delete_campaigns( $ids = array() ) {
-
+		
 		if ( ! is_array( $ids ) ) {
 			$ids = array( absint( $ids ) );
 		}
 
 		if ( is_array( $ids ) && count( $ids ) > 0 ) {
-
+			$status = -1;
 			foreach ( $ids as $id ) {
+				
+				$campaign = self::get_campaign_by_id($id, $status);
+				if (!empty($campaign) && ( IG_CAMPAIGN_TYPE_SEQUENCE !== $campaign['type']  || IG_ES_CAMPAIGN_STATUS_IN_ACTIVE !== $campaign['status'] )) {
+					self::delete_report_data($id);
+				}
 				$this->delete( absint( $id ) );
 
 				/**
@@ -1037,5 +1041,12 @@ class ES_DB_Campaigns extends ES_DB {
 		return $campaign_editor_count;
 	}
 
+	public static function delete_report_data( $campaign_id) {
+		global $wpdb; 
+		if (!empty($campaign_id)) { 
+			$wpdb->query($wpdb->prepare("DELETE FROM `{$wpdb->prefix}ig_mailing_queue` WHERE campaign_id = %d", $campaign_id));
+			$wpdb->query($wpdb->prepare("DELETE FROM `{$wpdb->prefix}ig_sending_queue` WHERE campaign_id = %d", $campaign_id));
+		}
+	}
 	
 }

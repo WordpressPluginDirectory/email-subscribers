@@ -870,6 +870,10 @@ h5.es-badge {
 	margin: 0.2em 0;
 }
 
+.es-w-15 {
+	width: 15%;
+}
+
 .es-w-25 {
 	width: 25%;
 }
@@ -1844,6 +1848,7 @@ body.email-subscribers_page_es_campaigns .column-status .dashicons[title="Finish
 
 .wp-core-ui #poststuff select,  .wp-core-ui .search-box input[name="s"], .wp-core-ui #bulk-action-selector-top, .wp-core-ui #filter-by-date {
 	border-color: #a0aec0;
+	width: 8rem;
 }
 
 .wp-core-ui #search-submit, .wp-core-ui #doaction, .wp-core-ui #doaction2, .wp-core-ui #post-query-submit{
@@ -2107,7 +2112,7 @@ body.email-subscribers_page_es_campaigns .column-status .dashicons[title="Finish
 
 
 .tablenav {
-	padding-top: 0px !important;
+	padding-top: 5px !important;
 	clear: none !important;
 }
 
@@ -2374,7 +2379,7 @@ body[class*="es_reports"] .recipient-text {
 	bottom: 25px;
     transform: translate(-50%,0%);
     left: 50%;
-	opacity: 0.9;
+	/*opacity: 0.9;*/
 	z-index: 9999;
 }
 
@@ -2990,7 +2995,51 @@ body.icegram-express_page_es_campaigns #wpcontent {
     padding-left: 0;
 }
 
+body.icegram-express_page_es_subscribers #wpcontent {
+    padding-left: 0;
+}
+
+body.icegram-express_page_es_lists #wpcontent {
+    padding-left: 0;
+}
+
 /* Contacts Table UI */
 .contacts-report-table tr td {
 	vertical-align: top;
+}
+
+.total-contact-count-text {
+	font-size: 1.875rem;
+}
+
+.total-countries-count-text {
+	font-size: 1.875rem;
+}
+
+.subscriber-right-border-width {
+	border-right-width: 1px;
+}
+
+/* Bulk action button css */
+.icegram-express_page_es_subscribers #doaction, .icegram-express_page_es_lists #doaction, .icegram-express_page_es_lists #doaction2 {
+    background-color: var(--secondary);
+    --tw-text-opacity: 1;
+    color: rgb(22 30 46 / var(--tw-text-opacity));
+	border-color: transparent !important;
+	border-radius: 0.375rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+}
+
+.icegram-express_page_es_subscribers #doaction:hover, .icegram-express_page_es_lists #doaction:hover, .icegram-express_page_es_lists #doaction2:hover {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0.5px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    --tw-ring-color: var(--brand-color-2);
 }
