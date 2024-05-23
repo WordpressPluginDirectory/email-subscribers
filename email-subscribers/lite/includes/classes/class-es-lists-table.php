@@ -80,7 +80,7 @@ class ES_Lists_Table extends ES_List_Table {
 							<nav aria-label="Global" class="pb-5 w-full pt-2">
 								<div class="brand-logo">
 									<span>
-										<img src="<?php echo ES_PLUGIN_URL."lite/admin/images/new/brand-logo/IG LOGO 192X192.svg";?>" alt="brand logo" />
+										<img src="<?php echo ES_PLUGIN_URL . 'lite/admin/images/new/brand-logo/IG LOGO 192X192.svg'; ?>" alt="brand logo" />
 										<div class="divide"></div>
 										<h1><?php esc_html_e( 'Lists ', 'email-subscribers' ); ?></h1>
 									</span>
@@ -283,13 +283,14 @@ class ES_Lists_Table extends ES_List_Table {
 					<nav aria-label="Global" class="pb-5 w-full pt-2">
 						<div class="brand-logo">
 							<span>
-								<img src="<?php echo ES_PLUGIN_URL."lite/admin/images/new/brand-logo/IG LOGO 192X192.svg";?>" alt="brand logo" />
+								<img src="<?php echo ES_PLUGIN_URL . 'lite/admin/images/new/brand-logo/IG LOGO 192X192.svg'; ?>" alt="brand logo" />
 								<div class="divide"></div>
 								<h1><?php esc_html_e( 'Lists ', 'email-subscribers' ); ?></h1>
 							</span>
 						</div>
 
 						<div class="mt-4 cta"> 
+							<a href="admin.php?page=es_lists&action=manage-lists"><button type="button" class="secondary"><?php esc_html_e( 'All Lists', 'email-subscribers' ); ?></button></a>
 							<a href="admin.php?page=es_lists&action=new"><button type="button" class="primary"><?php esc_html_e( 'Add New', 'email-subscribers' ); ?></button></a>
 						</div>
 					</nav>
@@ -327,7 +328,7 @@ class ES_Lists_Table extends ES_List_Table {
 										</div>
 									</div>
 
-									<div class="flex flex-row <?php echo ('edit' === $action) ? "border-b border-gray-100" : "" ?>">
+									<div class="flex flex-row <?php echo ( 'edit' === $action ) ? 'border-b border-gray-100' : ''; ?>">
 										<div class="flex es-w-15">
 											<div class="ml-3 py-4">
 												<label for="name" class="block text-sm leading-5 font-medium text-gray-600"><?php esc_html_e( 'Description', 'email-subscribers' ); ?></label>

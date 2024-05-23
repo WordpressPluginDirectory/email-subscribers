@@ -1798,7 +1798,7 @@ input[type="time"] {
 .template-editor .inline-editor .editor-cta:hover {
         color: var(--brand-color);
       }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) label {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) label {
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
@@ -1806,7 +1806,7 @@ input[type="time"] {
   --tw-text-opacity: 1;
   color: rgb(22 30 46 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"]) {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"]) {
   display: block;
   width: 100%;
   border-radius: 0.125rem;
@@ -1826,26 +1826,26 @@ input[type="time"] {
   --tw-ring-inset: inset;
   --tw-ring-color: var(--lighter-gray);
 }
-.es-import-option :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"]) {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"]) {
       border-width: 0px;
   }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"])::-webkit-input-placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"])::-webkit-input-placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"])::-moz-placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"])::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"])::-ms-input-placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"])::-ms-input-placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"])::placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"])::placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"]):focus {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"]):focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
@@ -1855,20 +1855,20 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input:not([type="radio"]) {
+  :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input:not([type="radio"]) {
     font-size: 0.875rem;
     line-height: 1.5rem;
   }
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input[type="radio"]:checked {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input[type="radio"]:checked {
   background-color: var(--brand-color);
 }
 /*contact form input field padding effect*/
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input.ig-es-contact-first-name, :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) input.ig-es-contact-last-name {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input.ig-es-contact-first-name, :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) input.ig-es-contact-last-name {
   padding-left: 2.5rem;
   padding-right: 3rem;
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea {
   display: block;
   width: 100%;
   border-radius: 0.125rem;
@@ -1888,26 +1888,26 @@ input[type="time"] {
   --tw-ring-inset: inset;
   --tw-ring-color: var(--lighter-gray);
 }
-.es-import-option :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea {
       border-width: 0px;
   }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea::-webkit-input-placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea::-webkit-input-placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea::-moz-placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea::-ms-input-placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea::-ms-input-placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea::placeholder {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea::placeholder {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea:focus {
+:is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
@@ -1917,7 +1917,7 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form) textarea {
+  :is(.template-editor,.sidebar,.form-fields,#es-admin-contact-form,#es-admin-lists-form,#es-admin-custom-fields-form) textarea {
     font-size: 0.875rem;
     line-height: 1.5rem;
   }
@@ -2244,7 +2244,7 @@ input[type="time"] {
           box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000) !important;
   --tw-ring-color: var(--brand-color-2) !important;
 }
-.ig-es-list-table, .es-audience-view, .es-lists-table {
+.ig-es-list-table, .es-audience-view, .es-lists-table, .es-forms-table, .es-custom-field-table {
   margin-top: 1.25rem;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2254,58 +2254,54 @@ input[type="time"] {
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.ig-es-list-table > :not([hidden]) ~ :not([hidden]), .es-audience-view > :not([hidden]) ~ :not([hidden]), .es-lists-table > :not([hidden]) ~ :not([hidden]) {
+.ig-es-list-table > :not([hidden]) ~ :not([hidden]), .es-audience-view > :not([hidden]) ~ :not([hidden]), .es-lists-table > :not([hidden]) ~ :not([hidden]), .es-forms-table > :not([hidden]) ~ :not([hidden]), .es-custom-field-table > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
 }
-.ig-es-list-table, .es-audience-view, .es-lists-table {
+.ig-es-list-table, .es-audience-view, .es-lists-table, .es-forms-table, .es-custom-field-table {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   padding: 1rem;
 }
-.ig-es-list-table h2,.es-audience-view h2,.es-lists-table h2 {
+.ig-es-list-table h2,.es-audience-view h2,.es-lists-table h2,.es-forms-table h2,.es-custom-field-table h2 {
   margin-top: -1.25rem;
 }
-.ig-es-list-table .table, .es-audience-view .table, .es-lists-table .table, .ig-es-list-table #post-body-content, .es-audience-view #post-body-content, .es-lists-table #post-body-content {
+.ig-es-list-table .table, .es-audience-view .table, .es-lists-table .table, .es-forms-table .table, .es-custom-field-table .table, .ig-es-list-table #post-body-content, .es-audience-view #post-body-content, .es-lists-table #post-body-content, .es-forms-table #post-body-content, .es-custom-field-table #post-body-content {
   margin-left: -1rem;
   margin-right: -1rem;
   width: 100%;
 }
 @media (min-width: 640px) {
 
-  .ig-es-list-table .table, .es-audience-view .table, .es-lists-table .table, .ig-es-list-table #post-body-content, .es-audience-view #post-body-content, .es-lists-table #post-body-content {
+  .ig-es-list-table .table, .es-audience-view .table, .es-lists-table .table, .es-forms-table .table, .es-custom-field-table .table, .ig-es-list-table #post-body-content, .es-audience-view #post-body-content, .es-lists-table #post-body-content, .es-forms-table #post-body-content, .es-custom-field-table #post-body-content {
     margin-left: 0;
     margin-right: 0;
     border-radius: 0.125rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) table, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) table, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .contacts, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .lists, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .forms, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .customfields {
   width: 100%;
   min-width: 100%;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) table > :not([hidden]) ~ :not([hidden]), :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts > :not([hidden]) ~ :not([hidden]), :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists > :not([hidden]) ~ :not([hidden]) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) table > :not([hidden]) ~ :not([hidden]), :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .contacts > :not([hidden]) ~ :not([hidden]), :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .lists > :not([hidden]) ~ :not([hidden]), :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .forms > :not([hidden]) ~ :not([hidden]), :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .customfields > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
   border-color: var(--lighter-gray);
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .contacts, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .lists, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .forms, :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .customfields {
   margin-top: 1.25rem;
   border-width: 0px;
 }
-.es-import-option :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts,.es-import-option  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .contacts,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .lists,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .forms,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .customfields {
       border-width: 0px;
   }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts thead tr td,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists thead tr td,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts tfoot tr td,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists tfoot tr td,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts thead tr th,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists thead tr th,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts tfoot tr th,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists tfoot tr th {
-  border-bottom-width: 0px;
-  border-top-width: 0px;
-}
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .contacts tbody tr,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) .lists tbody tr {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .contacts tbody tr,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .lists tbody tr,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .forms tbody tr,:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) .customfields tbody tr {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) input.checkbox {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) input.checkbox {
   position: absolute;
   left: 1rem;
   top: 50%;
@@ -2317,10 +2313,10 @@ input[type="time"] {
   border-color: rgb(210 214 220 / var(--tw-border-opacity));
   color: var(--brand-color);
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) input.checkbox:focus {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) input.checkbox:focus {
   --tw-ring-color: transparent;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead {
   background-color: var(--light-gray);
   font-size: 0.75rem;
   line-height: 1rem;
@@ -2328,7 +2324,7 @@ input[type="time"] {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead input#cb-select-all-1 {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead input#cb-select-all-1 {
   position: absolute;
   left: 1rem;
   top: 50%;
@@ -2341,22 +2337,22 @@ input[type="time"] {
   border-color: rgb(210 214 220 / var(--tw-border-opacity));
   color: var(--brand-color);
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead input#cb-select-all-1:focus {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead input#cb-select-all-1:focus {
   --tw-ring-color: transparent;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:first-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:first-of-type {
   position: relative;
   padding-left: 1.75rem;
   padding-right: 1.75rem;
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:first-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:first-of-type {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:nth-child(2) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:nth-child(2) {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
@@ -2365,11 +2361,11 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:nth-child(2) {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:nth-child(2) {
     padding-left: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.5rem;
@@ -2378,11 +2374,11 @@ input[type="time"] {
 }
 @media (min-width: 1024px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th {
     display: table-cell;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:nth-child(6) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:nth-child(6) {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.5rem;
@@ -2391,11 +2387,11 @@ input[type="time"] {
 }
 @media (min-width: 1024px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:nth-child(6) {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:nth-child(6) {
     display: table-cell;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:last-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:last-of-type {
   position: relative;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -2405,57 +2401,57 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) thead th:last-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) thead th:last-of-type {
     padding-right: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody > :not([hidden]) ~ :not([hidden]) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
   border-color: var(--lighter-gray);
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody {
   border-width: 0px;
 }
-.es-import-option :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody {
       border-width: 0px;
   }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody th:first-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody th:first-of-type {
   position: relative;
   padding-left: 1.75rem;
   padding-right: 1.75rem;
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody th:first-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody th:first-of-type {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody th:first-of-type input.checkbox {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody th:first-of-type input.checkbox {
   margin-left: 0;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody tr:first-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody tr:first-of-type {
   border-width: 0px;
 }
-.es-import-option :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody tr:first-of-type {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody tr:first-of-type {
       border-width: 0px;
   }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:first-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:first-of-type {
   position: relative;
   padding-left: 1.75rem;
   padding-right: 1.75rem;
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:first-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:first-of-type {
     width: 3rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:nth-child(2) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:nth-child(2) {
   position: relative;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -2466,11 +2462,11 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:nth-child(2) {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:nth-child(2) {
     padding-left: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.875rem;
@@ -2483,11 +2479,11 @@ input[type="time"] {
 }
 @media (min-width: 1024px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td {
     display: table-cell;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:nth-child(6) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:nth-child(6) {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.875rem;
@@ -2498,7 +2494,7 @@ input[type="time"] {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:last-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:last-of-type {
   position: relative;
   padding-top: 0.875rem;
   padding-bottom: 0.875rem;
@@ -2511,11 +2507,11 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody td:last-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody td:last-of-type {
     padding-right: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2527,17 +2523,17 @@ input[type="time"] {
       -ms-flex-align: center;
           align-items: center;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item > :not([hidden]) ~ :not([hidden]) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.625rem * var(--tw-space-x-reverse));
   margin-left: calc(0.625rem * calc(1 - var(--tw-space-x-reverse)));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item .avatar {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item .avatar {
   border-radius: 0.375rem;
   background-color: var(--lighter-gray);
   padding: 1rem;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item .avatar img {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item .avatar img {
   height: 100%;
   max-height: 100%;
   width: 100%;
@@ -2546,7 +2542,7 @@ input[type="time"] {
   -o-object-fit: contain;
      object-fit: contain;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item .item-details {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item .item-details {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2556,11 +2552,11 @@ input[type="time"] {
           flex-direction: column;
   gap: 0.375rem;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item .item-details p {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item .item-details p {
   font-size: 15px;
   font-weight: 600;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .list-item .item-details .item-meta {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .list-item .item-details .item-meta {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2572,7 +2568,7 @@ input[type="time"] {
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .status {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .status {
   margin-left: auto;
   margin-right: auto;
   display: -webkit-box;
@@ -2591,7 +2587,7 @@ input[type="time"] {
   gap: 0.375rem;
   text-align: center;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .status p {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .status p {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -2601,12 +2597,12 @@ input[type="time"] {
   font-size: 15px;
   font-weight: 600;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tbody .status .sub-text {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tbody .status .sub-text {
   font-size: 13px;
   --tw-text-opacity: 1;
   color: rgb(159 166 178 / var(--tw-text-opacity));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot {
   background-color: var(--light-gray);
   font-size: 0.75rem;
   line-height: 1rem;
@@ -2614,7 +2610,7 @@ input[type="time"] {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot input#cb-select-all-2 {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot input#cb-select-all-2 {
   position: absolute;
   left: 1rem;
   top: 50%;
@@ -2627,22 +2623,22 @@ input[type="time"] {
   border-color: rgb(210 214 220 / var(--tw-border-opacity));
   color: var(--brand-color);
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot input#cb-select-all-2:focus {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot input#cb-select-all-2:focus {
   --tw-ring-color: transparent;
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:first-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:first-of-type {
   position: relative;
   padding-left: 1.75rem;
   padding-right: 1.75rem;
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:first-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:first-of-type {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:nth-child(2) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:nth-child(2) {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
@@ -2651,11 +2647,11 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:nth-child(2) {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:nth-child(2) {
     padding-left: 1.5rem;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.5rem;
@@ -2664,11 +2660,11 @@ input[type="time"] {
 }
 @media (min-width: 1024px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th {
     display: table-cell;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:nth-child(6) {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:nth-child(6) {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.5rem;
@@ -2677,11 +2673,11 @@ input[type="time"] {
 }
 @media (min-width: 1024px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:nth-child(6) {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:nth-child(6) {
     display: table-cell;
   }
 }
-:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:last-of-type {
+:is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:last-of-type {
   position: relative;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -2691,7 +2687,7 @@ input[type="time"] {
 }
 @media (min-width: 640px) {
 
-  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content) tfoot th:last-of-type {
+  :is(.ig-es-list-table .table,.es-audience-view .table,.es-lists-table .table,.es-forms-table .table,.es-custom-field-table .table,.ig-es-list-table #post-body-content,.es-audience-view #post-body-content,.es-lists-table #post-body-content,.es-forms-table #post-body-content,.es-custom-field-table #post-body-content) tfoot th:last-of-type {
     padding-right: 1.5rem;
   }
 }
@@ -3769,7 +3765,7 @@ table td
   font-family: "Inter", sans-serif;
 }
 /* Audience Import page tab option, this css apply on current tab */
-.es-import-option [type="radio"]:checked + .es-mailer-logo {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) [type="radio"]:checked + .es-mailer-logo {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
   -webkit-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -3783,12 +3779,12 @@ table td
     -webkit-box-shadow: 0 0 3px 1px rgba(90, 103, 216);
             box-shadow: 0 0 3px 1px rgba(90, 103, 216);
 }
-.es-import-option [type="radio"]:checked + .es-mailer-logo:hover {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) [type="radio"]:checked + .es-mailer-logo:hover {
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
-.es-import-option .border-0 {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) .border-0 {
       border-width: 0px;
   }
 /* Audience Import page wordpress-users tab, checkbox CSS */
@@ -3805,10 +3801,10 @@ table td
   --tw-ring-color: transparent;
 }
 /* Audience page tooltip CSS */
-.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip {
+.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip, .icegram-express_page_es_forms .es-tooltip, .icegram-express_page_es_settings .es-tooltip {
   vertical-align: middle;
 }
-.icegram-express_page_es_subscribers .es-tooltip span.tooltip-text, .icegram-express_page_es_lists .es-tooltip span.tooltip-text {
+.icegram-express_page_es_subscribers .es-tooltip span.tooltip-text, .icegram-express_page_es_lists .es-tooltip span.tooltip-text, .icegram-express_page_es_forms .es-tooltip span.tooltip-text, .icegram-express_page_es_settings .es-tooltip span.tooltip-text {
   width: 16rem;
   border-radius: 0.125rem;
   --tw-bg-opacity: 1;
@@ -3821,7 +3817,7 @@ table td
   -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
           box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.icegram-express_page_es_subscribers .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_lists .es-tooltip svg.tooltip-arrow {
+.icegram-express_page_es_subscribers .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_lists .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_forms .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_settings .es-tooltip svg.tooltip-arrow {
   fill: #ffffff;
 }
 /* Audience page advance filter CSS */
@@ -3877,6 +3873,609 @@ table td
   padding-bottom: 0.25rem;
   line-height: 2.5rem;
 }
+/* Settings page CSS */
+#es-menu-tab-content input:not([type="radio"]) {
+  display: block;
+  width: 100%;
+  border-radius: 0.125rem;
+  border-width: 0px;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  --tw-text-opacity: 1;
+  color: rgb(22 30 46 / var(--tw-text-opacity));
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0.5px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+          box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-inset: inset;
+  --tw-ring-color: var(--lighter-gray);
+}
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) #es-menu-tab-content input:not([type="radio"]) {
+      border-width: 0px;
+  }
+#es-menu-tab-content input:not([type="radio"])::-webkit-input-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(159 166 178 / var(--tw-text-opacity));
+}
+#es-menu-tab-content input:not([type="radio"])::-moz-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(159 166 178 / var(--tw-text-opacity));
+}
+#es-menu-tab-content input:not([type="radio"])::-ms-input-placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(159 166 178 / var(--tw-text-opacity));
+}
+#es-menu-tab-content input:not([type="radio"])::placeholder {
+  --tw-text-opacity: 1;
+  color: rgb(159 166 178 / var(--tw-text-opacity));
+}
+#es-menu-tab-content input:not([type="radio"]):focus {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+          box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-inset: inset;
+  --tw-ring-color: var(--brand-color-2);
+}
+@media (min-width: 640px) {
+
+  #es-menu-tab-content input:not([type="radio"]) {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+}
+#es-menu-tab-content input[type="radio"]:checked {
+  background-color: var(--brand-color);
+}
+/* Settings tab CSS */
+#es-settings-menu {
+  width: 20%;
+  border-right-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(244 245 247 / var(--tw-border-opacity));
+  padding-top: 1rem;
+  line-height: 1.5;
+  --tw-text-opacity: 1;
+  color: rgb(37 47 63 / var(--tw-text-opacity));
+}
+#es-settings-menu .es-menu-list {
+  z-index: 20;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+@media (min-width: 1024px) {
+
+  #es-settings-menu .es-menu-list {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: block;
+    border-color: transparent;
+    background-color: transparent;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+}
+#es-settings-menu .es-menu-list ul {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+@media (min-width: 768px) {
+
+  #es-settings-menu .es-menu-list ul {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+#es-settings-menu .es-menu-list ul li {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-color: transparent;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+#es-settings-menu .es-menu-list ul li:hover {
+  border-radius: 0.25rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(88 80 236 / var(--tw-border-opacity));
+}
+@media (min-width: 768px) {
+
+  #es-settings-menu .es-menu-list ul li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+#es-settings-menu .es-menu-list ul a {
+  display: block;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  text-decoration-line: none;
+}
+#es-settings-menu .es-menu-list ul span {
+  padding-left: 0.125rem;
+}
+/* End */
+/* Setting tab content CSS */
+#es-menu-tab-content {
+  width: 80%;
+
+  /* All tab content table CSS*/
+}
+#es-menu-tab-content #tabs-general table, #es-menu-tab-content #tabs-email_sending table, #es-menu-tab-content #tabs-security_settings table, #es-menu-tab-content #tabs-rest_api_settings table, #es-menu-tab-content #tabs-user_roles table {
+  margin-top: 1rem;
+  margin-right: 1rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+@media (min-width: 1024px) {
+
+  #es-menu-tab-content #tabs-general table, #es-menu-tab-content #tabs-email_sending table, #es-menu-tab-content #tabs-security_settings table, #es-menu-tab-content #tabs-rest_api_settings table, #es-menu-tab-content #tabs-user_roles table {
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
+  }
+}
+@media (min-width: 1280px) {
+
+  #es-menu-tab-content #tabs-general table, #es-menu-tab-content #tabs-email_sending table, #es-menu-tab-content #tabs-security_settings table, #es-menu-tab-content #tabs-rest_api_settings table, #es-menu-tab-content #tabs-user_roles table {
+    margin-left: 1.75rem;
+    margin-right: 1.75rem;
+  }
+}
+#es-menu-tab-content #tabs-general table tr, #es-menu-tab-content #tabs-email_sending table tr, #es-menu-tab-content #tabs-security_settings table tr, #es-menu-tab-content #tabs-rest_api_settings table tr, #es-menu-tab-content #tabs-user_roles table tr {
+  margin-left: 1rem;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+#es-menu-tab-content #tabs-general table tr th, #es-menu-tab-content #tabs-email_sending table tr th, #es-menu-tab-content #tabs-security_settings table tr th, #es-menu-tab-content #tabs-rest_api_settings table tr th, #es-menu-tab-content #tabs-user_roles table tr th {
+  margin-left: 1.5rem;
+  display: block;
+  padding-bottom: 2rem;
+  padding-right: 1rem;
+  padding-top: 1.75rem;
+  text-align: left;
+}
+#es-menu-tab-content #tabs-general table tr th span, #es-menu-tab-content #tabs-email_sending table tr th span, #es-menu-tab-content #tabs-security_settings table tr th span, #es-menu-tab-content #tabs-rest_api_settings table tr th span, #es-menu-tab-content #tabs-user_roles table tr th span {
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr th p, #es-menu-tab-content #tabs-email_sending table tr th p, #es-menu-tab-content #tabs-security_settings table tr th p, #es-menu-tab-content #tabs-rest_api_settings table tr th p, #es-menu-tab-content #tabs-user_roles table tr th p {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.375;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td, #es-menu-tab-content #tabs-email_sending table tr td, #es-menu-tab-content #tabs-security_settings table tr td, #es-menu-tab-content #tabs-rest_api_settings table tr td, #es-menu-tab-content #tabs-user_roles table tr td {
+  width: 66.666667%;
+  border-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.25rem;
+
+          /* Upsell section CSS */
+}
+#es-menu-tab-content #tabs-general table tr td .settings_upsell_div .upsell_switcher, #es-menu-tab-content #tabs-email_sending table tr td .settings_upsell_div .upsell_switcher, #es-menu-tab-content #tabs-security_settings table tr td .settings_upsell_div .upsell_switcher, #es-menu-tab-content #tabs-rest_api_settings table tr td .settings_upsell_div .upsell_switcher, #es-menu-tab-content #tabs-user_roles table tr td .settings_upsell_div .upsell_switcher {
+  width: 16.666667%;
+}
+#es-menu-tab-content #tabs-general table tr td .settings_upsell_div .upsell_switcher label, #es-menu-tab-content #tabs-email_sending table tr td .settings_upsell_div .upsell_switcher label, #es-menu-tab-content #tabs-security_settings table tr td .settings_upsell_div .upsell_switcher label, #es-menu-tab-content #tabs-rest_api_settings table tr td .settings_upsell_div .upsell_switcher label, #es-menu-tab-content #tabs-user_roles table tr td .settings_upsell_div .upsell_switcher label {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  cursor: pointer;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#es-menu-tab-content #tabs-general table tr td .settings_upsell_div .upsell_box, #es-menu-tab-content #tabs-email_sending table tr td .settings_upsell_div .upsell_box, #es-menu-tab-content #tabs-security_settings table tr td .settings_upsell_div .upsell_box, #es-menu-tab-content #tabs-rest_api_settings table tr td .settings_upsell_div .upsell_box, #es-menu-tab-content #tabs-user_roles table tr td .settings_upsell_div .upsell_box {
+  width: 100%;
+}
+#es-menu-tab-content #tabs-general table tr td .es_sub_headline, #es-menu-tab-content #tabs-email_sending table tr td .es_sub_headline, #es-menu-tab-content #tabs-security_settings table tr td .es_sub_headline, #es-menu-tab-content #tabs-rest_api_settings table tr td .es_sub_headline, #es-menu-tab-content #tabs-user_roles table tr td .es_sub_headline {
+  padding-top: 1rem;
+}
+#es-menu-tab-content #tabs-general table tr td input.form-input, #es-menu-tab-content #tabs-email_sending table tr td input.form-input, #es-menu-tab-content #tabs-security_settings table tr td input.form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td input.form-input, #es-menu-tab-content #tabs-user_roles table tr td input.form-input, #es-menu-tab-content #tabs-general table tr td input.form-textarea, #es-menu-tab-content #tabs-email_sending table tr td input.form-textarea, #es-menu-tab-content #tabs-security_settings table tr td input.form-textarea, #es-menu-tab-content #tabs-rest_api_settings table tr td input.form-textarea, #es-menu-tab-content #tabs-user_roles table tr td input.form-textarea, #es-menu-tab-content #tabs-general table tr td input[type="number"], #es-menu-tab-content #tabs-email_sending table tr td input[type="number"], #es-menu-tab-content #tabs-security_settings table tr td input[type="number"], #es-menu-tab-content #tabs-rest_api_settings table tr td input[type="number"], #es-menu-tab-content #tabs-user_roles table tr td input[type="number"] {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  height: 2.25rem;
+  width: 60%;
+  --tw-border-opacity: 1;
+  border-color: rgb(159 166 178 / var(--tw-border-opacity));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+#es-menu-tab-content #tabs-general table tr td p.field-desciption, #es-menu-tab-content #tabs-email_sending table tr td p.field-desciption, #es-menu-tab-content #tabs-security_settings table tr td p.field-desciption, #es-menu-tab-content #tabs-rest_api_settings table tr td p.field-desciption, #es-menu-tab-content #tabs-user_roles table tr td p.field-desciption {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.375;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td input.checkbox, #es-menu-tab-content #tabs-email_sending table tr td input.checkbox, #es-menu-tab-content #tabs-security_settings table tr td input.checkbox, #es-menu-tab-content #tabs-rest_api_settings table tr td input.checkbox, #es-menu-tab-content #tabs-user_roles table tr td input.checkbox {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.25rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(210 214 220 / var(--tw-border-opacity));
+  color: var(--brand-color);
+  --tw-ring-offset-width: 0px;
+}
+#es-menu-tab-content #tabs-general table tr td input.checkbox:focus, #es-menu-tab-content #tabs-email_sending table tr td input.checkbox:focus, #es-menu-tab-content #tabs-security_settings table tr td input.checkbox:focus, #es-menu-tab-content #tabs-rest_api_settings table tr td input.checkbox:focus, #es-menu-tab-content #tabs-user_roles table tr td input.checkbox:focus {
+  --tw-ring-color: transparent;
+}
+/* House keeping section CSS */
+#es-menu-tab-content #tabs-general table tr td #house_keeping_section label, #es-menu-tab-content #tabs-email_sending table tr td #house_keeping_section label, #es-menu-tab-content #tabs-security_settings table tr td #house_keeping_section label, #es-menu-tab-content #tabs-rest_api_settings table tr td #house_keeping_section label, #es-menu-tab-content #tabs-user_roles table tr td #house_keeping_section label {
+  margin-top: 0.75rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  cursor: pointer;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#es-menu-tab-content #tabs-general table tr td #house_keeping_section p, #es-menu-tab-content #tabs-email_sending table tr td #house_keeping_section p, #es-menu-tab-content #tabs-security_settings table tr td #house_keeping_section p, #es-menu-tab-content #tabs-rest_api_settings table tr td #house_keeping_section p, #es-menu-tab-content #tabs-user_roles table tr td #house_keeping_section p {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.375;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td #house_keeping_section input.checkbox, #es-menu-tab-content #tabs-email_sending table tr td #house_keeping_section input.checkbox, #es-menu-tab-content #tabs-security_settings table tr td #house_keeping_section input.checkbox, #es-menu-tab-content #tabs-rest_api_settings table tr td #house_keeping_section input.checkbox, #es-menu-tab-content #tabs-user_roles table tr td #house_keeping_section input.checkbox {
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.25rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(210 214 220 / var(--tw-border-opacity));
+  color: var(--brand-color);
+}
+#es-menu-tab-content #tabs-general table tr td #house_keeping_section input.checkbox:focus, #es-menu-tab-content #tabs-email_sending table tr td #house_keeping_section input.checkbox:focus, #es-menu-tab-content #tabs-security_settings table tr td #house_keeping_section input.checkbox:focus, #es-menu-tab-content #tabs-rest_api_settings table tr td #house_keeping_section input.checkbox:focus, #es-menu-tab-content #tabs-user_roles table tr td #house_keeping_section input.checkbox:focus {
+  --tw-ring-color: transparent;
+}
+#es-menu-tab-content #tabs-general table tr td #house_keeping_section span, #es-menu-tab-content #tabs-email_sending table tr td #house_keeping_section span, #es-menu-tab-content #tabs-security_settings table tr td #house_keeping_section span, #es-menu-tab-content #tabs-rest_api_settings table tr td #house_keeping_section span, #es-menu-tab-content #tabs-user_roles table tr td #house_keeping_section span {
+  padding-left: 0.25rem;
+  padding-right: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+/* End */
+/* ESS upsell noticebox CSS */
+#es-menu-tab-content #tabs-general table tr td #sending_service_info .ess-upsell-sec, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info .ess-upsell-sec, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info .ess-upsell-sec, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info .ess-upsell-sec, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info .ess-upsell-sec {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 80%;
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(237 250 250 / var(--tw-bg-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg {
+  margin-left: 0.75rem;
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg h3, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg h3, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg h3, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg h3, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .ess-upsell-msg h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(30 66 159 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(3 102 114 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec .upsell-btn-div, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec .upsell-btn-div, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec .upsell-btn-div, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec .upsell-btn-div, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info .ess-upsell-sec .main-upsell-sec .upsell-btn-sec .upsell-btn-div {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+  text-align: left;
+}
+/* End */
+#es-menu-tab-content #tabs-general table tr td #send_time_optimizer_section label.send_time_optimizer_label, #es-menu-tab-content #tabs-email_sending table tr td #send_time_optimizer_section label.send_time_optimizer_label, #es-menu-tab-content #tabs-security_settings table tr td #send_time_optimizer_section label.send_time_optimizer_label, #es-menu-tab-content #tabs-rest_api_settings table tr td #send_time_optimizer_section label.send_time_optimizer_label, #es-menu-tab-content #tabs-user_roles table tr td #send_time_optimizer_section label.send_time_optimizer_label {
+  margin-top: 1rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  cursor: pointer;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#es-menu-tab-content #tabs-general table tr td #send_time_optimizer_section p, #es-menu-tab-content #tabs-email_sending table tr td #send_time_optimizer_section p, #es-menu-tab-content #tabs-security_settings table tr td #send_time_optimizer_section p, #es-menu-tab-content #tabs-rest_api_settings table tr td #send_time_optimizer_section p, #es-menu-tab-content #tabs-user_roles table tr td #send_time_optimizer_section p {
+  margin-top: 1.25rem;
+}
+#es-menu-tab-content #tabs-general table tr td .send-email-div button#es-send-test, #es-menu-tab-content #tabs-email_sending table tr td .send-email-div button#es-send-test, #es-menu-tab-content #tabs-security_settings table tr td .send-email-div button#es-send-test, #es-menu-tab-content #tabs-rest_api_settings table tr td .send-email-div button#es-send-test, #es-menu-tab-content #tabs-user_roles table tr td .send-email-div button#es-send-test {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+#es-menu-tab-content #tabs-general table tr td .send-email-div span.es_spinner_image_admin img, #es-menu-tab-content #tabs-email_sending table tr td .send-email-div span.es_spinner_image_admin img, #es-menu-tab-content #tabs-security_settings table tr td .send-email-div span.es_spinner_image_admin img, #es-menu-tab-content #tabs-rest_api_settings table tr td .send-email-div span.es_spinner_image_admin img, #es-menu-tab-content #tabs-user_roles table tr td .send-email-div span.es_spinner_image_admin img {
+  margin-top: 0.75rem;
+}
+/* Email sender section CSS */
+#es-menu-tab-content #tabs-general table tr td .pepipost, #es-menu-tab-content #tabs-email_sending table tr td .pepipost, #es-menu-tab-content #tabs-security_settings table tr td .pepipost, #es-menu-tab-content #tabs-rest_api_settings table tr td .pepipost, #es-menu-tab-content #tabs-user_roles table tr td .pepipost, #es-menu-tab-content #tabs-general table tr td .gmail, #es-menu-tab-content #tabs-email_sending table tr td .gmail, #es-menu-tab-content #tabs-security_settings table tr td .gmail, #es-menu-tab-content #tabs-rest_api_settings table tr td .gmail, #es-menu-tab-content #tabs-user_roles table tr td .gmail, #es-menu-tab-content #tabs-general table tr td .Amazon_SES, #es-menu-tab-content #tabs-email_sending table tr td .Amazon_SES, #es-menu-tab-content #tabs-security_settings table tr td .Amazon_SES, #es-menu-tab-content #tabs-rest_api_settings table tr td .Amazon_SES, #es-menu-tab-content #tabs-user_roles table tr td .Amazon_SES, #es-menu-tab-content #tabs-general table tr td .mailgun, #es-menu-tab-content #tabs-email_sending table tr td .mailgun, #es-menu-tab-content #tabs-security_settings table tr td .mailgun, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailgun, #es-menu-tab-content #tabs-user_roles table tr td .mailgun, #es-menu-tab-content #tabs-general table tr td .sendgrid, #es-menu-tab-content #tabs-email_sending table tr td .sendgrid, #es-menu-tab-content #tabs-security_settings table tr td .sendgrid, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendgrid, #es-menu-tab-content #tabs-user_roles table tr td .sendgrid, #es-menu-tab-content #tabs-general table tr td .sparkpost, #es-menu-tab-content #tabs-email_sending table tr td .sparkpost, #es-menu-tab-content #tabs-security_settings table tr td .sparkpost, #es-menu-tab-content #tabs-rest_api_settings table tr td .sparkpost, #es-menu-tab-content #tabs-user_roles table tr td .sparkpost, #es-menu-tab-content #tabs-general table tr td .postmark, #es-menu-tab-content #tabs-email_sending table tr td .postmark, #es-menu-tab-content #tabs-security_settings table tr td .postmark, #es-menu-tab-content #tabs-rest_api_settings table tr td .postmark, #es-menu-tab-content #tabs-user_roles table tr td .postmark, #es-menu-tab-content #tabs-general table tr td .sendinblue, #es-menu-tab-content #tabs-email_sending table tr td .sendinblue, #es-menu-tab-content #tabs-security_settings table tr td .sendinblue, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendinblue, #es-menu-tab-content #tabs-user_roles table tr td .sendinblue, #es-menu-tab-content #tabs-general table tr td .mailjet, #es-menu-tab-content #tabs-email_sending table tr td .mailjet, #es-menu-tab-content #tabs-security_settings table tr td .mailjet, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailjet, #es-menu-tab-content #tabs-user_roles table tr td .mailjet {
+  margin-top: 1rem;
+}
+#es-menu-tab-content #tabs-general table tr td .pepipost .form-input, #es-menu-tab-content #tabs-email_sending table tr td .pepipost .form-input, #es-menu-tab-content #tabs-security_settings table tr td .pepipost .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .pepipost .form-input, #es-menu-tab-content #tabs-user_roles table tr td .pepipost .form-input, #es-menu-tab-content #tabs-general table tr td .gmail .form-input, #es-menu-tab-content #tabs-email_sending table tr td .gmail .form-input, #es-menu-tab-content #tabs-security_settings table tr td .gmail .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .gmail .form-input, #es-menu-tab-content #tabs-user_roles table tr td .gmail .form-input, #es-menu-tab-content #tabs-general table tr td .Amazon_SES .form-input, #es-menu-tab-content #tabs-email_sending table tr td .Amazon_SES .form-input, #es-menu-tab-content #tabs-security_settings table tr td .Amazon_SES .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .Amazon_SES .form-input, #es-menu-tab-content #tabs-user_roles table tr td .Amazon_SES .form-input, #es-menu-tab-content #tabs-general table tr td .mailgun .form-input, #es-menu-tab-content #tabs-email_sending table tr td .mailgun .form-input, #es-menu-tab-content #tabs-security_settings table tr td .mailgun .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailgun .form-input, #es-menu-tab-content #tabs-user_roles table tr td .mailgun .form-input, #es-menu-tab-content #tabs-general table tr td .sendgrid .form-input, #es-menu-tab-content #tabs-email_sending table tr td .sendgrid .form-input, #es-menu-tab-content #tabs-security_settings table tr td .sendgrid .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendgrid .form-input, #es-menu-tab-content #tabs-user_roles table tr td .sendgrid .form-input, #es-menu-tab-content #tabs-general table tr td .sparkpost .form-input, #es-menu-tab-content #tabs-email_sending table tr td .sparkpost .form-input, #es-menu-tab-content #tabs-security_settings table tr td .sparkpost .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .sparkpost .form-input, #es-menu-tab-content #tabs-user_roles table tr td .sparkpost .form-input, #es-menu-tab-content #tabs-general table tr td .postmark .form-input, #es-menu-tab-content #tabs-email_sending table tr td .postmark .form-input, #es-menu-tab-content #tabs-security_settings table tr td .postmark .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .postmark .form-input, #es-menu-tab-content #tabs-user_roles table tr td .postmark .form-input, #es-menu-tab-content #tabs-general table tr td .sendinblue .form-input, #es-menu-tab-content #tabs-email_sending table tr td .sendinblue .form-input, #es-menu-tab-content #tabs-security_settings table tr td .sendinblue .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendinblue .form-input, #es-menu-tab-content #tabs-user_roles table tr td .sendinblue .form-input, #es-menu-tab-content #tabs-general table tr td .mailjet .form-input, #es-menu-tab-content #tabs-email_sending table tr td .mailjet .form-input, #es-menu-tab-content #tabs-security_settings table tr td .mailjet .form-input, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailjet .form-input, #es-menu-tab-content #tabs-user_roles table tr td .mailjet .form-input {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  height: 2.5rem;
+  width: 60%;
+  --tw-border-opacity: 1;
+  border-color: rgb(159 166 178 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 245 247 / var(--tw-bg-opacity));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+#es-menu-tab-content #tabs-general table tr td .pepipost .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .pepipost .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .pepipost .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .pepipost .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .pepipost .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .gmail .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .gmail .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .gmail .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .gmail .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .gmail .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .Amazon_SES .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .Amazon_SES .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .Amazon_SES .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .Amazon_SES .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .Amazon_SES .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .mailgun .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .mailgun .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .mailgun .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailgun .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .mailgun .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .sendgrid .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .sendgrid .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .sendgrid .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendgrid .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .sendgrid .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .sparkpost .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .sparkpost .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .sparkpost .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .sparkpost .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .sparkpost .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .postmark .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .postmark .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .postmark .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .postmark .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .postmark .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .sendinblue .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .sendinblue .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .sendinblue .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendinblue .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .sendinblue .form-input .webhook-url p, #es-menu-tab-content #tabs-general table tr td .mailjet .form-input .webhook-url p, #es-menu-tab-content #tabs-email_sending table tr td .mailjet .form-input .webhook-url p, #es-menu-tab-content #tabs-security_settings table tr td .mailjet .form-input .webhook-url p, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailjet .form-input .webhook-url p, #es-menu-tab-content #tabs-user_roles table tr td .mailjet .form-input .webhook-url p {
+  position: absolute;
+  width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#es-menu-tab-content #tabs-general table tr td .pepipost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .pepipost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .pepipost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .pepipost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .pepipost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .gmail .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .gmail .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .gmail .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .gmail .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .gmail .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .Amazon_SES .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .Amazon_SES .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .Amazon_SES .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .Amazon_SES .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .Amazon_SES .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .mailgun .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .mailgun .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .mailgun .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailgun .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .mailgun .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .sendgrid .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .sendgrid .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .sendgrid .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendgrid .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .sendgrid .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .sparkpost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .sparkpost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .sparkpost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .sparkpost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .sparkpost .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .postmark .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .postmark .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .postmark .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .postmark .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .postmark .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .sendinblue .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .sendinblue .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .sendinblue .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendinblue .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .sendinblue .form-input .webhook-url-copy, #es-menu-tab-content #tabs-general table tr td .mailjet .form-input .webhook-url-copy, #es-menu-tab-content #tabs-email_sending table tr td .mailjet .form-input .webhook-url-copy, #es-menu-tab-content #tabs-security_settings table tr td .mailjet .form-input .webhook-url-copy, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailjet .form-input .webhook-url-copy, #es-menu-tab-content #tabs-user_roles table tr td .mailjet .form-input .webhook-url-copy {
+  position: relative;
+  left: 20rem;
+}
+#es-menu-tab-content #tabs-general table tr td .pepipost ul li a, #es-menu-tab-content #tabs-email_sending table tr td .pepipost ul li a, #es-menu-tab-content #tabs-security_settings table tr td .pepipost ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .pepipost ul li a, #es-menu-tab-content #tabs-user_roles table tr td .pepipost ul li a, #es-menu-tab-content #tabs-general table tr td .gmail ul li a, #es-menu-tab-content #tabs-email_sending table tr td .gmail ul li a, #es-menu-tab-content #tabs-security_settings table tr td .gmail ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .gmail ul li a, #es-menu-tab-content #tabs-user_roles table tr td .gmail ul li a, #es-menu-tab-content #tabs-general table tr td .Amazon_SES ul li a, #es-menu-tab-content #tabs-email_sending table tr td .Amazon_SES ul li a, #es-menu-tab-content #tabs-security_settings table tr td .Amazon_SES ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .Amazon_SES ul li a, #es-menu-tab-content #tabs-user_roles table tr td .Amazon_SES ul li a, #es-menu-tab-content #tabs-general table tr td .mailgun ul li a, #es-menu-tab-content #tabs-email_sending table tr td .mailgun ul li a, #es-menu-tab-content #tabs-security_settings table tr td .mailgun ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailgun ul li a, #es-menu-tab-content #tabs-user_roles table tr td .mailgun ul li a, #es-menu-tab-content #tabs-general table tr td .sendgrid ul li a, #es-menu-tab-content #tabs-email_sending table tr td .sendgrid ul li a, #es-menu-tab-content #tabs-security_settings table tr td .sendgrid ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendgrid ul li a, #es-menu-tab-content #tabs-user_roles table tr td .sendgrid ul li a, #es-menu-tab-content #tabs-general table tr td .sparkpost ul li a, #es-menu-tab-content #tabs-email_sending table tr td .sparkpost ul li a, #es-menu-tab-content #tabs-security_settings table tr td .sparkpost ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .sparkpost ul li a, #es-menu-tab-content #tabs-user_roles table tr td .sparkpost ul li a, #es-menu-tab-content #tabs-general table tr td .postmark ul li a, #es-menu-tab-content #tabs-email_sending table tr td .postmark ul li a, #es-menu-tab-content #tabs-security_settings table tr td .postmark ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .postmark ul li a, #es-menu-tab-content #tabs-user_roles table tr td .postmark ul li a, #es-menu-tab-content #tabs-general table tr td .sendinblue ul li a, #es-menu-tab-content #tabs-email_sending table tr td .sendinblue ul li a, #es-menu-tab-content #tabs-security_settings table tr td .sendinblue ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .sendinblue ul li a, #es-menu-tab-content #tabs-user_roles table tr td .sendinblue ul li a, #es-menu-tab-content #tabs-general table tr td .mailjet ul li a, #es-menu-tab-content #tabs-email_sending table tr td .mailjet ul li a, #es-menu-tab-content #tabs-security_settings table tr td .mailjet ul li a, #es-menu-tab-content #tabs-rest_api_settings table tr td .mailjet ul li a, #es-menu-tab-content #tabs-user_roles table tr td .mailjet ul li a {
+  --tw-text-opacity: 1;
+  color: rgb(28 100 242 / var(--tw-text-opacity));
+}
+/* End */
+/* Cron info & authentication table CSS */
+#es-menu-tab-content #tabs-general table tr td table.cron-info, #es-menu-tab-content #tabs-email_sending table tr td table.cron-info, #es-menu-tab-content #tabs-security_settings table tr td table.cron-info, #es-menu-tab-content #tabs-rest_api_settings table tr td table.cron-info, #es-menu-tab-content #tabs-user_roles table tr td table.cron-info, #es-menu-tab-content #tabs-general table tr td table#ig-es-settings-authentication-table, #es-menu-tab-content #tabs-email_sending table tr td table#ig-es-settings-authentication-table, #es-menu-tab-content #tabs-security_settings table tr td table#ig-es-settings-authentication-table, #es-menu-tab-content #tabs-rest_api_settings table tr td table#ig-es-settings-authentication-table, #es-menu-tab-content #tabs-user_roles table tr td table#ig-es-settings-authentication-table, #es-menu-tab-content #tabs-general table tr td #ig-es-rest-api-section table, #es-menu-tab-content #tabs-email_sending table tr td #ig-es-rest-api-section table, #es-menu-tab-content #tabs-security_settings table tr td #ig-es-rest-api-section table, #es-menu-tab-content #tabs-rest_api_settings table tr td #ig-es-rest-api-section table, #es-menu-tab-content #tabs-user_roles table tr td #ig-es-rest-api-section table {
+  margin-left: 0;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  border-radius: 0.5rem;
+}
+:is(#es-menu-tab-content #tabs-general table tr td table.cron-info,#es-menu-tab-content #tabs-email_sending table tr td table.cron-info,#es-menu-tab-content #tabs-security_settings table tr td table.cron-info,#es-menu-tab-content #tabs-rest_api_settings table tr td table.cron-info,#es-menu-tab-content #tabs-user_roles table tr td table.cron-info,#es-menu-tab-content #tabs-general table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-email_sending table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-security_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-rest_api_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-user_roles table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-general table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-email_sending table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-security_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-rest_api_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-user_roles table tr td #ig-es-rest-api-section table) thead tr {
+  --tw-bg-opacity: 1;
+  background-color: rgb(235 245 255 / var(--tw-bg-opacity));
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1rem;
+  letter-spacing: 0.05em;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+:is(#es-menu-tab-content #tabs-general table tr td table.cron-info,#es-menu-tab-content #tabs-email_sending table tr td table.cron-info,#es-menu-tab-content #tabs-security_settings table tr td table.cron-info,#es-menu-tab-content #tabs-rest_api_settings table tr td table.cron-info,#es-menu-tab-content #tabs-user_roles table tr td table.cron-info,#es-menu-tab-content #tabs-general table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-email_sending table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-security_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-rest_api_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-user_roles table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-general table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-email_sending table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-security_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-rest_api_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-user_roles table tr td #ig-es-rest-api-section table) thead tr th {
+  display: table-cell;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+:is(#es-menu-tab-content #tabs-general table tr td table.cron-info,#es-menu-tab-content #tabs-email_sending table tr td table.cron-info,#es-menu-tab-content #tabs-security_settings table tr td table.cron-info,#es-menu-tab-content #tabs-rest_api_settings table tr td table.cron-info,#es-menu-tab-content #tabs-user_roles table tr td table.cron-info,#es-menu-tab-content #tabs-general table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-email_sending table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-security_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-rest_api_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-user_roles table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-general table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-email_sending table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-security_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-rest_api_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-user_roles table tr td #ig-es-rest-api-section table) tbody tr {
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+}
+:is(#es-menu-tab-content #tabs-general table tr td table.cron-info,#es-menu-tab-content #tabs-email_sending table tr td table.cron-info,#es-menu-tab-content #tabs-security_settings table tr td table.cron-info,#es-menu-tab-content #tabs-rest_api_settings table tr td table.cron-info,#es-menu-tab-content #tabs-user_roles table tr td table.cron-info,#es-menu-tab-content #tabs-general table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-email_sending table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-security_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-rest_api_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-user_roles table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-general table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-email_sending table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-security_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-rest_api_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-user_roles table tr td #ig-es-rest-api-section table) tbody tr td {
+  width: 25%;
+  border-radius: 0px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(235 245 255 / var(--tw-bg-opacity));
+  text-align: left;
+}
+:is(#es-menu-tab-content #tabs-general table tr td table.cron-info,#es-menu-tab-content #tabs-email_sending table tr td table.cron-info,#es-menu-tab-content #tabs-security_settings table tr td table.cron-info,#es-menu-tab-content #tabs-rest_api_settings table tr td table.cron-info,#es-menu-tab-content #tabs-user_roles table tr td table.cron-info,#es-menu-tab-content #tabs-general table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-email_sending table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-security_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-rest_api_settings table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-user_roles table tr td table#ig-es-settings-authentication-table,#es-menu-tab-content #tabs-general table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-email_sending table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-security_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-rest_api_settings table tr td #ig-es-rest-api-section table,#es-menu-tab-content #tabs-user_roles table tr td #ig-es-rest-api-section table) tbody tr td span#ig-es-verify-auth-message {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  font-style: italic;
+}
+/* End */
+/* Sending service optin & Sending Service Info section CSS */
+#es-menu-tab-content #tabs-general table tr td #sending_service_optin, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_optin, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_optin, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_optin, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_optin, #es-menu-tab-content #tabs-general table tr td #sending_service_info, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info {
+  padding-bottom: 1rem;
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_optin label, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_optin label, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_optin label, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_optin label, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_optin label, #es-menu-tab-content #tabs-general table tr td #sending_service_info label, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info label, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info label, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info label, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info label {
+  margin-top: 0.75rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  cursor: pointer;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_optin label span:nth-child(2), #es-menu-tab-content #tabs-email_sending table tr td #sending_service_optin label span:nth-child(2), #es-menu-tab-content #tabs-security_settings table tr td #sending_service_optin label span:nth-child(2), #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_optin label span:nth-child(2), #es-menu-tab-content #tabs-user_roles table tr td #sending_service_optin label span:nth-child(2), #es-menu-tab-content #tabs-general table tr td #sending_service_info label span:nth-child(2), #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info label span:nth-child(2), #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info label span:nth-child(2), #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info label span:nth-child(2), #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info label span:nth-child(2) {
+  padding-left: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_optin p, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_optin p, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_optin p, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_optin p, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_optin p, #es-menu-tab-content #tabs-general table tr td #sending_service_info p, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info p, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info p, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info p, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info p {
+  padding-left: 3rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.375;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td #sending_service_optin #icegram-mailer-info p, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_optin #icegram-mailer-info p, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_optin #icegram-mailer-info p, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_optin #icegram-mailer-info p, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_optin #icegram-mailer-info p, #es-menu-tab-content #tabs-general table tr td #sending_service_info #icegram-mailer-info p, #es-menu-tab-content #tabs-email_sending table tr td #sending_service_info #icegram-mailer-info p, #es-menu-tab-content #tabs-security_settings table tr td #sending_service_info #icegram-mailer-info p, #es-menu-tab-content #tabs-rest_api_settings table tr td #sending_service_info #icegram-mailer-info p, #es-menu-tab-content #tabs-user_roles table tr td #sending_service_info #icegram-mailer-info p {
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  padding-left: 0;
+}
+/* End */
+#es-menu-tab-content #tabs-general table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-email_sending table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-security_settings table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-rest_api_settings table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-user_roles table tr td .user_role_upsell_box {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: center;
+}
+@media (min-width: 1024px) {
+
+  #es-menu-tab-content #tabs-general table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-email_sending table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-security_settings table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-rest_api_settings table tr td .user_role_upsell_box, #es-menu-tab-content #tabs-user_roles table tr td .user_role_upsell_box {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+#es-menu-tab-content #tabs-general table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-email_sending table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-security_settings table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-rest_api_settings table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-user_roles table tr td .user_role_upsell_box div {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(66 56 157 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+  line-height: 1.5;
+  --tw-text-opacity: 1;
+  color: rgb(229 237 255 / var(--tw-text-opacity));
+}
+@media (min-width: 1024px) {
+
+  #es-menu-tab-content #tabs-general table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-email_sending table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-security_settings table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-rest_api_settings table tr td .user_role_upsell_box div, #es-menu-tab-content #tabs-user_roles table tr td .user_role_upsell_box div {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    border-radius: 9999px;
+  }
+}
+#es-menu-tab-content #tabs-general table tr td .user_role_upsell_box div span, #es-menu-tab-content #tabs-email_sending table tr td .user_role_upsell_box div span, #es-menu-tab-content #tabs-security_settings table tr td .user_role_upsell_box div span, #es-menu-tab-content #tabs-rest_api_settings table tr td .user_role_upsell_box div span, #es-menu-tab-content #tabs-user_roles table tr td .user_role_upsell_box div span {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  text-align: left;
+  font-weight: 600;
+}
+#es-menu-tab-content #tabs-general table tr td .user_role_upsell_box div a, #es-menu-tab-content #tabs-email_sending table tr td .user_role_upsell_box div a, #es-menu-tab-content #tabs-security_settings table tr td .user_role_upsell_box div a, #es-menu-tab-content #tabs-rest_api_settings table tr td .user_role_upsell_box div a, #es-menu-tab-content #tabs-user_roles table tr td .user_role_upsell_box div a {
+  --tw-text-opacity: 1;
+  color: rgb(141 162 251 / var(--tw-text-opacity));
+}
+/* User Roles table CSS */
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table {
+  margin-left: 0;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  border-radius: 0.5rem;
+}
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table thead tr, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table thead tr, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table thead tr, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table thead tr, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table thead tr {
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 245 247 / var(--tw-bg-opacity));
+  line-height: 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table thead tr th, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table thead tr th, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table thead tr th, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table thead tr th, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table thead tr th {
+  display: table-cell;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2.5rem;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table tbody, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table tbody, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table tbody, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table tbody, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table tbody {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table tbody tr td:first-of-type, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table tbody tr td:first-of-type, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table tbody tr td:first-of-type, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table tbody tr td:first-of-type, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table tbody tr td:first-of-type {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+}
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table tbody tr span, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table tbody tr span, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table tbody tr span, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table tbody tr span, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table tbody tr span {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(37 47 63 / var(--tw-text-opacity));
+}
+#es-menu-tab-content #tabs-general table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table tbody tr td {
+  padding-left: 2.5rem;
+}
+/* End */
+#es-menu-tab-content #tabs-general table tr:last-of-type, #es-menu-tab-content #tabs-email_sending table tr:last-of-type, #es-menu-tab-content #tabs-security_settings table tr:last-of-type, #es-menu-tab-content #tabs-rest_api_settings table tr:last-of-type, #es-menu-tab-content #tabs-user_roles table tr:last-of-type {
+  border-width: 0px;
+}
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) #es-menu-tab-content #tabs-general table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-email_sending table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-security_settings table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-rest_api_settings table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-user_roles table tr:last-of-type {
+      border-width: 0px;
+  }
+/* End */
+/* End */
+/* settings page radio button CSS */
+#send_time_optimizer_section label, #ig_es_mailer_settings-field-row label {
+  display: inline-block;
+}
+/* End */
 #timePickerDropdown {
   top: 100%;
 }
@@ -3958,7 +4557,7 @@ table td
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
-.es-import-option .select2-results__option[aria-selected="true"]:before,.es-import-option 
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) .select2-results__option[aria-selected="true"]:before,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) 
 .select2-container--default .select2-results__option--selected:before {
       border-width: 0px;
   }
@@ -3975,7 +4574,7 @@ table td
   font-size: 0.875rem !important;
   line-height: 1.25rem !important;
 }
-.es-import-option .select2-container--default
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) .select2-container--default
   .select2-selection--multiple
   .select2-selection__choice {
       border-width: 0px !important;
@@ -3990,10 +4589,10 @@ table td
   float: right !important;
   border-width: 0px !important;
 }
-.es-import-option .select2-selection__choice__remove {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) .select2-selection__choice__remove {
       border-width: 0px !important;
   }
-.icegram-express_page_es_gallery #wpcontent,.icegram-express_page_es_campaigns #wpcontent,.icegram-express_page_es_subscribers #wpcontent,.icegram-express_page_es_lists #wpcontent{
+.icegram-express_page_es_gallery #wpcontent,.icegram-express_page_es_campaigns #wpcontent,.icegram-express_page_es_subscribers #wpcontent,.icegram-express_page_es_lists #wpcontent,.icegram-express_page_es_forms #wpcontent,.icegram-express_page_es_custom_fields #wpcontent,.icegram-express_page_es_settings #wpcontent{
   padding-left: 0;
   background-color: white;
  }
@@ -4146,7 +4745,7 @@ table td
   --tw-ring-inset: inset;
   --tw-ring-color: var(--lighter-gray);
 }
-.es-import-option .es-sidebar .gjs-field input:not([type="radio"]),.es-import-option  .es-sidebar .gjs-field select,.es-import-option  .es-sidebar .gjs-field textarea,.es-import-option  .es-sidebar {
+:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) .es-sidebar .gjs-field input:not([type="radio"]),:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  .es-sidebar .gjs-field select,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  .es-sidebar .gjs-field textarea,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  .es-sidebar {
       border-width: 0px;
   }
 .es-sidebar .gjs-field input:not([type="radio"])::-webkit-input-placeholder, .es-sidebar .gjs-field select::-webkit-input-placeholder, .es-sidebar .gjs-field textarea::-webkit-input-placeholder, .es-sidebar::-webkit-input-placeholder {

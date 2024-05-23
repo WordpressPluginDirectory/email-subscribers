@@ -63,7 +63,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 			
 		}
 
-		public static function format_campaign_data( $campaign ) {
+		private static function format_campaign_data( $campaign ) {
 			$campaigns_table = ES_Campaigns_Table::get_instance();
 			if ( ! empty( $campaign ) ) {
 				$campaign['es_admin_email'] = ES_Common::get_admin_email();
@@ -83,7 +83,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 					$campaign [ $column_name ] = $output;
 				}
 				$campaign['status_text'] = $campaigns_table->column_status_text( $campaign );
-				$campaign['meta']        = maybe_unserialize( $campaign['meta'] );
+				$campaign['meta']        = ig_es_maybe_unserialize( $campaign['meta']);
 				$args = array(
 					'campaign_id' => $campaign_id,
 					'types' => array(
@@ -100,7 +100,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 				$click_rate = ! empty( $total_email_sent ) ? number_format_i18n( ( ( $total_email_clicked * 100 ) / $total_email_sent ), 2 ) : 0;
 				$campaign['open_rate']  = $open_rate;
 				$campaign['click_rate'] = $click_rate;
-				$campaign['meta'] = maybe_unserialize($campaign['meta']);
+				$campaign['meta'] = ig_es_maybe_unserialize( $campaign['meta']);
 				if ( self::is_post_campaign( $campaign_type ) ) {
 					$report = ES_DB_Mailing_Queue::get_notification_by_campaign_id( $campaign_id );
 					if ( $report ) {

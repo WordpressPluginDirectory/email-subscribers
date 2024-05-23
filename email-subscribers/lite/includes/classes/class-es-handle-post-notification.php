@@ -129,7 +129,7 @@ class ES_Handle_Post_Notification {
 				foreach ( $notifications as $notification ) {
 					$notification_id      = $notification['id'];
 					$notification_body    = $notification['body'];
-					$notification_subject = $notification['name'];
+					$notification_subject = $notification['subject'];
 					if ( ! empty( $notification_subject ) && ! empty( $notification_body ) ) {
 						$list_id = $notification['list_ids'];
 						if ( ! empty( $list_id ) ) {
@@ -403,7 +403,7 @@ class ES_Handle_Post_Notification {
 		$template           = get_post( $template_id );
 		$campaign           = ES()->campaigns_db->get( $campaign_id );
 
-		$campaign_subject = $campaign['name'];
+		$campaign_subject = $campaign['subject'];
 		if ( ! empty( $campaign['body'] ) ) {
 			$template_content = $campaign['body'];
 		} else {

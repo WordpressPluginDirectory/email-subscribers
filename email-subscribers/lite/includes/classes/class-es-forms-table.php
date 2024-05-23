@@ -84,7 +84,7 @@ class ES_Forms_Table extends ES_List_Table {
 
 		$action = ig_es_get_request_data( 'action' );
 		?>
-		<div class="wrap pt-4 font-sans">
+		<div class="font-sans">
 			<?php
 			if ( 'new' === $action ) {
 				$this->es_new_form_callback();
@@ -93,7 +93,41 @@ class ES_Forms_Table extends ES_List_Table {
 				echo wp_kses_post( $this->edit_form( absint( $form ) ) );
 			} else {
 				?>
-				<div class="flex flex-col lg:items-center lg:flex-row lg:justify-between">
+				<div class="sticky top-0 z-10">
+					<header>
+						<nav aria-label="Global" class="pb-5 w-full pt-2">
+							<div class="brand-logo">
+								<span>
+									<img src="<?php echo ES_PLUGIN_URL . 'lite/admin/images/new/brand-logo/IG LOGO 192X192.svg'; ?>" alt="brand logo" />
+									<div class="divide"></div>
+									<h1><?php esc_html_e( 'Forms ', 'email-subscribers' ); ?></h1>
+								</span>
+							</div>
+
+							<div class="cta">
+								<a href="https://www.icegram.com/docs/category/icegram-express/" target="_blank" title="Docs">
+									<button type="button" class="p-2 rounded-full secondary">
+										<svg stroke="currentColor" fill="none" viewBox="0 0 24 24" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+									</button>
+								</a>
+								<a href="admin.php?page=es_settings#ig_es_optin_type" target="_blank" title="Settings">
+									<button type="button" class="p-2 rounded-full secondary">
+										<svg stroke="currentColor" fill="none" viewBox="0 0 24 24" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+									</button>
+								</a>
+								<a href="admin.php?page=es_forms&action=new">
+									<button type="button" class="secondary">
+										<?php esc_html_e( 'Add New', 'email-subscribers' ); ?>
+									</button>
+								</a>
+								<?php 
+									do_action( 'ig_es_after_form_buttons' );
+								?>
+							</div>
+						</nav>
+					</header>
+				</div>
+				<!-- <div class="flex flex-col lg:items-center lg:flex-row lg:justify-between">
 					<div class="flex items-center">
 						<div class="flex-shrink-0">
 							<h2 class="wp-heading-inline text-3xl font-bold text-gray-700 sm:leading-9 sm:truncate pr-4">
@@ -120,7 +154,7 @@ class ES_Forms_Table extends ES_List_Table {
 						</div>
 					</div>
 				</div>
-				<div><hr class="wp-header-end"></div>
+				<div><hr class="wp-header-end"></div> -->
 				<?php
 				if ( 'form_created' === $action ) {
 					$message = __( 'Form added successfully!', 'email-subscribers' );
@@ -130,7 +164,7 @@ class ES_Forms_Table extends ES_List_Table {
 					ES_Common::show_message( $message, 'success' );
 				}
 				?>
-				<div id="poststuff" class="es-items-lists">
+				<div id="poststuff" class="es-items-lists es-forms-table">
 					<div id="post-body" class="metabox-holder column-1">
 						<div id="post-body-content">
 							<div class="meta-box-sortables ui-sortable">
@@ -840,7 +874,7 @@ class ES_Forms_Table extends ES_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="forms[]" value="%s" />',
+			'<input type="checkbox" name="forms[]" class="checkbox" value="%s" />',
 			$item['id']
 		);
 	}
@@ -982,8 +1016,9 @@ class ES_Forms_Table extends ES_List_Table {
 
 		<p class="search-box">
 			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $text ); ?>:</label>
-			<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>"/>
-			<?php submit_button( __( 'Search Forms', 'email-subscribers' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
+			<input type="search" placeholder="Search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>"/>
+			<button type="submit" id="search-submit" class="secondary"><?php echo esc_html__( 'Search Forms', 'email-subscribers'); ?></button>
+
 		</p>
 		<?php
 	}

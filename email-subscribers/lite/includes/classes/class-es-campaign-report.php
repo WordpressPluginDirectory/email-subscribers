@@ -127,12 +127,12 @@ class ES_Campaign_Report extends ES_List_Table {
 	public function view_report_description_lite( $notification, $report_kpi_statistics ) {
 		if ( ! empty( $notification['type'] ) ) {
 			$campaign_url = '';
-			 if ( IG_CAMPAIGN_TYPE_SEQUENCE === $notification['type'] ) {
-				 $campaign_url = '?page=es_sequence&action=edit&id=' . $notification['campaign_id'];
-			 } else {
-				 $campaign_url = '?page=es_campaigns#!/campaign/edit/' . $notification['campaign_id'];
-			 }
-		 }
+			if ( IG_CAMPAIGN_TYPE_SEQUENCE === $notification['type'] ) {
+				$campaign_url = '?page=es_sequence&action=edit&id=' . $notification['campaign_id'];
+			} else {
+				$campaign_url = '?page=es_campaigns#!/campaign/edit/' . $notification['campaign_id'];
+			}
+		}
 		?>
 		<div class="wrap max-w-7xl w-full">
 			<div class="wp-heading-inline flex items-center justify-between">

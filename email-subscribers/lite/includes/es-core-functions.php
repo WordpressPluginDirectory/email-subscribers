@@ -1090,3 +1090,23 @@ if ( ! function_exists( 'ig_es_is_arrays_are_equal' ) ) {
 		return true;
 	}
 }
+
+
+if ( ! function_exists( 'ig_es_maybe_unserialize' ) ) {
+
+	/**
+	 * The `ig_es_maybe_unserialize` function unserializes data if it's serialized, returning the unserialized data or an empty string.
+	 *
+	 * @param $string
+	 *
+	 * @return $array
+	 */
+
+	function ig_es_maybe_unserialize( $data) {
+		if (!empty($data) && is_serialized($data)) {
+			return @unserialize(trim( $data), ['allowed_classes' => false]);	
+		}
+		return $data;
+	}
+
+}

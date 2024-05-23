@@ -260,7 +260,7 @@ table td
 
   .template-editor, 
   .sidebar, 
-  .form-fields, #es-admin-contact-form, #es-admin-lists-form {
+  .form-fields, #es-admin-contact-form, #es-admin-lists-form, #es-admin-custom-fields-form {
     label {
       @apply block text-sm font-medium leading-6 text-gray-900;
     }
@@ -387,26 +387,18 @@ table td
     @apply block w-full px-4 py-1.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-sm bg-white focus:ring-[0.5px] focus:ring-tertiary !important;
   }
   
-  .ig-es-list-table, .es-audience-view, .es-lists-table {
+  .ig-es-list-table, .es-audience-view, .es-lists-table, .es-forms-table, .es-custom-field-table {
     @apply flex flex-col bg-white space-y-5 p-4 mt-5;
     h2{
       @apply -mt-5;
     }
     .table, #post-body-content{
       @apply -mx-4 sm:mx-0 sm:rounded-sm w-full;
-      table, .contacts, .lists {
+      table, .contacts, .lists, .forms, .customfields {
         @apply min-w-full divide-y divide-lighter-gray w-full;
       }
-      .contacts, .lists{
+      .contacts, .lists, .forms, .customfields {
         @apply border-0 mt-5;
-        thead, tfoot{
-          tr{
-            td,th{
-              @apply border-b-0 border-t-0;
-
-            }
-          }
-        }
         tbody {
           tr{
             @apply bg-white;
@@ -561,7 +553,7 @@ table td
 }
 
 /* Audience Import page tab option, this css apply on current tab */
-.es-import-option {
+.es-import-option, #ig_es_mailer_settings-field-row, #icegram-mailer-info {
   [type="radio"]:checked + .es-mailer-logo {
     @apply transition-all duration-100 ease-in-out transform scale-110;
     box-shadow: 0 0 3px 1px rgba(90, 103, 216);
@@ -577,14 +569,14 @@ table td
 }
 
 /* Audience Import page wordpress-users tab, checkbox CSS */
-#wordpress-users, #ig-es-wc-order-statuses-wrapper{
+#wordpress-users, #ig-es-wc-order-statuses-wrapper {
   input.checkbox {
     @apply -mt-2 h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary;
   }
 }
 
 /* Audience page tooltip CSS */
-.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip {
+.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip, .icegram-express_page_es_forms .es-tooltip, .icegram-express_page_es_settings .es-tooltip {
   @apply align-middle;
   span.tooltip-text {
     @apply bg-white w-64 p-3 py-2 shadow-lg rounded-sm;
@@ -618,6 +610,313 @@ table td
 .importing-progress span.bar {
   @apply block absolute leading-10 py-1 top-0 bottom-0 left-0 rounded overflow-hidden bg-gradient-to-r from-indigo-800 to-indigo-500 bg-indigo-400;
 }
+
+/* Settings page CSS */
+
+#es-menu-tab-content{
+  input:not([type="radio"]) {
+    @apply block w-full rounded-sm border-0 py-1.5 text-gray-900 shadow-sm ring-[0.5px] ring-inset ring-lighter-gray placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-tertiary sm:text-sm sm:leading-6;
+  }
+  input[type="radio"]:checked {
+    @apply bg-primary;
+  }
+}
+
+/* Settings tab CSS */
+#es-settings-menu {
+  @apply w-1/5 pt-4 leading-normal text-gray-800 border-r border-gray-100;
+
+  .es-menu-list {
+    @apply z-20 my-2 mt-0 bg-white shadow-none lg:block lg:my-0 lg:border-transparent lg:shadow-none lg:bg-transparent;
+
+    ul {
+      @apply py-2 md:py-0;
+
+      li {
+        @apply h-10 py-1 mx-2 border border-transparent rounded md:my-2 hover:rounded hover:border-indigo-600;
+      }
+
+      a {
+        @apply block px-4 pt-1 text-base font-medium no-underline align-middle;
+      }
+
+      span {
+        @apply pl-0.5;
+      }
+    }
+  }
+}
+/* End */
+
+/* Setting tab content CSS */
+#es-menu-tab-content {
+  @apply w-4/5;
+
+  /* All tab content table CSS*/
+  #tabs-general, #tabs-email_sending, #tabs-security_settings, #tabs-rest_api_settings, #tabs-user_roles {
+    table {
+      @apply mt-4 mr-4 overflow-hidden bg-white rounded-lg lg:mx-5 xl:mx-7;
+  
+      tr {
+        @apply py-4 ml-4 border-b border-gray-200;
+
+        th {
+          @apply block pt-3 pb-8 pr-4 ml-6 text-left pt-7;
+  
+          span {
+            @apply pb-2 text-sm font-semibold text-gray-600;
+          }
+
+          p {
+            @apply mt-1 text-xs italic font-normal leading-snug text-gray-500;
+          }
+        }
+
+        td {
+          @apply w-4/6 py-2 pl-5 bg-white rounded-lg;
+
+          /* Upsell section CSS */
+          .settings_upsell_div {
+            .upsell_switcher {
+              @apply w-2/12;
+
+              label {
+                @apply inline-flex items-center mt-3 mb-1 cursor-pointer;
+              }
+            }
+
+            .upsell_box {
+              @apply w-full;
+            }
+          }
+          
+          .es_sub_headline {
+            @apply pt-4;
+          }
+
+          input.form-input, input.form-textarea, input[type="number"] {
+            @apply h-9 mt-2 mb-1 text-sm border-gray-400 w-3/5;
+          }
+
+          p.field-desciption {
+            @apply mb-2 text-xs italic font-normal leading-snug text-gray-500;
+          }
+
+          input.checkbox {
+            @apply h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary ring-offset-0;
+          }
+
+          /* House keeping section CSS */
+          #house_keeping_section {
+            label {
+              @apply inline-flex items-center mt-3 cursor-pointer;
+            }
+
+            p {
+              @apply mt-6 text-xs italic font-normal leading-snug text-gray-500;
+            }
+
+            input.checkbox {
+              @apply inline-block h-4 w-4 rounded border-gray-300 focus:ring-transparent text-primary;
+            }
+          
+            span {
+              @apply pl-1 pr-6 text-gray-500 text-sm font-normal;
+            }
+          }
+          /* End */
+
+          /* ESS upsell noticebox CSS */
+          #sending_service_info .ess-upsell-sec {
+            @apply inline-flex rounded-md shadow bg-teal-50 px-2 pt-1 my-2 w-4/5 font-sans;
+
+            .main-upsell-sec {
+              @apply px-2 pt-2 pb-2;
+
+              .ess-upsell-msg {
+                @apply ml-3;
+
+                h3 {
+                  @apply text-sm leading-5 font-medium text-blue-800;
+                }
+              }
+
+              .upsell-btn-sec {
+                @apply mt-2 ml-8 text-sm leading-5 text-teal-700;
+
+                .upsell-btn-div {
+                  @apply pt-6 text-left pb-2;
+                }
+              }
+            }
+          }
+          /* End */
+
+          #send_time_optimizer_section {
+            label.send_time_optimizer_label {
+              @apply inline-flex items-center mt-4 cursor-pointer;
+            }
+            p {
+              @apply mt-5;
+            }
+          }
+          
+          .send-email-div  {
+            button#es-send-test {
+              @apply mt-auto mb-auto;
+            }
+
+            span.es_spinner_image_admin img {
+              @apply mt-3;
+            }
+          }
+
+          /* Email sender section CSS */
+          .pepipost, .gmail, .Amazon_SES, .mailgun, .sendgrid, .sparkpost, .postmark, .sendinblue, .mailjet {
+            @apply mt-4;
+            .form-input {
+              @apply h-10 mt-2 mb-1 text-sm border-gray-400 w-3/5 bg-gray-100;
+
+              .webhook-url {
+                p {
+                  @apply truncate absolute w-80;
+                }
+              }
+
+              .webhook-url-copy {
+                @apply relative left-80;
+              }
+            }
+
+            ul li a {
+              @apply text-blue-600;
+            }
+          }
+          /* End */
+
+          /* Cron info & authentication table CSS */
+          table.cron-info, table#ig-es-settings-authentication-table, #ig-es-rest-api-section table {
+            @apply min-w-fit rounded-lg ml-0;
+
+            thead {
+              tr {
+                @apply bg-blue-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider;
+
+                th {
+                  @apply px-5 py-4 table-cell;
+                }
+              }
+            }
+
+            tbody {
+              tr {
+                @apply border-b border-gray-200;
+
+                td {
+                  @apply text-left rounded-none bg-blue-50 w-1/4;
+
+                  span#ig-es-verify-auth-message {
+                    @apply text-xs italic font-bold;
+                  }
+                }
+              }
+            }
+          }
+          /* End */
+
+          /* Sending service optin & Sending Service Info section CSS */
+          #sending_service_optin, #sending_service_info {
+            @apply pb-4;
+            label {
+              @apply inline-flex items-center mt-3 cursor-pointer;
+
+              span:nth-child(2) {
+                @apply pl-2 text-sm font-semibold text-gray-600;
+              }
+            }
+
+            p {
+              @apply pl-12 text-xs italic font-normal leading-snug text-gray-500;
+            }
+
+            #icegram-mailer-info p {
+              @apply mb-2 pl-0 inline-block;
+            }
+          }
+          /* End */
+
+          .user_role_upsell_box {
+            @apply text-center py-3 lg:px-4;
+            div {
+              @apply p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex mx-4 leading-normal;
+
+              span {
+                @apply font-semibold text-left flex-auto;
+              }
+
+              a {
+                @apply text-indigo-400;
+              }
+            }
+          }
+
+          /* User Roles table CSS */
+          table.user-roles-table {
+            @apply ml-0 min-w-fit rounded-lg;
+
+            thead {
+              tr {
+                @apply bg-gray-100 leading-4 text-gray-500;
+
+                th {
+                  @apply pl-10 py-4 text-left font-semibold text-sm table-cell;
+                }
+              }
+            }
+
+            tbody {
+              @apply bg-white;
+
+              tr {
+                
+                td:first-of-type {
+                  @apply pl-8 py-4;
+                }
+
+                span {
+                  @apply text-sm leading-5 font-medium text-center text-gray-800;
+                }
+
+                td {
+                  @apply pl-10;
+                }
+              }
+            }
+          }
+          /* End */
+
+        }
+      }
+
+      tr:last-of-type {
+        @apply border-0;
+      }
+    }
+  }
+  /* End */
+}
+/* End */
+
+
+
+/* settings page radio button CSS */
+#send_time_optimizer_section, #ig_es_mailer_settings-field-row {
+  label {
+    @apply inline-block;
+  }
+}
+
+/* End */
 
 
 #timePickerDropdown {
@@ -693,7 +992,7 @@ table td
   @apply float-right border-0 relative !important;
 }
 
-.icegram-express_page_es_gallery, .icegram-express_page_es_campaigns, .icegram-express_page_es_subscribers, .icegram-express_page_es_lists {
+.icegram-express_page_es_gallery, .icegram-express_page_es_campaigns, .icegram-express_page_es_subscribers, .icegram-express_page_es_lists, .icegram-express_page_es_forms, .icegram-express_page_es_custom_fields, .icegram-express_page_es_settings {
  #wpcontent{
   padding-left: 0;
   background-color: white;

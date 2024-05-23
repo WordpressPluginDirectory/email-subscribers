@@ -40,8 +40,7 @@ $last_period_end_date     = gmdate( $convert_date_format, strtotime( '-' . $days
 				<span class="kpi-stats"><?php echo esc_html( $total_subscribed ); ?></span>
 			</span>
 			<?php
-			if(!empty($growth_percentage))
-			{
+			if (!empty($growth_percentage)) {
 				?>
 				<div class="change down inline-block es-new-subscriber-growth-percentage es-tooltip relative align-middle cursor-pointer text-left">
 					<?php
@@ -85,7 +84,8 @@ $last_period_end_date     = gmdate( $convert_date_format, strtotime( '-' . $days
 					</span>
 				</div>
 				<?php
-			}?>
+			}
+			?>
 			
 		</div>
 		<div class="kpi">
@@ -167,8 +167,7 @@ $last_period_end_date     = gmdate( $convert_date_format, strtotime( '-' . $days
 				</span>
 			</span>
 			<?php
-			if(!empty($sent_percentage_growth))
-			{
+			if (!empty($sent_percentage_growth)) {
 				?>
 				<div class="change down inline-block es-tooltip relative align-middle cursor-pointer text-left">
 					<?php
@@ -212,7 +211,8 @@ $last_period_end_date     = gmdate( $convert_date_format, strtotime( '-' . $days
 					</span>
 				</div>
 				<?php
-			}?>
+			}
+			?>
 		</div>
 		<div class="kpi">
 			<span class="stats">

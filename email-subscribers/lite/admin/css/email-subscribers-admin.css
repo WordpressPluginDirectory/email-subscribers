@@ -11,11 +11,15 @@
 }
 
 ul#menu-nav li.active {
-	background-color: #5a67d8;
+	background-color: var(--brand-color);
 }
 
 #menu-nav li a.active {
 	color: #FFF;
+}
+
+ul#menu-nav li:hover {
+	border: 1px solid var(--brand-color-2);
 }
 
 .es-lists-table .column-created_at{
@@ -3003,6 +3007,10 @@ body.icegram-express_page_es_lists #wpcontent {
     padding-left: 0;
 }
 
+body.icegram-express_page_es_forms #wpcontent {
+    padding-left: 0;
+}
+
 /* Contacts Table UI */
 .contacts-report-table tr td {
 	vertical-align: top;
@@ -3021,7 +3029,7 @@ body.icegram-express_page_es_lists #wpcontent {
 }
 
 /* Bulk action button css */
-.icegram-express_page_es_subscribers #doaction, .icegram-express_page_es_lists #doaction, .icegram-express_page_es_lists #doaction2 {
+.icegram-express_page_es_subscribers #doaction, .icegram-express_page_es_lists #doaction, .icegram-express_page_es_lists #doaction2, .icegram-express_page_es_forms #doaction, .icegram-express_page_es_forms #doaction2 {
     background-color: var(--secondary);
     --tw-text-opacity: 1;
     color: rgb(22 30 46 / var(--tw-text-opacity));
@@ -3036,10 +3044,18 @@ body.icegram-express_page_es_lists #wpcontent {
     font-weight: 600;
 }
 
-.icegram-express_page_es_subscribers #doaction:hover, .icegram-express_page_es_lists #doaction:hover, .icegram-express_page_es_lists #doaction2:hover {
+.icegram-express_page_es_subscribers #doaction:hover, .icegram-express_page_es_lists #doaction:hover, .icegram-express_page_es_lists #doaction2:hover, .icegram-express_page_es_forms #doaction:hover, .icegram-express_page_es_forms #doaction2:hover {
     --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
     --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0.5px + var(--tw-ring-offset-width)) var(--tw-ring-color);
     -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
     box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
     --tw-ring-color: var(--brand-color-2);
+}
+
+
+/* Forms Custom field pro & max button icon */
+.icegram-express_page_es_forms .es_custom_field_link .premium-icon {
+	position: absolute;
+    right: 10px;
+    bottom: 52px;
 }

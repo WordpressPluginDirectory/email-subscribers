@@ -159,7 +159,12 @@ class Email_Subscribers_Admin {
 		}
 
 		$current_page          = ig_es_get_request_data( 'page' );
-		$enqueue_tailwind 	   = in_array( $current_page, array( 'es_gallery', 'es_campaigns', 'es_subscribers', 'es_lists' ), true );
+		$current_action 	   = ig_es_get_request_data( 'action' );
+		
+		//This below condition will helping to apply main.css file on forms add & update DND editor page.
+		$es_forms = ( $current_page == 'es_forms' && ( isset($current_action) && ( $current_action == 'new' || $current_action == 'edit' ) ) ) ? '' : 'es_forms';
+		
+		$enqueue_tailwind 	   = in_array( $current_page, array( 'es_gallery', 'es_campaigns', 'es_subscribers', 'es_lists', $es_forms, 'es_custom_fields', 'es_settings' ), true );
 		
 		if ( ! $enqueue_tailwind ) {
 			wp_enqueue_style( 'ig-es-style', plugin_dir_url( __FILE__ ) . 'dist/main.css', array(), $this->version, 'all' );
@@ -413,7 +418,7 @@ class Email_Subscribers_Admin {
 		if ( in_array( 'forms', $accessible_sub_menus ) ) {
 			// Add Forms Submenu
 			$hook = add_submenu_page( 'es_dashboard', __( 'Forms', 'email-subscribers' ), __( 'Forms', 'email-subscribers' ), 'edit_posts', 'es_forms', array( $this, 'render_forms' ) );
-			//add_action( "load-$hook", array( 'ES_Forms_Table', 'screen_options' ) );
+			add_action( "load-$hook", array( 'ES_Forms_Table', 'screen_options' ) );
 		}
 
 		if ( in_array( 'campaigns', $accessible_sub_menus ) ) {
@@ -449,7 +454,8 @@ class Email_Subscribers_Admin {
 		}
 
 		if ( in_array( 'settings', $accessible_sub_menus ) ) {
-			 add_submenu_page( 'es_dashboard', __( 'Settings', 'email-subscribers' ), __( 'Settings', 'email-subscribers' ), 'manage_options', 'es_settings', array( $this, 'load_settings' ) );
+			$hook = add_submenu_page( 'es_dashboard', __( 'Settings', 'email-subscribers' ), __( 'Settings', 'email-subscribers' ), 'manage_options', 'es_settings', array( $this, 'load_settings' ) );
+			add_action( "load-$hook", array( 'ES_Admin_Settings', 'screen_options' ) );
 		}
 
 		/**

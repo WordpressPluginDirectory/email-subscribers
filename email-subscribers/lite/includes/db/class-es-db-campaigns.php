@@ -234,15 +234,15 @@ class ES_DB_Campaigns extends ES_DB {
 
 					$templates_data = array();
 					// Get Template Name & Slug
-					if ( count( $template_ids ) > 0 ) {
-						$template_ids_str = implode( "', '", $template_ids );
-						$query            = "SELECT ID, post_name, post_title FROM {$wpbd->prefix}posts WHERE id IN ({$template_ids_str})";
-						$templates        = $wpbd->get_results( $query, ARRAY_A );
-
+					if (count($template_ids) > 0) {
+						$placeholders = implode(',', array_fill(0, count($template_ids), '%d'));
+						$query = $wpbd->prepare("SELECT ID, post_name, post_title FROM {$wpbd->prefix}posts WHERE id IN ({$placeholders})", $template_ids);
+						$templates = $wpbd->get_results($query, ARRAY_A);
+					
 						foreach ( $templates as $template ) {
 							$templates_data[ $template['ID'] ] = $template;
 						}
-					}
+					}				
 
 					// Do Batach Insert
 					$values        = array();
@@ -926,18 +926,20 @@ class ES_DB_Campaigns extends ES_DB {
 				$where .= ( empty( $where ) ? ' ' : ' AND ' ) . $wpbd->prepare( "{$sql_operator} ( " . implode( ',', $placeholders ) . ' )', $args[ $arg_key ] );
 			}
 		}
-
+	
 		$output          = ! empty( $args['output'] ) ? $args['output'] : ARRAY_A;
-		$use_cache       = false; 
+		$use_cache       = false;
 		$order_by_column = ! empty( $args['order_by_column'] ) ? $args['order_by_column'] : '';
 		$order           = ! empty( $args['order'] ) ? $args['order'] : '';
-	   
+	
 		if (! empty( $args['is_campaigns_listing'] )) {
-			$order .= '    LIMIT ' . $args['offset'] . ', ' . $args['per_page'];
+			$order .= ' LIMIT %d, %d';
+			$order = $wpbd->prepare( $order, $args['offset'], $args['per_page'] );
 		} elseif (!empty($args['limit'])) {
-			$order .= '    LIMIT ' . $args['limit'];
+			$order .= ' LIMIT %d';
+			$order = $wpbd->prepare( $order, $args['limit'] );
 		}
-
+	
 		return $this->get_by_conditions( $where, $output, $use_cache, $order_by_column, $order );
 	}
 

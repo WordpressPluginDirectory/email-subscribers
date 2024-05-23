@@ -223,12 +223,13 @@ class ES_DB_Contacts extends ES_DB {
 		$subscriber_email_name_map = array();
 		if ( count( $emails ) > 0 ) {
 
-			$emails_str = "'" . implode( "','", $emails ) . "'";
-
-			$subscribers = $wpbd->get_results(
-				"SELECT email, first_name, last_name FROM {$wpbd->prefix}ig_contacts WHERE email IN({$emails_str})",
-				ARRAY_A
-			);
+				$placeholders = array_fill(0, count($emails), '%s');
+				$placeholders_str = implode(', ', $placeholders);
+				$query = $wpbd->prepare(
+					"SELECT email, first_name, last_name FROM {$wpbd->prefix}ig_contacts WHERE email IN($placeholders_str)",
+					$emails
+				);
+				$subscribers = $wpbd->get_results($query, ARRAY_A);
 
 			if ( count( $subscribers ) > 0 ) {
 				foreach ( $subscribers as $subscriber ) {
@@ -466,7 +467,7 @@ class ES_DB_Contacts extends ES_DB {
 	public function get_all_contact_ids() {
 		global $wpbd;
 	  // phpcs:disable
-		$query = "SELECT id FROM $this->table_name";
+	  $query = "SELECT id FROM $this->table_name";
 		// phpcs:enable
 		return $wpbd->get_results( $query );
 	}
@@ -589,11 +590,8 @@ class ES_DB_Contacts extends ES_DB {
 	 */
 	public function get_email_details_map() {
 		global $wpdb;
-// phpcs:disable
-		$contacts = $wpdb->get_results(
-			"SELECT id, email, hash FROM {$wpdb->prefix}ig_contacts",
-			ARRAY_A
-		);
+		// phpcs:disable
+		$contacts = $wpdb->get_results("SELECT id, email, hash FROM {$wpdb->prefix}ig_contacts", ARRAY_A);
 		// phpcs:enable
 		$details  = array();
 		if ( count( $contacts ) > 0 ) {

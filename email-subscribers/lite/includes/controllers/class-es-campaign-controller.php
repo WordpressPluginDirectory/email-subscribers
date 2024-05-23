@@ -453,7 +453,7 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		 */
 		public static function add_broadcast_scheduler_data( $data ) {
 
-			$scheduling_option = ! empty( $data['scheduling_option'] ) ? $data['scheduling_option'] : 'schedule_now';
+			$scheduling_option = ! empty( $data['scheduling_option'] ) ? sanitize_text_field($data['scheduling_option']) : 'schedule_now';
 			$schedule_str      = '';
 
 			if ( 'schedule_now' === $scheduling_option ) {
@@ -467,10 +467,10 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				$schedule_date     = gmdate( 'Y-m-d H:i:s', $schedule_str - ( $gmt_offset * HOUR_IN_SECONDS ) );
 
 				$data['start_at'] = $schedule_date;
-				$meta             = ! empty( $data['meta'] ) ? maybe_unserialize( $data['meta'] ) : array();
+				$meta             = ! empty( $data['meta'] ) ? ig_es_maybe_unserialize( $data['meta'] ) : array();
 				$meta['type']     = 'one_time';
 				$meta['date']     = $schedule_date;
-				$data['meta']     = maybe_serialize( $meta );
+				$data['meta']     = maybe_serialize($meta);
 			}
 
 			return $data;
@@ -486,17 +486,17 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		 * @since 4.4.7
 		 */
 		public static function add_tracking_fields_data( $campaign_data = array() ) {
-
-			$campaign_meta = ! empty( $campaign_data['meta'] ) ? maybe_unserialize( $campaign_data['meta'] ) : array();
-
-			if ( empty( $campaign_meta['enable_open_tracking'] ) ) {
-				$campaign_meta['enable_open_tracking'] = 'no';
+			
+			$campaign_meta = ! empty( $campaign_data['meta'] ) ? ig_es_maybe_unserialize( $campaign_data['meta'] ) : array();
+			
+			if ( is_array( $campaign_meta ) ) {
+				$enable_open_tracking = isset( $campaign_meta['enable_open_tracking'] ) ? sanitize_text_field( $campaign_meta['enable_open_tracking'] ) : 'no';	
+				$campaign_meta['enable_open_tracking'] = $enable_open_tracking;
+				$campaign_data['meta'] = maybe_serialize( $campaign_meta );
 			}
-
-			$campaign_data['meta'] = maybe_serialize( $campaign_meta );
-
 			return $campaign_data;
 		}
+		
 
 		/**
 		 * Method to check if open tracking is enabled campaign wise.
@@ -591,19 +591,19 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		 * @since 4.4.4
 		 */
 		public static function toggle_status( $args ) {
-
-			$campaign_ids = $args['campaign_ids'];
-			$new_status   = $args['new_status'];
-
-			if ( ! empty( $campaign_ids ) ) {
-				
-				$status_updated = ES()->campaigns_db->update_status( $campaign_ids, $new_status );
-
-				return $status_updated;
+			if ( is_array( $args ) && isset( $args['campaign_ids'], $args['new_status'] ) ) {
+				$campaign_ids = isset($args['campaign_ids']) ? $args['campaign_ids'] : array();
+				$campaign_ids = array_map('absint', $campaign_ids);
+				$new_status   = sanitize_text_field( $args['new_status'] );
+		
+				if (!empty($campaign_ids)) {
+					$status_updated = ES()->campaigns_db->update_status( $campaign_ids, $new_status );
+					return $status_updated;
+				}
 			}
-
-			return false;
+			return false; 
 		}
+		
 
 	/**
 	 * Send Test Email
@@ -612,42 +612,42 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 	 * @since 4.3.2 Call ES()->mailer->send_test_email() method to send test email
 	 */
 		public static function send_test_email( $campaign_data) {
-			check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
-
-			$response = array();
-
-			$email         = $campaign_data['es_test_email'];
-			$campaign_id   = $campaign_data['id'];
-			$campaign_type = $campaign_data['type'];
-			$template_id   = $campaign_data['base_template_id'];
-			$subject       = $campaign_data['subject'];
-			$content       = $campaign_data['body'];
-			$attachments   = $campaign_data['meta']['attachments'];
-			$preheader     = $campaign_data['meta']['pre_header'];
+		check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
+	
+		$response = array();
+	
+		// Sanitize and validate inputs
+		$email         = isset( $campaign_data['es_test_email'] ) ? sanitize_email( $campaign_data['es_test_email'] ) : '';
+		$campaign_id   = isset( $campaign_data['id'] ) ? absint( $campaign_data['id'] ) : 0;
+		$campaign_type = isset( $campaign_data['type'] ) ? sanitize_text_field( $campaign_data['type'] ) : '';
+		$template_id   = isset( $campaign_data['base_template_id'] ) ? absint( $campaign_data['base_template_id'] ) : 0;
+		$subject       = isset( $campaign_data['subject'] ) ? sanitize_text_field( $campaign_data['subject'] ) : '';
+		$content       = isset( $campaign_data['body'] ) ?$campaign_data['body'] : '';
+		$attachments   = isset( $campaign_data['meta']['attachments'] ) ? $campaign_data['meta']['attachments'] : array();
+		$preheader     = isset( $campaign_data['meta']['pre_header'] ) ? sanitize_text_field( $campaign_data['meta']['pre_header'] ) : '';
 	
 			if ( ! empty( $email ) ) {
-
+	
 				$merge_tags = array( 'attachments' => $attachments );
-
+	
 				if ( ! empty( $campaign_id ) ) {
 					if ( IG_CAMPAIGN_TYPE_POST_NOTIFICATION === $campaign_type ) {
 						$campaign_data = self::replace_post_notification_merge_tags_with_sample_post( $campaign_data );
 					} elseif ( IG_CAMPAIGN_TYPE_POST_DIGEST === $campaign_type ) {
 						$campaign_data = self::replace_post_digest_merge_tags_with_sample_posts( $campaign_data );
 					}
-
+	
 					$merge_tags['campaign_id'] = $campaign_id;
 					$merge_tags['preheader']   = $preheader;
-
-					$subject = $campaign_data['subject'];
-					$content = $campaign_data['body'];
+	
+					$subject = isset( $campaign_data['subject'] ) ? sanitize_text_field( $campaign_data['subject'] ) : '';
+					$content = isset( $campaign_data['body'] ) ?  $campaign_data['body']  : '';
 				}
-
-
+	
 				$content = ES_Common::es_process_template_body( $content, $template_id, $campaign_id );
-
+	
 				$response = ES()->mailer->send_test_email( $email, $subject, $content, $merge_tags );
-
+	
 				if ( $response && 'SUCCESS' === $response['status'] ) {
 					$response['message'] = __( 'Email has been sent. Please check your inbox', 'email-subscribers' );
 				} else {
@@ -662,11 +662,11 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 					}
 				}
 			}
-
-			echo json_encode( $response );
-			exit;
+	
+		return $response;
+	
 		}
-
+	
 		public static function get_posts_block_preview ( $data ) {
 			$postsBlockContent = ! empty( $data['postsBlockContent'] ) ? $data['postsBlockContent'] : '';
 			$postsBlockSetting = ! empty( $data['postsBlockSetting'] ) ? $data['postsBlockSetting'] : '';

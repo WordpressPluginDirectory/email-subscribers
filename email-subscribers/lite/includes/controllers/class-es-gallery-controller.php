@@ -535,8 +535,8 @@ if ( ! class_exists( 'ES_Gallery_Controller' ) ) {
 		}
 
 		public static function delete_template( $args ) {
-
-			$template_id = $args['template_id'];
+			
+			$template_id = absint($args['template_id']);
 			if ( ! empty( $template_id ) ) {
 				$deleted = wp_delete_post( $template_id );
 				if ( $deleted ) {

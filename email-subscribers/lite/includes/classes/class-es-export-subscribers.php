@@ -162,7 +162,7 @@ class Export_Subscribers {
 		?>
 	
 		<div class="max-w-full -mt-3 font-sans">
-			<?php ES_Contacts_Table::render_header('export');?>
+			<?php ES_Contacts_Table::render_header('export'); ?>
 			<div class="overflow-hidden ig-es-list-table">
 				<h2 class="mx-4 text-2xl font-medium text-gray-700 sm:leading-7 sm:truncate"> <?php esc_html_e( 'Export Contacts', 'email-subscribers' ); ?></h2>
 				<form name="frm_es_subscriberexport" method="post">

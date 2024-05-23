@@ -44,11 +44,19 @@ if ( ! class_exists( 'ES_Router' ) ) {
 		 */
 		public function handle_ajax_request() {
 
+			check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
+			
+			$can_access_audience  = ES_Common::ig_es_can_access( 'audience' );
+			$can_access_campaign  = ES_Common::ig_es_can_access( 'campaigns' );
+			$can_access_forms     = ES_Common::ig_es_can_access( 'forms' );
+			$can_access_sequence  = ES_Common::ig_es_can_access( 'sequence' );
+			$can_access_reports   = ES_Common::ig_es_can_access( 'reports' );
+			$can_access_workflows = ES_Common::ig_es_can_access( 'workflows' );
+			if ( ! ( $can_access_audience || $can_access_campaign || $can_access_forms || $can_access_sequence || $can_access_reports || $can_access_workflows ) ) {
+				return 0;
+			}
 			$response = array();
 
-			if (  ! defined( 'IG_ES_DEV_MODE' ) || ! IG_ES_DEV_MODE ) {
-				check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
-			}
 
 			$request = $_REQUEST;
 			
