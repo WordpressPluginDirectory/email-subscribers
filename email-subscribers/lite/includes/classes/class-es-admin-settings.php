@@ -912,7 +912,11 @@ class ES_Admin_Settings {
 		$allocated_limit           = isset( $es_ess_data['allocated_limit'] ) ? $es_ess_data['allocated_limit']: 0;
 		$used_limit                = isset( $es_ess_data['used_limit'][$current_month] ) ? $es_ess_data['used_limit'][$current_month] : 0;
 		$remaining_limit		   = $allocated_limit - $used_limit;
-		$remaining_limit_percentage = number_format_i18n( ( ( $remaining_limit * 100 ) / $allocated_limit ), 2 );
+		if ( $allocated_limit > 0 ) {
+			$remaining_limit_percentage = number_format_i18n( ( ( $remaining_limit * 100 ) / $allocated_limit ), 2 );
+		} else {
+			$remaining_limit_percentage = 0;
+		}
 		$remaining_percentage_limit = 10;   //Set email remaining percentage limit, so upsell notice box will visible.
 		$plan                      = ES_Service_Email_Sending::get_plan();
 		$premium_plans             = array( 'pro', 'max' );
@@ -984,7 +988,7 @@ class ES_Admin_Settings {
 				?>
 			</label>
 			<?php
-			if ($remaining_limit_percentage <= $remaining_percentage_limit && $allocated_limit != 30000) {
+			if ( 'yes' === $opted_for_sending_service && $remaining_limit_percentage <= $remaining_percentage_limit && $allocated_limit != 30000) {
 				?>
 				<div class="ess-upsell-sec">
 					<div class="main-upsell-sec">

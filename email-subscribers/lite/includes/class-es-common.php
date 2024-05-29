@@ -1866,6 +1866,12 @@ class ES_Common {
 				'title' => __( '5 Simple Tricks to Improve Email Marketing Campaign Results', 'email-subscribers' ),
 				'link'  => 'https://www.icegram.com/email-marketing-campaign/',
 			),
+			array(
+				'title' => __( '<b>Icegram</b> recommends <b>Kloudbean hosting</b> for best performance of your website', 'email-subscribers' ),
+				'link'  => 'https://www.kloudbean.com/?aff=qkn6qxtvcvc4sb',
+				'label'       => __( 'Migrate Now', 'email-subscribers' ),
+				'label_class' => 'bg-green-100 text-green-800',
+			)
 		);
 
 		if ( $upsell ) {
@@ -3050,9 +3056,10 @@ class ES_Common {
 				$content = substr_replace($content, $replace, $start_pos, $end_pos + strlen($search_end) - $start_pos);
 			}
 		}
+		$content = ES_Handle_Post_Notification::prepare_body( $content, $post_id, 0 );
 		return $content;
 	}	
-
+	
 	public static function contains_posts_block( $content ) {
 		return strpos( $content, '{{campaign.posts}}' ) !== false;
 	}

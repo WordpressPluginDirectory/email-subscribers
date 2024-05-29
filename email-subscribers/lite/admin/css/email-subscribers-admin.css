@@ -2485,8 +2485,13 @@ body[class*="page_es_subscribers"] .wp-list-table.contacts th#last_opened_at {
 
 #ig-es-post-settings-section input.es_custom_post_type[type="checkbox"] {
     display: inline-block;
-    appearance: none;
-    width: auto;
+    /* appearance: none;
+    width: auto; */
+	width:20px;
+	height:20px;
+	background-color: #5e19cf;
+	margin-left: 4px;
+	border-radius: 4px;
 }
 
 #ig-es-post-settings-section input.es_custom_post_type + label {
@@ -3059,3 +3064,24 @@ body.icegram-express_page_es_forms #wpcontent {
     right: 10px;
     bottom: 52px;
 }
+
+#gj-settings-container .checkbox-section input[type="checkbox"] {
+	width:20px;
+	height:20px;
+	background-color: #5e19cf;
+	margin-left: 4px;
+	border-radius: 4px;
+}
+
+#gj-settings-container .checkbox-section input[type=checkbox]:checked::before,
+#ig-es-post-settings-section input[type=checkbox]:checked::before {
+    content: '' !important;
+	margin: -.1875rem 0 0 -.25rem;
+    height: 1.3125rem;
+    width: 1.3125rem;
+}
+
+#gj-settings-container .gjs-field{
+	border: 0px !important;
+}
+
