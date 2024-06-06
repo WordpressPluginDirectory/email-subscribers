@@ -297,7 +297,7 @@ class ES_Admin_Settings {
 				'name'    => __( 'Image size', 'email-subscribers' ),
 				'info'    => __( 'Image to use in Post Notification emails' ),
 				'type'    => 'select',
-				'options' => ES_Common::get_image_sizes(),
+				'options' => ES_Common::get_registered_image_sizes(),
 				/* translators: %s: Keyword */
 				'desc'    => sprintf( __( '%s keyword will use this image size. Use full size only if your template design needs it. Thumbnail should work well otherwise.', 'email-subscribers' ), '{{POSTIMAGE}}' ),
 				'default' => 'full',

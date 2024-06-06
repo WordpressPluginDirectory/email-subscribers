@@ -128,6 +128,15 @@ class ES_Service_Email_Sending extends ES_Services {
 		add_action( 'ig_es_campaign_failed', array( $this, 'update_sending_service_status' ) );
 	}
 
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+
 	/**
 	 * Register the JavaScript for ES gallery.
 	 */
@@ -196,6 +205,7 @@ class ES_Service_Email_Sending extends ES_Services {
 		$home_url   = home_url();
 		$parsed_url = parse_url( $home_url );
 		$domain     = ! empty( $parsed_url['host'] ) ? $parsed_url['host'] : '';
+		
 		if ( empty( $domain ) ) {
 			$response['message'] = __( 'Site url is not valid. Please check your site url.', 'email-subscribers' );
 			return $response;

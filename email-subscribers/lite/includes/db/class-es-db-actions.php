@@ -324,7 +324,6 @@ class ES_DB_Actions extends ES_DB {
 
 	public function get_actions_count( $args = array() ) {
 		global $wpbd;
-
 		$query   = 'SELECT';
 		$columns = array();
 		if ( ! empty( $args['types'] ) ) {
@@ -381,11 +380,19 @@ class ES_DB_Actions extends ES_DB {
 		if ( ! empty( $args['days'] ) ) {
 			$where[] = $wpbd->prepare( 'created_at >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL %d DAY))', esc_sql( $args['days'] ) );
 		}
+		
+		if ( ! empty( $args['start_date'] ) ) {
+			$where[] = $wpbd->prepare( 'created_at >= UNIX_TIMESTAMP(%s)', esc_sql( $args['start_date'] ) );
+		}
+		
+		if ( ! empty( $args['end_date'] ) ) {
+			$where[] = $wpbd->prepare( 'created_at <= UNIX_TIMESTAMP(%s)', esc_sql( $args['end_date'] ) );
+		}
+		
 
 		if ( ! empty( $where ) ) {
 			$query .= ' WHERE ' . implode( ' AND ', $where );
 		}
-
 		$results = $wpbd->get_row(
 			$query,
 			ARRAY_A

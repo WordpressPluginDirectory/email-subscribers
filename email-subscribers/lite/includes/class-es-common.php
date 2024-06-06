@@ -962,22 +962,54 @@ class ES_Common {
 		return apply_filters( 'ig_es_get_railway_hrs_timings', $timings );
 	}
 
+
 	/**
-	 * Get Image sizes
+	 * Get registered image sizes
 	 *
 	 * @return array
 	 *
-	 * @since 4.0.0
+	 * @since 5.7.23
 	 */
-	public static function get_image_sizes() {
-		$sizes = array(
+	public static function get_registered_image_sizes() {
+		global $_wp_additional_image_sizes;
+	
+		// Get all default and custom image sizes
+		$sizes 		   = array();
+		$default_sizes = get_intermediate_image_sizes();
+	
+		foreach ( $default_sizes as $size ) {
+			// Check if the size is in the additional image sizes array
+			if ( isset( $_wp_additional_image_sizes[ $size ] ) ) {
+				$sizes[ $size ] = array(
+					'width'  => $_wp_additional_image_sizes[ $size ]['width'],
+					'height' => $_wp_additional_image_sizes[ $size ]['height'],
+					'crop'   => $_wp_additional_image_sizes[ $size ]['crop'],
+				);
+			} else {
+				// Get default sizes
+				$sizes[ $size ] = array(
+					'width'  => get_option( "{$size}_size_w" ),
+					'height' => get_option( "{$size}_size_h" ),
+					'crop'   => get_option( "{$size}_crop" ),
+				);
+			}
+		}
+	
+		// Create a formatted array with size names => labels
+		$formatted_sizes = array(
 			'full'      => __( 'Full Size', 'email-subscribers' ),
 			'medium'    => __( 'Medium Size', 'email-subscribers' ),
 			'thumbnail' => __( 'Thumbnail', 'email-subscribers' ),
 		);
 
-		return $sizes;
+		foreach ( $sizes as $name => $size ) {
+			$label 					  = ucfirst( str_replace( array( '-', '_' ), ' ', $name) );
+			$formatted_sizes[ $name ] = $label;
+		}
+	
+		return $formatted_sizes;
 	}
+	
 
 	/**
 	 * Get IG Option

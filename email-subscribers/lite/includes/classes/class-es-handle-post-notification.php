@@ -268,18 +268,7 @@ class ES_Handle_Post_Notification {
 		$post_thumbnail_url  = '';
 		if ( ( function_exists( 'has_post_thumbnail' ) ) && ( has_post_thumbnail( $post_id ) ) ) {
 			$es_post_image_size = get_option( 'ig_es_post_image_size', 'full' );
-			switch ( $es_post_image_size ) {
-				case 'full':
-					$post_thumbnail = get_the_post_thumbnail( $post_id, 'full' );
-					break;
-				case 'medium':
-					$post_thumbnail = get_the_post_thumbnail( $post_id, 'medium' );
-					break;
-				case 'thumbnail':
-				default:
-					$post_thumbnail = get_the_post_thumbnail( $post_id, 'thumbnail' );
-					break;
-			}
+			$post_thumbnail = get_the_post_thumbnail( $post_id, $es_post_image_size );
 		}
 
 		if ( '' != $post_thumbnail ) {

@@ -212,9 +212,11 @@ class ES_DB_Lists extends ES_DB {
 
 		// Check if we have got array of list ids.
 		if ( is_array( $list_ids ) ) {
+			$list_ids = array_map( 'intval', $list_ids );
 			$list_ids_str = implode( ',', $list_ids );
 		} else {
-			$list_ids_str = $list_ids;
+			$list_id = intval( $list_ids );
+			$list_ids_str = $list_id;
 		}
 
 		$where = "id IN ({$list_ids_str})";

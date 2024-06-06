@@ -130,6 +130,7 @@ jQuery(document).ready(function() {
 		updating_email_delivery_main_task_status: function() {
 			setTimeout(function() {
 				let unsuccessful_tasks = jQuery('#ig-es-onboard-test-email-delivery-tasks-list li[data-status="error"]');
+				
 				// Check if there are any unsuccessfull tasks related to email delivery i.e. having any errors.
 				if ( 0 === unsuccessful_tasks.length ) {
 					ig_es_change_onboard_task_status( 'ig-es-onboard-test-email-delivery', 'success');
