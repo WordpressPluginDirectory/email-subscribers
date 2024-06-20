@@ -2,18 +2,14 @@
 global $wpdb;
 $import_url = admin_url( 'admin.php?page=es_subscribers&action=import' );
 ?>
-<table class="mt-2 w-full bg-white rounded-md overflow-hidden" style="<?php echo ! empty( $upsell ) ? 'filter:blur(1px);' : ''; ?>">
+<table style="<?php echo ! empty( $upsell ) ? 'filter:blur(1px);' : ''; ?>">
 	<tbody> 
 		<?php
 		$allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 		if ( ! empty( $audience_activity ) ) {
 			foreach ( $audience_activity as $activitiy_key => $activitiy ) {
 				?>
-				<tr class=" 
-				<?php 
-				if ( count($audience_activity) - 1 != $activitiy_key ) {
-					?>
- border-b border-gray-200 <?php } ?> text-sm leading-5" >
+				<tr>
 					<td class="py-3 text-gray-500">
 						<span class="es-ellipsis-text">
 						<?php echo wp_kses( $activitiy['text'], $allowed_html_tags ); ?>
@@ -36,8 +32,10 @@ $import_url = admin_url( 'admin.php?page=es_subscribers&action=import' );
 	</tbody>
 </table>
 
-<a href="<?php echo esc_url( $import_url ); ?>" class="inline-flex justify-center py-1 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-indigo-600 border border-indigo-500 rounded-md cursor-pointer select-none focus:outline-none focus:shadow-outline-indigo focus:shadow-lg hover:bg-indigo-500 hover:text-white  hover:shadow-md md:px-1 lg:px-3 xl:px-3" style="position: absolute;bottom: 5%;">
-	<span>
-		<?php echo esc_html__( 'Import', 'email-subscribers' ); ?>
-	</span>
+<a href="<?php echo esc_url( $import_url ); ?>" style="position: absolute;bottom: 5%;">
+	<button type="button" class="primary">
+		<span>
+			<?php echo esc_html__( 'Import', 'email-subscribers' ); ?>
+		</span>
+	</button>
 </a>

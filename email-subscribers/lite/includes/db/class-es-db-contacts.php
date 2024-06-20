@@ -525,7 +525,7 @@ class ES_DB_Contacts extends ES_DB {
 	public function edit_contact_global_status( $ids = array(), $unsubscribed = 0 ) {
 		global $wpbd;
 
-		$ids_str = implode( ',', $ids );
+		$ids_str = implode( ',', array_map( 'absint', $ids ) );
 
 		return $wpbd->query(
 			$wpbd->prepare(

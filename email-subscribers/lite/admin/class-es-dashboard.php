@@ -140,7 +140,7 @@ if ( ! class_exists( 'ES_Dashboard' ) ) {
 						$contact_info_text = $contact_email;
 					}
 					
-					$contact_info_text = '<a href="?page=es_subscribers&action=edit&subscriber=' . $contact_id . '" target="_blank">' . $contact_info_text . '</a>';
+					$contact_info_text = '<a href="?page=es_subscribers&action=edit&subscriber=' . $contact_id . '" class="text-indigo-600" target="_blank">' . $contact_info_text . '</a>';
 					$action_verb       = ES()->actions->get_action_verb( $action_type );
 					$action_created_at = $action['created_at'];
 					$activity_time     = human_time_diff( time(), $action_created_at ) . ' ' . __( 'ago', 'email-subscribers' );

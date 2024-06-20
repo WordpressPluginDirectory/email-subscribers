@@ -8,14 +8,14 @@
 		<?php
 		if ( 'success' === $service_status ) {
 			?>
-			<svg xmlns="http://www.w3.org/2000/svg" class="inline-block ml-1 h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+			<svg xmlns="http://www.w3.org/2000/svg" class="inline-block ml-1 h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
 				<title><?php echo esc_attr__( 'Email Sending Service working fine', 'email-subscribers' ); ?></title>
 				<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
 			</svg>
 			<?php
 		} else {
 			?>
-			<svg xmlns="http://www.w3.org/2000/svg" class="inline-block ml-1 h-5 w-5 text-red-500" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+			<svg xmlns="http://www.w3.org/2000/svg" class="inline-block ml-1 h-5 w-5 text-red-600" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 				<title><?php echo esc_html__( 'Error in email sending.', 'email-subscribers' ); ?></title>
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 			</svg>
@@ -24,7 +24,7 @@
 		?>
 	</p>
 	<div id="subscribers-stats" class="clear-both">
-		<div class="grid grid-cols-3 gap-4 py-4 text-gray-600 text-center">
+		<div class="stats-info">
 			<div class="p-1">
 				<div class="md:flex md:items-center">
 					<span class="text-2xl font-bold leading-none text-indigo-600 pr-1">
@@ -70,8 +70,10 @@
 				echo esc_html__( 'If you have more email to send for a month consider our premium plans of Email Sending', 'email-subscribers' );
 			?>
 		</p>
-		<a href="https://www.icegram.com/email-sending-service/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01" target="_blank" class="inline-flex justify-center px-1.5 py-1 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-indigo-600 border border-indigo-500 rounded-md cursor-pointer select-none focus:outline-none focus:shadow-outline-indigo focus:shadow-lg hover:bg-indigo-500 hover:text-white  hover:shadow-md md:px-2 lg:px-3 xl:px-4 mt-3">
-			<?php echo esc_html( 'Upgrade', 'email-subscribers' ); ?> &rarr;
+		<a href="https://www.icegram.com/email-sending-service/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01" target="_blank" class=" mt-3">
+			<button type="button" class="primary">
+				<?php echo esc_html( 'Upgrade', 'email-subscribers' ); ?> &rarr;
+			</button>
 		</a>
 	</div>
 </div>

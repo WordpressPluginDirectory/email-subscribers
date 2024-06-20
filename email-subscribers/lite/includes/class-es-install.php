@@ -326,6 +326,10 @@ if ( ! class_exists( 'ES_Install' ) ) {
 				'ig_es_trial_expires_email_for_existing_users',
 				'ig_es_update_5713_db_version',
 			),
+			'5.7.25' => array(
+				'ig_es_maybe_mark_onboarding_complete',
+				'ig_es_update_5725_db_version',
+			),
 		);
 
 		/**

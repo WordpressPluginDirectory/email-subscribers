@@ -203,7 +203,7 @@ if ( ! class_exists( 'IG_ES_Onboarding' ) ) {
 			);
 
 			/* This condition can merge ESS onboarding tasks to current tasks when user enable ESS */
-			if(ig_es_get_request_data('enable_ess', '') == 'yes') {
+			if (ig_es_get_request_data('enable_ess', '') == 'yes') {
 				self::$all_onboarding_tasks['configuration_tasks'] = array_merge(self::$all_onboarding_tasks['configuration_tasks'], $ess_tasks_list);
 			}
 
