@@ -339,9 +339,9 @@ if ( ! class_exists( 'ES_Install' ) ) {
 		 */
 		public static function init() {
 
+			self::$logger = get_ig_logger();
+			
 			if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
-
-				self::$logger = get_ig_logger();
 
 				add_action( 'admin_init', array( __CLASS__, 'check_version' ), 5 );
 				add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
