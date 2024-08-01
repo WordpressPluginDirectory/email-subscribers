@@ -4,9 +4,9 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Author URI: https://www.icegram.com/
 Tags: email marketing, email subscribers, newsletters, autoresponders, email automation
 Requires at least: 3.9
-Tested up to: 6.5.2
+Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 5.7.26
+Stable tag: 5.7.29
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,13 +438,27 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.26 =
+= 5.7.29 =
 
-* Fix: Broken UI when previewing campaign on Reports page in some cases
-* Fix: SQL injection vulnerability during unsubscription - CVE-2024-6172 [Thanks to Wordfence & Patchstack teams]
-* Fix: Fatal error when activating plugin from plugins' search page
+* Fix: Button text not editable in Drag-n-Drop editor in few cases
 
 == Changelog ==
+
+**5.7.29 (01.08.2024)**
+
+* Fix: Button text not editable in Drag-n-Drop editor in few cases
+
+**5.7.28 (24.07.2024)**
+
+* New: Added campaign rule to target subscribers based on their subscription date [MAX]
+* Update: Compatibility check with WordPress 6.6
+
+**5.7.27 (15.07.2024)**
+
+* Fix: Campaign filters were not working correctly in a few cases
+* Fix: '{{LIST}}' tag is showing contact's all lists(including unsubscribed one) in few cases in welcome email
+* Fix: Missing authorization checks on creating REST API keys and contact bulk actions - CVE-2024-5703 [Thanks to Wordfence team]
+* Fix: Sequence messages not showing when the sequence campaign is inactive [MAX]
 
 **5.7.26 (26.06.2024)**
 

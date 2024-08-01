@@ -659,22 +659,28 @@ if ( ! class_exists( 'ES_Queue' ) ) {
 
 								$notification_options = maybe_unserialize( $notification['_options'] );
 								$notification_type    = ! empty( $notification_options['type'] ) ? $notification_options['type'] : '';
+								$email_sent = false;
 								if ( 'optin_confirmation' === $notification_type ) {
 									$merge_tags['contact_id'] = $contact_id;
-									ES()->mailer->send_double_optin_email( $email, $merge_tags );
+									$send_result = ES()->mailer->send_double_optin_email( $email, $merge_tags );
+									$email_sent = ! empty( $send_result['status'] ) && 'SUCCESS' === $send_result['status'];
 								} elseif ( 'optin_welcome_email' === $notification_type ) {
 									$merge_tags['contact_id'] = $contact_id;
-									ES()->mailer->send_welcome_email( $email, $merge_tags );
+									$send_result = ES()->mailer->send_welcome_email( $email, $merge_tags );
+									$email_sent = ! empty( $send_result['status'] ) && 'SUCCESS' === $send_result['status'];
 								} else {
 									// Enable unsubscribe link and tracking pixel
 									ES()->mailer->add_unsubscribe_link = true;
 									ES()->mailer->can_track_open_clicks   = true;
-									ES()->mailer->send( $subject, $content, $email, $merge_tags );
+									$send_result = ES()->mailer->send( $subject, $content, $email, $merge_tags );
+									$email_sent = ! empty( $send_result['status'] ) && 'SUCCESS' === $send_result['status'];
 								}
 
 								$email_sending_limit--;
 
-								$this->db->delete_from_queue( $campaign_id, $contact_id );
+								if ( $email_sent ) {
+									$this->db->delete_from_queue( $campaign_id, $contact_id );
+								}
 							}
 
 							// Check if email sending limit or time limit or memory limit has been reached.

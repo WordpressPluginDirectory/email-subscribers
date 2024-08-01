@@ -4044,7 +4044,6 @@ table td
 /* Setting tab content CSS */
 #es-menu-tab-content {
   width: 80%;
-  /* End */
 
   /* All tab content table CSS*/
 }
@@ -4112,7 +4111,6 @@ table td
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1.25rem;
-          /* End */
 
           /* Upsell section CSS */
 }
@@ -4489,12 +4487,14 @@ table td
 #es-menu-tab-content #tabs-general table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table tbody tr td {
   padding-left: 2.5rem;
 }
+/* End */
 #es-menu-tab-content #tabs-general table tr:last-of-type, #es-menu-tab-content #tabs-email_sending table tr:last-of-type, #es-menu-tab-content #tabs-security_settings table tr:last-of-type, #es-menu-tab-content #tabs-rest_api_settings table tr:last-of-type, #es-menu-tab-content #tabs-user_roles table tr:last-of-type {
   border-width: 0px;
 }
 :is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info) #es-menu-tab-content #tabs-general table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-email_sending table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-security_settings table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-rest_api_settings table tr:last-of-type,:is(.es-import-option,#ig_es_mailer_settings-field-row,#icegram-mailer-info)  #es-menu-tab-content #tabs-user_roles table tr:last-of-type {
       border-width: 0px;
   }
+/* End */
 /* End */
 /* Dashboard page CSS */
 /* There are still some inline clasess used in dashboard.php. The clasess which are already available tailwind.css. */
@@ -4941,12 +4941,6 @@ table td
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-.reports-statistic .statistic-info .stat-sec .stat-grid-sec {
-
-        /* .email_sent, .email_unsubscribed {
-          @apply mt-1 font-medium leading-6 text-gray-500";
-        } */
-      }
 .reports-statistic .statistic-info .stat-sec .stat-grid-sec .email_viewed_count {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -5001,6 +4995,9 @@ table td
   --tw-text-opacity: 1;
   color: rgb(88 80 236 / var(--tw-text-opacity));
 }
+/* .email_sent, .email_unsubscribed {
+          @apply mt-1 font-medium leading-6 text-gray-500";
+        } */
 .reports-statistic .empty_country_data {
   padding-left: 1.5rem;
   padding-right: 1.5rem;

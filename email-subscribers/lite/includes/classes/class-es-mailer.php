@@ -424,7 +424,7 @@ if ( ! class_exists( 'ES_Mailer' ) ) {
 			$this->add_unsubscribe_link = false;
 			$this->can_track_open_clicks   = false;
 			// Send Email
-			$this->send( $subject, $content, $email, $data );
+			return $this->send( $subject, $content, $email, $data );
 
 		}
 

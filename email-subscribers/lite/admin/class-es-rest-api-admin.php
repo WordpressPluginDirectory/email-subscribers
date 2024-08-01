@@ -23,6 +23,14 @@ class ES_Rest_API_Admin {
 	}
 
 	public static function handle_generate_rest_api_key_request() {
+
+		/* Check users role if it is admin or not */
+		$can_access_settings = ES_Common::ig_es_can_access( 'settings' );
+		if ( ! ( $can_access_settings ) ) {
+			return 0;
+		}
+		/* End */
+
 		check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
 		$response = array();
 		$user_id  = ig_es_get_request_data( 'user_id', 0 );

@@ -1180,4 +1180,14 @@ class ES_DB_Contacts extends ES_DB {
 		// phpcs:enable
 		return $last_contact_id;
 	}
+
+	//Get contacts by list id.
+	public function get_contacts_by_list_id( $status = 'all', $list_id = 0 ) {
+	
+		$contacts = ES()->lists_contacts_db->get_contacts($status, $list_id); 
+		$contact_ids = array_column($contacts, 'contact_id'); 
+		$contact_details = $this->get_details_by_ids($contact_ids);
+		
+		return $contact_details;
+	}
 }

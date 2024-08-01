@@ -126,6 +126,7 @@ class ES_Service_Email_Sending extends ES_Services {
 		// We are marking sending service status as failed only when we can't send a campaign after trying 3 times.
 		// This will be helpful in avoiding temporary failure errors due to network calls/site load on ESS end.
 		add_action( 'ig_es_campaign_failed', array( $this, 'update_sending_service_status' ) );
+		add_action( 'admin_notices', array( $this, 'show_ess_promotion_notice' ) );
 	}
 
 	public static function get_instance() {
@@ -205,7 +206,6 @@ class ES_Service_Email_Sending extends ES_Services {
 		$home_url   = home_url();
 		$parsed_url = parse_url( $home_url );
 		$domain     = ! empty( $parsed_url['host'] ) ? $parsed_url['host'] : '';
-		
 		if ( empty( $domain ) ) {
 			$response['message'] = __( 'Site url is not valid. Please check your site url.', 'email-subscribers' );
 			return $response;
@@ -749,10 +749,10 @@ class ES_Service_Email_Sending extends ES_Services {
 	}
 
 	public static function update_used_limit( $sent_count = 0 ) {
-		$ess_data     = get_option( 'ig_es_ess_data', array() );
+		$ess_data      = get_option( 'ig_es_ess_data', array() );
 		$current_month = ig_es_get_current_month();
-		$used_limit   = ! empty( $ess_data['used_limit'][$current_month] ) ? $ess_data['used_limit'][$current_month] : 0;
-		$used_limit  += $sent_count;
+		$used_limit    = ! empty( $ess_data['used_limit'][$current_month] ) ? $ess_data['used_limit'][$current_month] : 0;
+		$used_limit   += $sent_count;
 		if ( ! isset( $ess_data['used_limit'] ) || ! is_array( $ess_data['used_limit'] ) ) {
 			$ess_data['used_limit'] = array();
 		}
@@ -763,8 +763,8 @@ class ES_Service_Email_Sending extends ES_Services {
 	public static function get_remaining_limit() {
 	
 		self::fetch_and_update_ess_limit();
-		$ess_data = get_option( 'ig_es_ess_data', array() );
-		$current_month = ig_es_get_current_month();
+		$ess_data        = get_option( 'ig_es_ess_data', array() );
+		$current_month   = ig_es_get_current_month();
 		$allocated_limit = ! empty( $ess_data['allocated_limit'] ) ? $ess_data['allocated_limit'] : 0;
 		$used_limit      = ! empty( $ess_data['used_limit'][$current_month] ) ? $ess_data['used_limit'][$current_month] : 0;
 		$remaining_limit = $allocated_limit - $used_limit;
@@ -776,11 +776,14 @@ class ES_Service_Email_Sending extends ES_Services {
 		$data = array(
 			'admin_email'   => $admin_email,
 		);
+		$ess_data = get_option( 'ig_es_ess_data', array() );
+		$api_key  = $ess_data['api_key'];
 		$options = array(
 			'method'  => 'POST',
 			'body'    => json_encode($data),
 			'headers' => array(
 				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bearer ' . $api_key,// Keep it like bearer when we send email
 			),
 		);
 
@@ -894,7 +897,7 @@ class ES_Service_Email_Sending extends ES_Services {
 	}
 
 	public static function can_promote_ess() {
-		if ( ! self::opted_for_sending_service() && ! self::is_ess_promotion_disabled() ) {
+		if ( get_option( 'ig_es_ess_opted_for_sending_service', '' ) === '' && ! self::is_ess_promotion_disabled() ) {
 			return true;
 		}
 		return false;
@@ -904,7 +907,6 @@ class ES_Service_Email_Sending extends ES_Services {
 		$is_ess_promotion_disabled = 'yes' === get_option( 'ig_es_promotion_disabled', 'no' );
 		return $is_ess_promotion_disabled;
 	}
-
 	public static function get_ess_promotion_message_html() {
 		ob_start();
 		$optin_url      = admin_url( '?page=es_dashboard&ess_optin=yes' );
@@ -913,6 +915,7 @@ class ES_Service_Email_Sending extends ES_Services {
 		<div id="ig_es_ess_promotion_message" class="text-gray-700 not-italic">
 			<p>
 				<?php echo esc_html__( 'Please fix above sending error to continue sending emails', 'email-subscribers' ); ?>
+				
 			</p>
 			<p>
 				<?php echo esc_html__( 'OR', 'email-subscribers' ); ?>
@@ -920,21 +923,190 @@ class ES_Service_Email_Sending extends ES_Services {
 			<p>
 				<?php echo esc_html__( 'Use our Icegram email sending service for a hassle-free email sending experience.', 'email-subscribers' ); ?>
 			</p>
-			<a href="<?php echo esc_url( $optin_url ); ?>" target="_blank" id="ig-es-ess-optin-promo" class="ig-es-primary-button px-3 py-1 mt-2 align-middle">
-				<?php
-					echo esc_html__( 'Signup to ESS', 'email-subscribers' );
-				?>
+			<a href="<?php echo esc_url( $optin_url ); ?>" target="_blank" id="ig-es-ess-optin-promo">
+			<button class="primary">	<?php echo esc_html__('Signup to ESS', 'email-subscribers'); ?>
+			</button>
 			</a>
-			<a href="<?php echo esc_url( $learn_more_url ); ?>" target="_blank" class="ig-es-title-button px-3 py-1 mt-2 ml-2 align-middle">
-				<?php
-					echo esc_html__( 'Learn more', 'email-subscribers' );
-				?>
+			<a href="<?php echo esc_url( $learn_more_url ); ?>" class="ml-2" target="_blank" >
+			<button class="secondary">	<?php echo esc_html__('Learn more', 'email-subscribers'); ?>
+			</button>
 			</a>
 		</div>
 		<?php
 		$message_html = ob_get_clean();
 		return $message_html;
 	}
+
+	public function send_used_limit_data_to_ess() {
+		$response = array(
+			'status' => 'error',
+		);
+
+		$ess_option_exists = get_option( 'ig_es_ess_opted_for_sending_service', '' ) !== '';
+		if ( ! $ess_option_exists ) {
+			return;
+		}
+
+		$ess_data = get_option( 'ig_es_ess_data', array() );
+		$current_month = ig_es_get_current_month();
+		$allocated_limit = ! empty( $ess_data['allocated_limit'] ) ? (int) $ess_data['allocated_limit'] : 0;
+		if ( $allocated_limit !== 3000 ) {
+			return;
+		}
+		$used_limit      = ! empty( $ess_data['used_limit'][$current_month] ) ? $ess_data['used_limit'][$current_month] : 0;
+		$api_key  = $ess_data['api_key'];
+
+		$data = array(
+			'used_limit'   => (int) $used_limit,
+		);
+
+		$options = array(
+			'timeout' => 50,
+			'method'  => 'POST',
+			'body'    => json_encode($data),
+			'headers' => array(
+				'Authorization' => 'Bearer ' . $api_key,// Keep it like bearer when we send email
+				'Content-Type'  => 'application/json',
+			),
+		);
+
+		$api_url = 'https://api.igeml.com/accounts/update/';
+
+		$response = wp_remote_post( $api_url, $options );
+
+		if ( ! is_wp_error( $response ) ) {
+			$response_body = wp_remote_retrieve_body( $response );
+			$response_data = ( array ) json_decode( $response_body );
+			if ( 'success' === $response_data['status'] ) {
+				$ess_data['plan'] = $this->get_plan();
+				update_option( 'ig_es_ess_data', $ess_data );
+			}
+		}
+	}
+
+	// ESS promotion notice for WP/PHP mailer
+	public static function get_ess_promotion_message_mailer_html($time_message,$total_contacts) {
+		ob_start();
+		$optin_url      = admin_url('?page=es_dashboard&ess_optin=yes#sending-service-onboarding-tasks-list');
+		$learn_more_url = 'https://www.icegram.com/email-sending-service/?utm_source=in_app&utm_medium=ess_wp_php_mailer_notice&utm_campaign=ess_upsell';
+	
+		$heading = esc_html__('Increase Your Email Campaign Efficiency with Our Email Sending Service!', 'email-subscribers');
+		$allowedtags     = ig_es_allowed_html_tags_in_esc();
+		$tooltip_text = sprintf(
+			'Calculation based on your sending speed of %s and %s subscribers.',
+			esc_html($time_message),
+			esc_html($total_contacts)
+		);
+		//$tooltip_html = ES_Common::get_tooltip_html($tooltip_text);
+		
+		?>
+		<div id="ig_es_ess_promotion_mailer_message" class="text-gray-700 not-italic p-4 leading-relaxed">
+			<h2 class="text-xl font-bold mb-2"><?php echo $heading; ?></h2>
+			<div class="mb-4">
+				<?php
+				printf(
+					'Your current sending speeds can take up to %s ',
+					'<strong>' . esc_html($time_message) . '</strong>'
+				);
+				// echo wp_kses( $tooltip_html, $allowedtags ); 
+				?>
+				
+				<?php
+				esc_html_e('for sending important updates to your subscribers. This delay could result in missed opportunities and time-sensitive information not being delivered promptly.', 'email-subscribers');
+				?>
+			</div>
+			<p class="font-bold mt-4 mb-2">
+				<?php
+				printf(
+					esc_html__('Upgrade to our%1$s (ESS) and experience:', 'email-subscribers'),
+					'<a href="' . esc_url($learn_more_url) . '" class="ml-2" target="_blank">' . esc_html__('Email Sending Service', 'email-subscribers') . '</a>'
+				);
+				?>
+			</p>
+			<ul class="list-disc ml-6 mt-2 space-y-1" style="list-style-type:initial">
+				<li><span class="font-bold"><?php esc_html_e('Lightning-Fast Sending Speeds:', 'email-subscribers'); ?></span> <?php esc_html_e('Send your entire campaign in minutes, not hours.', 'email-subscribers'); ?></li>
+				<li><span class="font-bold"><?php esc_html_e('Enhanced Deliverability:', 'email-subscribers'); ?></span> <?php esc_html_e('Reach your audience\'s inboxes with higher reliability and avoid being flagged as spam.', 'email-subscribers'); ?></li>
+				<li><span class="font-bold"><?php esc_html_e('Hassle-Free Experience:', 'email-subscribers'); ?></span> <?php esc_html_e('Focus on your content while we handle the technicalities of efficient email delivery.', 'email-subscribers'); ?></li>
+			</ul>
+	
+			<div class="flex flex-row sm:flex-row sm:space-x-2 mt-2">
+				<a href="<?php echo esc_url($optin_url); ?>" target="_blank" id="ig-es-ess-optin-promo" class="sm:mr-2 mb-2 sm:mb-0">
+					<button class="primary bg-blue-500 text-white py-2 px-4 rounded w-full sm:w-auto">
+						<?php esc_html_e('Signup to ESS', 'email-subscribers'); ?>
+					</button>
+				</a>
+			</div>
+		</div>
+		<?php
+		$message_html = ob_get_clean();
+		return $message_html;
+	}
+	
+   
+	public function show_ess_promotion_notice() {
+		
+		if ( ! ES()->is_es_admin_screen() ) {
+			return;
+		}
+	
+		$current_page = ig_es_get_request_data('page');
+		if ( 'es_dashboard' === $current_page || 
+		     'es_workflows' === $current_page || 
+		     'es_logs'      === $current_page ) {
+			return;
+		}
+	
+		$current_mailer_slug = ES()->mailer->get_current_mailer_slug();
+		if ( empty( $current_mailer_slug ) ) {
+			return;
+		}
+	
+		if ( 'wpmail' !== $current_mailer_slug && 'phpmail' !== $current_mailer_slug ) {
+			return;
+		}
+
+		$ig_es_ess_promotion_mailer_notice_shown = get_option( 'ig_es_ess_promotion_mailer_notice', 'no' );
+
+		if ( 'yes' === $ig_es_ess_promotion_mailer_notice_shown ) {
+			return;
+		}
+	
+		$can_promote_ess = self::can_promote_ess();
+		if ( ! $can_promote_ess ) {
+			return;
+		}
+
+		$total_contacts = ES()->contacts_db->get_total_contacts();
+		if ( $total_contacts < 50 ) {
+         return;
+		}
+
+		if ( $total_contacts < 3000 ) {
+			$total_contacts=3000;
+		}
+
+		$time_interval          = ES()->cron->get_cron_interval();
+	    $max_email_send_at_once = ES()->mailer->get_max_email_send_at_once_count();
+		$intervals_needed       = ceil( $total_contacts / $max_email_send_at_once );
+		$total_time_seconds     = $intervals_needed * $time_interval;
+		
+		// Calculate human-readable time difference
+		$total_time_seconds += time(); 
+		$time_message        = human_time_diff( time(), $total_time_seconds );
+		
+		?>
+		<div class="notice notice-info is-dismissible">
+			<?php
+			$promotion_message_html = self::get_ess_promotion_message_mailer_html( $time_message,$total_contacts );
+			$allowed_tags           = ig_es_allowed_html_tags_in_esc();
+			echo wp_kses( $promotion_message_html, $allowed_tags );
+			?>
+		</div>
+		<?php
+		update_option( 'ig_es_ess_promotion_mailer_notice', 'yes', false );
+	}
+	
+	
 }
 
 new ES_Service_Email_Sending();

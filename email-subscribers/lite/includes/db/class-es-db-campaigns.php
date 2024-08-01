@@ -520,7 +520,8 @@ class ES_DB_Campaigns extends ES_DB {
 			return array();
 		}
 // phpcs:disable
-		$where = $wpdb->prepare( "parent_id = %d AND status = %d AND ( deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00' )", $id, self::STATUS_ACTIVE );
+		//$where = $wpdb->prepare( "parent_id = %d AND status = %d AND ( deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00' )", $id, self::STATUS_ACTIVE );
+		$where = $wpdb->prepare( "parent_id = %d AND ( deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00' )", $id);
 // phpcs:enable
 		$campaigns = $this->get_by_conditions( $where );
 
@@ -942,6 +943,92 @@ class ES_DB_Campaigns extends ES_DB {
 	
 		return $this->get_by_conditions( $where, $output, $use_cache, $order_by_column, $order );
 	}
+
+	public static function get_lists( $per_page = 5, $page_number = 1, $do_count_only = false, $args = array()) {
+
+		global $wpdb;
+	
+		$order_by = sanitize_sql_orderby(ig_es_get_request_data('orderby'));
+		$order = ig_es_get_request_data('order');
+	
+		if ($do_count_only) {
+			$sql = 'SELECT count(*) as total FROM ' . IG_CAMPAIGNS_TABLE;
+		} else {
+			$sql = 'SELECT * FROM ' . IG_CAMPAIGNS_TABLE;
+		}
+	
+		$query = array();
+		$values = array();
+		$add_where_clause = true;
+	
+		$query[] = "(deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')";
+		$query[] = "type != 'workflow_email'";
+	
+		if (!empty($args['search_text'])) {
+			$query[] = 'name LIKE %s';
+			$values[] = '%' . $wpdb->esc_like($args['search_text']) . '%';
+		}
+		$query = apply_filters('ig_es_campaign_list_where_clause', $query);
+	
+		if ($add_where_clause) {
+			$sql .= ' WHERE ';
+	
+			if (count($query) > 0) {
+				$sql .= implode(' AND ', $query);
+	
+				if (count($values) > 0) {
+					$sql = $wpdb->prepare($sql, $values);
+				}
+			}
+		}
+	
+		if (!empty($args['campaign_type']) || ( '0' === $args['campaign_type'] )) {
+			if ($add_where_clause) {
+				$sql .= $wpdb->prepare(' AND type = %s', $args['campaign_type']);
+			} else {
+				$sql .= $wpdb->prepare(' WHERE type = %s', $args['campaign_type']);
+			}
+		}
+	
+		if (!empty($args['campaign_status']) || ( '0' === $args['campaign_status'] )) {
+			if ($add_where_clause) {
+				$sql .= $wpdb->prepare(' AND status = %s', $args['campaign_status']);
+			} else {
+				$sql .= $wpdb->prepare(' WHERE status = %s', $args['campaign_status']);
+			}
+		}
+	
+		if (!$do_count_only) {
+			$order = !empty($order) ? strtolower($order) : 'desc';
+			$expected_order_values = array('asc', 'desc');
+			if (!in_array($order, $expected_order_values)) {
+				$order = 'desc';
+			}
+	
+			$default_order_by = esc_sql('created_at');
+	
+			$expected_order_by_values = array('name', 'type', 'created_at');
+			if (!in_array($order_by, $expected_order_by_values)) {
+				$order_by_clause = " ORDER BY {$default_order_by} DESC";
+			} else {
+				$order_by = esc_sql($order_by);
+				$order_by_clause = " ORDER BY {$order_by} {$order}, {$default_order_by} DESC";
+			}
+	
+			$sql .= $order_by_clause;
+			$sql .= " LIMIT $per_page";
+			$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
+	
+			$result = $wpdb->get_results($sql, 'ARRAY_A');
+		} else {
+			$result = $wpdb->get_var($sql);
+		}
+	
+		return $result;
+	}
+	
+	
+	
 
 	/**
 	 * Get selected lists ids in the campaign
