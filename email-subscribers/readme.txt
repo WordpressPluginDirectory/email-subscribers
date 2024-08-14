@@ -6,7 +6,7 @@ Tags: email marketing, email subscribers, newsletters, autoresponders, email aut
 Requires at least: 3.9
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 5.7.29
+Stable tag: 5.7.30
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,11 +438,15 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.29 =
+= 5.7.30 =
 
-* Fix: Button text not editable in Drag-n-Drop editor in few cases
+* Fix: Premium features (UTM tracking, CSS inliner, spam score checker) now visible during trial period
 
 == Changelog ==
+
+**5.7.30 (14.08.2024)**
+
+* Fix: Premium features (UTM tracking, CSS inliner, spam score checker) now visible during trial period
 
 **5.7.29 (01.08.2024)**
 

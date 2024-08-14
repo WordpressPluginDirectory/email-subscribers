@@ -917,7 +917,6 @@ class Email_Subscribers_Admin {
 			$es_display_notices = array(
 				'connect_icegram_notification',
 				'show_review_notice',
-				'show_trial_optin_reminder_notice',
 				'custom_admin_notice',
 				'output_custom_notices',
 				'ig_es_fail_php_version_notice',
@@ -928,6 +927,7 @@ class Email_Subscribers_Admin {
 				'show_email_sending_failed_notice',
 				'show_ess_promotion_notice',
 				'ig_es_show_feature_survey',
+				'ig_es_show_trial_optin_reminder_notice',
 			);
 		}
 

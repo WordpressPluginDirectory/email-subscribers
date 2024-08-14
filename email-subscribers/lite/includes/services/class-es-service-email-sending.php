@@ -985,7 +985,7 @@ class ES_Service_Email_Sending extends ES_Services {
 	}
 
 	// ESS promotion notice for WP/PHP mailer
-	public static function get_ess_promotion_message_mailer_html($time_message,$total_contacts) {
+	public static function get_ess_promotion_message_mailer_html( $time_message, $total_contacts) {
 		ob_start();
 		$optin_url      = admin_url('?page=es_dashboard&ess_optin=yes#sending-service-onboarding-tasks-list');
 		$learn_more_url = 'https://www.icegram.com/email-sending-service/?utm_source=in_app&utm_medium=ess_wp_php_mailer_notice&utm_campaign=ess_upsell';
@@ -1051,8 +1051,8 @@ class ES_Service_Email_Sending extends ES_Services {
 	
 		$current_page = ig_es_get_request_data('page');
 		if ( 'es_dashboard' === $current_page || 
-		     'es_workflows' === $current_page || 
-		     'es_logs'      === $current_page ) {
+			 'es_workflows' === $current_page || 
+			 'es_logs'      === $current_page ) {
 			return;
 		}
 	
@@ -1078,7 +1078,7 @@ class ES_Service_Email_Sending extends ES_Services {
 
 		$total_contacts = ES()->contacts_db->get_total_contacts();
 		if ( $total_contacts < 50 ) {
-         return;
+		 return;
 		}
 
 		if ( $total_contacts < 3000 ) {
@@ -1086,7 +1086,7 @@ class ES_Service_Email_Sending extends ES_Services {
 		}
 
 		$time_interval          = ES()->cron->get_cron_interval();
-	    $max_email_send_at_once = ES()->mailer->get_max_email_send_at_once_count();
+		$max_email_send_at_once = ES()->mailer->get_max_email_send_at_once_count();
 		$intervals_needed       = ceil( $total_contacts / $max_email_send_at_once );
 		$total_time_seconds     = $intervals_needed * $time_interval;
 		
@@ -1097,7 +1097,7 @@ class ES_Service_Email_Sending extends ES_Services {
 		?>
 		<div class="notice notice-info is-dismissible">
 			<?php
-			$promotion_message_html = self::get_ess_promotion_message_mailer_html( $time_message,$total_contacts );
+			$promotion_message_html = self::get_ess_promotion_message_mailer_html( $time_message, $total_contacts );
 			$allowed_tags           = ig_es_allowed_html_tags_in_esc();
 			echo wp_kses( $promotion_message_html, $allowed_tags );
 			?>

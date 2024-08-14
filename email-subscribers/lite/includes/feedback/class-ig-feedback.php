@@ -4,20 +4,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'IG_Feedback_V_1_2_9' ) ) {
+if ( ! class_exists( 'IG_Feedback_V_1_2_10' ) ) {
 	/**
 	 * IG Feedback
 	 *
 	 * The IG Feedback class adds functionality to get quick interactive feedback from users.
 	 * There are different types of feedabck widget like Stars, Emoji, Thubms Up/ Down, Number etc.
 	 *
-	 * @class       IG_Feedback_V_1_2_9
+	 * @class       IG_Feedback_V_1_2_10
 	 * @since       1.0.0
 	 * @copyright   Copyright (c) 2019, Icegram
 	 * @license     https://opensource.org/licenses/gpl-license GNU Public License
 	 * @package     feedback
 	 */
-	class IG_Feedback_V_1_2_9 {
+	class IG_Feedback_V_1_2_10 {
 
 		/**
 		 * Version of Feedback Library
@@ -25,7 +25,7 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_9' ) ) {
 		 * @since 1.0.13
 		 * @var string
 		 */
-		public $version = '1.2.9';
+		public $version = '1.2.10';
 		/**
 		 * The API URL where we will send feedback data.
 		 *
@@ -118,13 +118,6 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_9' ) ) {
 			 * @since 1.0.12
 			 */
 			add_action( 'admin_notices', array( &$this, 'show_review_notice' ) );
-
-			/**
-			 * Show 14-day free trial notice to user
-			 *
-			 * @since 1.2.9
-			 */
-			add_action( 'admin_notices', array( &$this, 'show_trial_optin_reminder_notice' ) );
 		}
 
 		/**
@@ -312,69 +305,6 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_9' ) ) {
 							echo '</div>';
 						}
 					}
-				}
-			}
-		}
-
-		/**
-		 * Ask for 14-day free trial
-		 *
-		 * @since 1.2.9
-		 */
-		public function show_trial_optin_reminder_notice() {
-			
-			if ( class_exists( 'Email_Subscribers' ) ) {
-
-				if ( ! ES()->is_es_admin_screen() ) {
-					return false;
-				}
-
-				$plugin_activation_time  = get_option( 'ig_es_installed_on', 0 );
-				$notice_wait_period    	 = 10 * DAY_IN_SECONDS;
-				$notice_time 			 = strtotime($plugin_activation_time) + $notice_wait_period;
-				$can_show_the_notice 	 = time() > $notice_time;
-				
-				if( ! $can_show_the_notice ) {
-					return;
-				}
-
-				if(!ES()->is_premium() && !ES()->trial->is_trial() ) {
-
-					if (ig_es_get_request_data('ig_es_close_trial_notice') && check_admin_referer('ig_es_close_trial_notice_nonce')) {
-						update_option('ig_es_close_trial_notice', $_POST['ig_es_close_trial_notice']);
-					}
-
-					if (get_option('ig_es_close_trial_notice')) {
-						return;
-					}
-
-					$trial_optin_link = sprintf(__( ' %1$sfree trial%2$s', 'email-subscribers' ), "<a class='text-indigo-600 font-bold' href='" . esc_url(get_site_url() . "/wp-admin/admin.php?page=es_dashboard#ig-es-trial-optin-block") . "' target='_blank'><b>", '</b></a>' );
-
-					?>
-
-					<div class="notice notice-success is-dismissible" id="ig-trial-custom-notice">
-						<span>
-							<p><b>[ Icegram  Express ] 14-Day Free Trial Not Activated</b></p>
-							<p>It looks like you haven't taken advantage of our 14-day <?php echo wp_kses_post( $trial_optin_link );?> yet. Start your free trial today to explore the premium features and benefits at no cost for the next two weeks!</p>
-						</span>
-						
-						<button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
-
-						<form method="post" id="trial-dismiss-notice-form" style="display: none;">
-							<input type="hidden" name="ig_es_close_trial_notice" value="yes">
-							<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('ig_es_close_trial_notice_nonce'); ?>">
-						</form>
-					</div>
-					<script type="text/javascript">
-						document.addEventListener('DOMContentLoaded', function() {
-							var notice = document.getElementById('ig-trial-custom-notice');
-							var form = document.getElementById('trial-dismiss-notice-form');
-							notice.querySelector('.notice-dismiss').addEventListener('click', function() {
-								form.submit();
-							});
-						});
-					</script>
-					<?php
 				}
 			}
 		}
@@ -1647,6 +1577,9 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_9' ) ) {
 					'details' => esc_html__( 'Please share the reason', $this->plugin ),
 				),
 			);
+
+			$options = apply_filters( $this->plugin_abbr . '_deactivation_reasons', $options );
+			
 			?>
 			<div class="ig-deactivate-survey-modal" id="ig-deactivate-survey-<?php echo esc_js( $this->plugin ); ?>">
 				<div class="ig-deactivate-survey-wrap">
