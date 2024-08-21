@@ -6,7 +6,7 @@ Tags: email marketing, email subscribers, newsletters, autoresponders, email aut
 Requires at least: 3.9
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 5.7.30
+Stable tag: 5.7.31
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -438,11 +438,17 @@ Refer [here](https://www.icegram.com/documentation/es-faq/).
 
 == Upgrade Notice ==
 
-= 5.7.30 =
+= 5.7.31 =
 
-* Fix: Premium features (UTM tracking, CSS inliner, spam score checker) now visible during trial period
+* Fix: Missing image block in Drag-n-Drop editor
+* Update: Added a confirmation popup to the campaign scheduling/sending flow
 
 == Changelog ==
+
+**5.7.31 (21.08.2024)**
+
+* Fix: Missing image block in Drag-n-Drop editor
+* Update: Added a confirmation popup to the campaign scheduling/sending flow
 
 **5.7.30 (14.08.2024)**
 

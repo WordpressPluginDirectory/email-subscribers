@@ -2978,11 +2978,11 @@ input[type="time"] {
 .mt-3 {
   margin-top: 0.75rem;
 }
-.mt-48 {
-  margin-top: 12rem;
-}
 .mt-6 {
   margin-top: 1.5rem;
+}
+.mt-64 {
+  margin-top: 16rem;
 }
 .mt-8 {
   margin-top: 2rem;
@@ -3391,6 +3391,10 @@ input[type="time"] {
 .bg-purple-500\/20 {
   background-color: rgb(144 97 249 / 0.2);
 }
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 232 232 / var(--tw-bg-opacity));
+}
 .bg-red-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(224 36 36 / var(--tw-bg-opacity));
@@ -3492,6 +3496,9 @@ input[type="time"] {
 }
 .pl-3 {
   padding-left: 0.75rem;
+}
+.pl-5 {
+  padding-left: 1.25rem;
 }
 .pr-2 {
   padding-right: 0.5rem;

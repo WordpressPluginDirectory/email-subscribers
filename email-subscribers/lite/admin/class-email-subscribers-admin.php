@@ -1706,29 +1706,42 @@ class Email_Subscribers_Admin {
 					</ul>
 				</div>
 			</div>
-<?php
- $api_url = 'https://www.icegram.com/gallery/wp-json/wp/v2/release_notes';
- $api_response = wp_remote_get($api_url);
- $allowedtags = ig_es_allowed_html_tags_in_esc();
-		if (is_array($api_response) && !is_wp_error($api_response)) {
-			$api_response = json_decode( wp_remote_retrieve_body($api_response), true);
+			<?php
+		$release_notes_from_icegram = get_transient( 'ig_es_release_notes_from_icegram' );
 
-			if (!empty($api_response[0]['content']['rendered'])) {
-				?>
-		<div class="border-t border-gray-200">
-		<p class="px-4 text-base font-medium leading-6 text-gray-600">
-		<span class="rounded-md bg-gray-200 px-2 py-0.5">
-					<?php echo esc_html__( 'Latest Updates from Icegram', 'email-subscribers' ); ?></span>
-		</p>
-		<div class="overflow-hidden pb-2">
-			 <?php echo wp_kses($api_response[0]['content']['rendered'], $allowedtags); ?>			
-		
-		</div>
-		</div>
-		<?php
+		if ( ! $release_notes_from_icegram ) {
+			$api_url = 'https://www.icegram.com/gallery/wp-json/wp/v2/release_notes';
+			$api_response = wp_remote_get( $api_url );
+
+			if ( ! is_wp_error( $api_response ) && is_array( $api_response ) ) {
+				$api_data = json_decode( wp_remote_retrieve_body( $api_response ), true );
+
+				if ( ! empty( $api_data[0]['content']['rendered'] ) ) {
+					
+					$release_notes_from_icegram = $api_data[0]['content']['rendered'];
+					set_transient( 'ig_es_release_notes_from_icegram', $release_notes_from_icegram, 7 * DAY_IN_SECONDS );
+					
+				}
 			} 
-		} 
+		}
+
+		if ( $release_notes_from_icegram ) {
+			$allowedtags = ig_es_allowed_html_tags_in_esc();
+			?>
+			<div class="border-t border-gray-200">
+				<p class="px-4 text-base font-medium leading-6 text-gray-600">
+					<span class="rounded-md bg-gray-200 px-2 py-0.5">
+						<?php echo esc_html__( 'Latest Updates from Icegram', 'email-subscribers' ); ?>
+					</span>
+				</p>
+				<div class="overflow-hidden pb-2">
+					<?php echo wp_kses( $release_notes_from_icegram, $allowedtags ); ?>
+				</div>
+			</div>
+			<?php
+		}
 		?>
+
 		</div>
 			<?php
 	}

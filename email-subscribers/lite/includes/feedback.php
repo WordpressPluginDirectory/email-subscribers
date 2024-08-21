@@ -569,5 +569,147 @@ if ( ! function_exists( 'ig_es_show_trial_optin_reminder_notice' ) ) {
 		}
 	}
 }
-
 add_action( 'admin_notices', 'ig_es_show_trial_optin_reminder_notice' );
+
+
+/* This survey show after 20th day when user was upgraded plugin */
+if ( ! function_exists( 'ig_es_survey_after_plugin_upgrade' ) ) {
+	function ig_es_survey_after_plugin_upgrade() {
+		global $ig_es_feedback;
+
+		$plugin_activation_time  = get_option( 'ig_es_installed_on', 0 );
+		$feedback_wait_period    = 20 * DAY_IN_SECONDS;
+		$feedback_time           = strtotime( $plugin_activation_time ) + $feedback_wait_period;
+		$current_time            = time();
+		$can_ask_user_for_review = $current_time > $feedback_time;
+
+		if ( ! $can_ask_user_for_review ) {
+			return;
+		}
+
+		if(ES()->is_premium() && !ES()->trial->is_trial() ) {
+			$survey_title     = __( "No Fluff, Just Facts: Give Us Your Unfiltered Feedback on Our Paid Services!", 'email-subscribers'  );
+			$survey_slug      = 'ig-es-survey-after-plugin-upgrade';
+			$survey_questions = array(
+									array(  "question" => __( "What feature sold you on the paid plan?", 'email-subscribers' ),
+											"options" => array( 'ga_utm_tracking' => __("Google Analytics UTM tracking", 'email-subscribers'), 
+																'spam_score_checking' => __("Spam score checking", 'email-subscribers'),
+																'background_email_sending' => __("Background email sending", 'email-subscribers'),
+																'css_inliner' => __("CSS inliner", 'email-subscribers'),
+																'other' =>__("Other", 'email-subscribers'),
+															),
+											'type' => 'checkbox',
+											'slug' => 'paid_plan_feature',
+											'additional' => 'reason_field'
+										),
+									array(  "question" => __( "Would you genuinely recommend Icegram Express to others?", 'email-subscribers' ),
+											"options" => array( 'very_likely' => __("Very likely",'email-subscribers'), 
+																'neutral' => __("Neutral",'email-subscribers'), 
+																'unlikely' => __("Unlikely",'email-subscribers') 
+														),
+											'type' => 'radio',
+											'slug' => 'ig_recommend_option'
+										),
+									array(  "question" => __( "What's your true satisfaction level with Icegram Express?", 'email-subscribers' ),
+											"options" => array( 'very_satisfied' => __("Very satisfied", 'email-subscribers'), 
+																'neutral' => __("Neutral", 'email-subscribers'), 
+																'dissatisfied' => __("Dissatisfied", 'email-subscribers') ),
+											'type' => 'radio',
+											'slug' => 'satisfied_expirence'
+									),
+									array(  "question" => __( "What's one thing we could do better?", 'email-subscribers' ),
+											'type' => 'textarea',
+											'slug' => 'plugin_suggestion',
+											'placeholder' => 'Describe your features...'
+									),
+								);
+
+			$feedback_data = array(
+				'event'          => 'plugin_survey_after_upgradation',
+				'title'          => $survey_title,
+				'slug'           => $survey_slug,
+				'fields'         => $survey_questions,
+				'type'	         => 'poll',
+				'allow_multiple' => true,
+				'system_info'    => false,
+				'display_as'	 => 'popup',
+				'position'		 => 'center',
+				'width'			 => '900',
+				'confirmButtonText' => 'Submit',
+				'after_button_text' => 'Every reply matters!',
+				'show_once'         => true,
+			);
+			
+			$ig_es_feedback->render_feedback_widget( $feedback_data );
+		}
+	}
+}
+add_action('admin_notices', 'ig_es_survey_after_plugin_upgrade');
+
+
+/* This survey show after 20th day when user was not upgraded plugin */
+if ( ! function_exists( 'ig_es_survey_before_plugin_upgrade' ) ) {
+	function ig_es_survey_before_plugin_upgrade() {
+		global $ig_es_feedback;
+
+		$plugin_activation_time  = get_option( 'ig_es_installed_on', 0 );
+		$feedback_wait_period    = 20 * DAY_IN_SECONDS;
+		$feedback_time           = strtotime( $plugin_activation_time ) + $feedback_wait_period;
+		$current_time            = time();
+		$can_ask_user_for_review = $current_time > $feedback_time;
+
+		if ( ! $can_ask_user_for_review ) {
+			return;
+		}
+
+		if(!ES()->is_premium()) {
+			$survey_title     = __( "We Noticed You Haven’t Upgraded—What’s Holding You Back?", 'email-subscribers' );
+			$survey_slug      = 'ig-es-feature-survey';
+			$survey_questions = array(
+									array(  "question" => __( "What was the main reason for not upgrading to a paid plan?", 'email-subscribers' ),
+											"options" => array( 'happy_with_free_version' => __( "I'm happy with the free version", 'email-subscribers' ), 
+																'very_expensive_price' => __("Found the price very expensive", 'email-subscribers' ),
+																"didn't_find_feature" => __("Did not find the feature I needed", 'email-subscribers' ),
+																'encountered_technocal_issue' => __("Encountered a technical issue", 'email-subscribers' ),
+																'other' => __("Other", 'email-subscribers' ),
+															),
+											'type' => 'checkbox',
+											'slug' => 'not_upgrading_paid_plan',
+											'additional' => 'reason_field'
+										),
+									array(  "question" => __( "Would a Discount Make a Difference for You?", 'email-subscribers' ),
+											"options" => array( 'need_discount' => __("Yes, give me a discount", 'email-subscribers' ), 
+																"don't_need_discount" => __("No, I do not like saving money.", 'email-subscribers' ) 
+															),
+											'type' => 'radio',
+											'slug' => 'discount_option'
+										),
+									array(  "question" => __( "What feature did you find missing? Suggestions, if any?", 'email-subscribers' ),
+											'type' => 'textarea',
+											'slug' => 'plugin_suggestion',
+											'placeholder' => 'Describe your features...'
+									),
+								);
+
+			
+
+			$feedback_data = array(
+				'event'          => 'plugin_survey_before_upgradation',
+				'title'          => $survey_title,
+				'slug'           => $survey_slug,
+				'fields'         => $survey_questions,
+				'type'	         => 'poll',
+				'display_as'	 => 'popup',
+				'position'		 => 'center',
+				'width'			 => '900',
+				'confirmButtonText' => 'Submit',
+				'system_info'    => false,
+				'allow_multiple' => true,
+				'show_once'      => true,
+			);
+			
+			$ig_es_feedback->render_feedback_widget( $feedback_data );
+		}
+	}
+}
+add_action('admin_notices', 'ig_es_survey_before_plugin_upgrade');
