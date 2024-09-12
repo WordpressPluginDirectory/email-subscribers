@@ -189,6 +189,31 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 		}
 
 		/**
+		 * Get all contacts growth percentage
+		 *
+		 * @param int $days
+		 *
+		 * @return float|integer
+		 *
+		 * @since 4.8.0
+		 */
+		public static function get_total_contacts_growth_percentage( $args = array() ) {
+			$days = ! empty( $args['days'] ) ? $args['days'] : 60;
+			//For example, It will get last 60'days subscribers count
+			$present_contacts_count = ES()->lists_contacts_db->get_all_contacts_count( $days );
+			//For example, It will get last 120'days subscribers count
+			$past_to_present_contacts_count = ES()->lists_contacts_db->get_all_contacts_count( $days * 2 );
+			//For example, It will get last 60-120'days subscribers count
+			$past_contacts_count = intval( $past_to_present_contacts_count ) - intval( $present_contacts_count );
+
+			if ( 0 === $past_contacts_count ) {
+				return 0;
+			} else {
+				return round( ( $present_contacts_count - $past_contacts_count ) / $past_contacts_count * 100, 2 );
+			}
+		}
+
+		/**
 		 * Collect dashboard reports data
 		 *
 		 * @return array

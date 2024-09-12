@@ -232,7 +232,7 @@ class ES_Common {
 	 * @since 4.0.0
 	 */
 	public static function es_process_template_body( $content, $tmpl_id = 0, $campaign_id = 0 ) {
-
+		
 		$content = convert_smilies( wptexturize( $content ) );
 		$content = self::handle_oembed_content( $content );
 

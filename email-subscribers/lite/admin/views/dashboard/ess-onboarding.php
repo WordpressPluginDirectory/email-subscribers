@@ -27,7 +27,7 @@
 			</li>
 		</ul>
 		<a id="ig-ess-optin-cta" href="#" class="mt-6">
-			<button type="button" class="primary">
+			<button type="button" class="secondary">
 				<?php echo esc_html__( 'Let\'s start →', 'email-subscribers' ); ?>
 			</button>
 		</a>

@@ -71,7 +71,7 @@
 			?>
 		</p>
 		<a href="https://www.icegram.com/email-sending-service/?utm_source=es&utm_medium=dashboard&utm_campaign=revamp-01" target="_blank" class=" mt-3">
-			<button type="button" class="primary">
+			<button type="button" class="secondary">
 				<?php echo esc_html( 'Upgrade', 'email-subscribers' ); ?> &rarr;
 			</button>
 		</a>

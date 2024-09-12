@@ -1709,25 +1709,25 @@ class Email_Subscribers_Admin {
 			<?php
 		$release_notes_from_icegram = get_transient( 'ig_es_release_notes_from_icegram' );
 
-		if ( ! $release_notes_from_icegram ) {
-			$api_url = 'https://www.icegram.com/gallery/wp-json/wp/v2/release_notes';
-			$api_response = wp_remote_get( $api_url );
+			if ( ! $release_notes_from_icegram ) {
+				$api_url = 'https://www.icegram.com/gallery/wp-json/wp/v2/release_notes';
+				$api_response = wp_remote_get( $api_url );
 
-			if ( ! is_wp_error( $api_response ) && is_array( $api_response ) ) {
-				$api_data = json_decode( wp_remote_retrieve_body( $api_response ), true );
+				if ( ! is_wp_error( $api_response ) && is_array( $api_response ) ) {
+					$api_data = json_decode( wp_remote_retrieve_body( $api_response ), true );
 
-				if ( ! empty( $api_data[0]['content']['rendered'] ) ) {
+					if ( ! empty( $api_data[0]['content']['rendered'] ) ) {
 					
-					$release_notes_from_icegram = $api_data[0]['content']['rendered'];
-					set_transient( 'ig_es_release_notes_from_icegram', $release_notes_from_icegram, 7 * DAY_IN_SECONDS );
+						$release_notes_from_icegram = $api_data[0]['content']['rendered'];
+						set_transient( 'ig_es_release_notes_from_icegram', $release_notes_from_icegram, 7 * DAY_IN_SECONDS );
 					
-				}
-			} 
-		}
+					}
+				} 
+			}
 
-		if ( $release_notes_from_icegram ) {
-			$allowedtags = ig_es_allowed_html_tags_in_esc();
-			?>
+			if ( $release_notes_from_icegram ) {
+				$allowedtags = ig_es_allowed_html_tags_in_esc();
+				?>
 			<div class="border-t border-gray-200">
 				<p class="px-4 text-base font-medium leading-6 text-gray-600">
 					<span class="rounded-md bg-gray-200 px-2 py-0.5">
@@ -1739,8 +1739,8 @@ class Email_Subscribers_Admin {
 				</div>
 			</div>
 			<?php
-		}
-		?>
+			}
+			?>
 
 		</div>
 			<?php

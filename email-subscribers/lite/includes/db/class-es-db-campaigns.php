@@ -982,7 +982,7 @@ class ES_DB_Campaigns extends ES_DB {
 			}
 		}
 	
-		if (isset($args['campaign_type']) && (!empty($args['campaign_type']) || ( '0' === $args['campaign_type'] ))) {
+		if (isset($args['campaign_type']) && ( !empty($args['campaign_type']) || ( '0' === $args['campaign_type'] ) )) {
 			if ($add_where_clause) {
 				$sql .= $wpdb->prepare(' AND type = %s', $args['campaign_type']);
 			} else {
@@ -990,7 +990,7 @@ class ES_DB_Campaigns extends ES_DB {
 			}
 		}
 	
-		if (isset($args['campaign_status']) && (!empty($args['campaign_status']) || ( '0' === $args['campaign_status'] ))) {
+		if (isset($args['campaign_status']) && ( !empty($args['campaign_status']) || ( '0' === $args['campaign_status'] ) )) {
 			if ($add_where_clause) {
 				$sql .= $wpdb->prepare(' AND status = %s', $args['campaign_status']);
 			} else {

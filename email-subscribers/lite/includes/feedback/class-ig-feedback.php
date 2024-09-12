@@ -1079,7 +1079,7 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_11' ) ) {
 			<script type="text/javascript">
 				jQuery(document).ready(function ($) {
 					var $overlay = $('#ig-general-feedback-<?php echo esc_js( $this->plugin ); ?>');
-        			var $form = $overlay.find('form');
+					var $form = $overlay.find('form');
 					$('.<?php echo esc_attr( $this->plugin_abbr ); ?>-feedback-field').on('change', function(){
 						let value = $(this).val();
 						if ( 'other' === value ) {
@@ -1151,7 +1151,7 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_11' ) ) {
 			jQuery(document).ready(function ($) {
 
 				Swal.mixin({
-					footer: '<i><?php echo !empty($params['after_button_text']) ? $params['after_button_text'] : '';?></i>',
+					footer: '<i><?php echo !empty($params['after_button_text']) ? $params['after_button_text'] : ''; ?></i>',
 					position: '<?php echo esc_js( $params['position'] ); ?>',
 					width: <?php echo esc_js( $params['width'] ); ?>,
 					animation: false,
@@ -1241,7 +1241,7 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_11' ) ) {
 
 				jQuery(document).on('click', '.other_reason_option', function(){
 					var $overlay = $('#ig-general-feedback-<?php echo esc_js( $this->plugin ); ?>');
-        			var $form = $overlay.find('form');
+					var $form = $overlay.find('form');
 					if(jQuery(this).attr('type') === 'radio') {
 						if(jQuery(this).val() === 'other') {
 							$form.find('#feedback_text').removeClass('hidden');
@@ -1269,22 +1269,22 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_11' ) ) {
 			$field_required    = isset ( $field['required'] ) ? $field['required'] : false;
 			$field_question    = ! empty( $field['question'] ) ? $field['question'] : '';
 			?>
-			<p><b><?php echo esc_html($field_question)?></b></p>
+			<p><b><?php echo esc_html($field_question); ?></b></p>
 			<?php
 			switch ( $field_type ) {
 				case 'textarea':
 					?>
 						<p class="ig-feedback-data-poll-message mb-3" id="ig-feedback-data-poll-message">
-							<textarea name="feedback_data[poll_options][<?php echo esc_attr( $field_slug );?>]" data-slug="<?php echo esc_attr( $field_slug ); ?>" placeholder="<?php echo esc_attr( $field_placeholder ); ?>" <?php echo $field_required ? 'required' : ''; ?>></textarea>
+							<textarea name="feedback_data[poll_options][<?php echo esc_attr( $field_slug ); ?>]" data-slug="<?php echo esc_attr( $field_slug ); ?>" placeholder="<?php echo esc_attr( $field_placeholder ); ?>" <?php echo $field_required ? 'required' : ''; ?>></textarea>
 						</p>
 					<?php
 					break;
 				case 'radio':
 				case 'checkbox':
-					foreach($field['options'] as $key => $value) {
+					foreach ($field['options'] as $key => $value) {
 						?>
 						<label>
-						<input type="<?php echo $field['type']?>" name="feedback_data[poll_options][<?php echo $field_slug;?>]" data-slug="<?php echo esc_attr( $field_slug ); ?>" value="<?php echo $key;?>" class="<?php echo !empty($field['additional']) ? 'other_reason_option' : ''; ?>" <?php echo $field_required ? 'required' : ''; ?>><span><?php echo $value;?></span>
+						<input type="<?php echo $field['type']; ?>" name="feedback_data[poll_options][<?php echo $field_slug; ?>]" data-slug="<?php echo esc_attr( $field_slug ); ?>" value="<?php echo $key; ?>" class="<?php echo !empty($field['additional']) ? 'other_reason_option' : ''; ?>" <?php echo $field_required ? 'required' : ''; ?>><span><?php echo $value; ?></span>
 						</label>
 						<br/>
 						<?php
@@ -1324,7 +1324,7 @@ if ( ! class_exists( 'IG_Feedback_V_1_2_11' ) ) {
 			$field_required    = isset ( $field['required'] ) ? $field['required'] : false;
 			$field_question      = ! empty( $field['question'] ) ? $field['question'] : '';
 			?>
-			<p><lable><?php echo esc_html($field_question)?></label></p>
+			<p><lable><?php echo esc_html($field_question); ?></label></p>
 			<?php
 			switch ( $field_type ) {
 				case 'textarea':

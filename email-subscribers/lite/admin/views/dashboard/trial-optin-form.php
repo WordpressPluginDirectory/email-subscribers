@@ -28,7 +28,7 @@ $admin_email = get_option( 'admin_email' );
 			</div>
 		</div>
 		<div class="pt-3 space-y-2 text-sm">
-			<button id="ig-es-trial-optin-btn" type="button" class="primary ig-es-inline-loader inline-flex mt-2 text-sm inline-block">
+			<button id="ig-es-trial-optin-btn" type="button" class="secondary ig-es-inline-loader inline-flex mt-2 text-sm inline-block">
 				<span>
 					<?php echo esc_html__( 'Start trial', 'email-subscribers' ); ?>
 				</span>

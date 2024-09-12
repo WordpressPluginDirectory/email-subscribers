@@ -77,6 +77,8 @@ class ES_Reports_Table extends ES_List_Table {
 											<span class="ig-es-process-queue"><?php echo wp_kses_post( $content ); ?></span>
 										</div>
 									</div>
+									
+									<?php do_action('ig_es_after_send_queued_email_button'); ?>
 								</div>
 							</nav>
 						</header>
@@ -313,11 +315,13 @@ class ES_Reports_Table extends ES_List_Table {
 
 		$title = '<strong>' . $item['subject'] . '</strong>';
 
+		$es_export_report_link = ( ES()->is_pro() ) ? sprintf( '<a href="#" data-report-id="%s" class="es-export-report text-indigo-600">%s</a>', absint( $item['id'] ), __( 'Export', 'email-subscribers' ) ) : '';
+
 		$actions = array(
 			'view'          => sprintf( '<a href="?page=%s&action=%s&list=%s&_wpnonce=%s" class="text-indigo-600">%s</a>', esc_attr( $page ), 'view', $item['hash'], $es_nonce, __( 'View', 'email-subscribers' ) ),
 			'delete'        => sprintf( '<a href="?page=%s&action=%s&list=%s&_wpnonce=%s" onclick="return checkDelete()">%s</a>', esc_attr( $page ), 'delete', absint( $item['id'] ), $es_nonce, __( 'Delete', 'email-subscribers' ) ),
 			'preview_email' => sprintf( '<a href="#" data-campaign-id="%s" class="es-preview-report text-indigo-600">%s</a><img class="es-preview-loader inline-flex align-middle pl-2 h-5 w-7" src="%s" style="display:none;"/>', absint( $item['id'] ), __( 'Preview', 'email-subscribers' ), esc_url( ES_PLUGIN_URL ) . 'lite/admin/images/spinner-2x.gif' ),
-
+			'export' => $es_export_report_link,
 		);
 
 		return $title . $this->row_actions( $actions );

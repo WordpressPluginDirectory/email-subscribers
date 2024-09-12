@@ -3833,10 +3833,10 @@ table td
   --tw-ring-color: transparent;
 }
 /* Audience page tooltip CSS */
-.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip, .icegram-express_page_es_forms .es-tooltip, .icegram-express_page_es_settings .es-tooltip {
+.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip, .icegram-express_page_es_forms .es-tooltip, .icegram-express_page_es_settings .es-tooltip, .toplevel_page_es_dashboard .es-tooltip {
   vertical-align: middle;
 }
-.icegram-express_page_es_subscribers .es-tooltip span.tooltip-text, .icegram-express_page_es_lists .es-tooltip span.tooltip-text, .icegram-express_page_es_forms .es-tooltip span.tooltip-text, .icegram-express_page_es_settings .es-tooltip span.tooltip-text {
+.icegram-express_page_es_subscribers .es-tooltip span.tooltip-text, .icegram-express_page_es_lists .es-tooltip span.tooltip-text, .icegram-express_page_es_forms .es-tooltip span.tooltip-text, .icegram-express_page_es_settings .es-tooltip span.tooltip-text, .toplevel_page_es_dashboard .es-tooltip span.tooltip-text {
   width: 16rem;
   border-radius: 0.125rem;
   --tw-bg-opacity: 1;
@@ -3849,7 +3849,7 @@ table td
   -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
           box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.icegram-express_page_es_subscribers .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_lists .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_forms .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_settings .es-tooltip svg.tooltip-arrow {
+.icegram-express_page_es_subscribers .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_lists .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_forms .es-tooltip svg.tooltip-arrow, .icegram-express_page_es_settings .es-tooltip svg.tooltip-arrow, .toplevel_page_es_dashboard .es-tooltip svg.tooltip-arrow {
   fill: #ffffff;
 }
 /* Audience page advance filter CSS */
@@ -4051,6 +4051,7 @@ table td
 /* Setting tab content CSS */
 #es-menu-tab-content {
   width: 80%;
+  /* End */
 
   /* All tab content table CSS*/
 }
@@ -4118,6 +4119,7 @@ table td
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1.25rem;
+          /* End */
 
           /* Upsell section CSS */
 }
@@ -4494,7 +4496,6 @@ table td
 #es-menu-tab-content #tabs-general table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-email_sending table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-security_settings table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-rest_api_settings table tr td table.user-roles-table tbody tr td, #es-menu-tab-content #tabs-user_roles table tr td table.user-roles-table tbody tr td {
   padding-left: 2.5rem;
 }
-/* End */
 #es-menu-tab-content #tabs-general table tr:last-of-type, #es-menu-tab-content #tabs-email_sending table tr:last-of-type, #es-menu-tab-content #tabs-security_settings table tr:last-of-type, #es-menu-tab-content #tabs-rest_api_settings table tr:last-of-type, #es-menu-tab-content #tabs-user_roles table tr:last-of-type {
   border-width: 0px;
 }
@@ -4502,7 +4503,9 @@ table td
       border-width: 0px;
   }
 /* End */
-/* End */
+body.admin-bar .sticky {
+  top: 32px; /* Adjust for standard admin bar height */
+}
 /* Dashboard page CSS */
 /* There are still some inline clasess used in dashboard.php. The clasess which are already available tailwind.css. */
 .recent-campaigns table, .audience-activity table, .forms-lists table {
@@ -4574,8 +4577,40 @@ table td
 .recent-campaigns table tbody tr:last-of-type, .audience-activity table tbody tr:last-of-type, .forms-lists table tbody tr:last-of-type {
   border-bottom-width: 0px;
 }
+.audience-activity {
+  min-height: 562px;
+}
 .toplevel_page_es_dashboard nav {
-  padding-top: 2.5rem;
+  padding-top: 1.25rem;
+}
+.toplevel_page_es_dashboard .main-section {
+  grid-column: span 2 / span 2;
+}
+.toplevel_page_es_dashboard .col-section {
+  grid-column: span 1 / span 1;
+}
+.toplevel_page_es_dashboard .forms-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5rem;
+}
+.toplevel_page_es_dashboard .forms-lists .new_form_link, .toplevel_page_es_dashboard .forms-lists .new_list_link {
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(159 166 178 / var(--tw-text-opacity));
+}
+.toplevel_page_es_dashboard .lists-container {
+  margin-top: 0 !important;
+}
+.toplevel_page_es_dashboard .dashboard-kpi {
+  margin-left: 1rem;
+}
+.toplevel_page_es_dashboard .dashboard-kpi .kpi-div {
+  margin-right: 5rem;
+  padding: 0.25rem;
 }
 #ig-es-create-dropdown {
   position: absolute;
@@ -4638,7 +4673,6 @@ table td
 .ig-dashboardcommon-section #ig-es-trial-expired-block, .ig-dashboardcommon-section #ig-es-trial-active-block, .ig-dashboardcommon-section #ig-es-trial-optin-block {
   width: 100%;
   padding-right: 1.5rem;
-  padding-left: 1.5rem;
   padding-top: 1rem;
 }
 .ig-dashboardcommon-section #ig-es-trial-expired-block .sec-title, .ig-dashboardcommon-section #ig-es-trial-active-block .sec-title, .ig-dashboardcommon-section #ig-es-trial-optin-block .sec-title {
@@ -4757,6 +4791,9 @@ table td
 .group:focus .ig-dashboardcommon-section #sending-service-benefits svg,.group:focus  .ig-dashboardcommon-section #sending-service-onboarding-tasks-list svg {
   --tw-text-opacity: 1;
   color: rgb(88 80 236 / var(--tw-text-opacity));
+}
+.ig-dashboardcommon-section .tips-trick-section {
+  margin-left: 5rem;
 }
 /* End */
 /* Reports dashboard CSS */
@@ -4948,6 +4985,12 @@ table td
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+.reports-statistic .statistic-info .stat-sec .stat-grid-sec {
+
+        /* .email_sent, .email_unsubscribed {
+          @apply mt-1 font-medium leading-6 text-gray-500";
+        } */
+      }
 .reports-statistic .statistic-info .stat-sec .stat-grid-sec .email_viewed_count {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -5002,9 +5045,6 @@ table td
   --tw-text-opacity: 1;
   color: rgb(88 80 236 / var(--tw-text-opacity));
 }
-/* .email_sent, .email_unsubscribed {
-          @apply mt-1 font-medium leading-6 text-gray-500";
-        } */
 .reports-statistic .empty_country_data {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -5079,6 +5119,9 @@ table td
   position: sticky;
   z-index: 40;
   height: 0;
+}
+body.admin-bar .campaign-msg-box {
+  top: 32px; /* Adjust for standard admin bar height */
 }
 @media (min-width: 1024px) {
 

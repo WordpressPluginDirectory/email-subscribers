@@ -3,11 +3,19 @@ global $wpdb;
 $campaign_url = admin_url( 'admin.php?page=es_campaigns' );
 if ( ! empty( $campaigns ) && count( $campaigns ) > 0 ) { ?>
 	<table class="mt-2 w-full bg-white rounded-md overflow-hidden " style="<?php echo ! empty( $upsell ) ? 'filter:blur(1px);' : ''; ?>">
+		<thead>
+			<th></th>
+			<th class="text-right text-sm font-medium leading-6 text-gray-400"><?php echo esc_html__( 'Sent', 'email-subscribers' ); ?></th>
+			<th class="text-right text-sm font-medium leading-6 text-gray-400"><?php echo esc_html__( 'Opens', 'email-subscribers' ); ?></th>
+			<th class="text-right text-sm font-medium leading-6 text-gray-400"><?php echo esc_html__( 'Clicks', 'email-subscribers' ); ?></th>
+			<th class="text-right text-sm font-medium leading-6 text-gray-400"><?php echo esc_html__( 'Actions', 'email-subscribers' ); ?></th>
+		</thead>
 		<tbody>
 			<?php
 			$allowed_html_tags = ig_es_allowed_html_tags_in_esc();
 			if ( ! empty( $campaigns ) ) {
 				foreach ( $campaigns as $campaign_id => $campaign ) {
+					$campaign_kpi = ES_Dashboard::get_recent_campaigns_kpis( $campaign['id'] );
 					?>
 					<tr>
 						<td class="avatar-column">
@@ -29,6 +37,9 @@ if ( ! empty( $campaigns ) && count( $campaigns ) > 0 ) { ?>
 								<?php echo "<a class='dash-recent-p es-ellipsis-text' href='admin.php?page=es_campaigns#!/campaign/edit/" . esc_html( $campaign['id'] ) . "' target='_blank'>" . esc_html( $campaign['name'] ) . '</a>'; ?>
 							</div>
 						</td>
+						<td class="text-right"><?php echo ($campaign_kpi['total_email_sent']) ? $campaign_kpi['total_email_sent'] : '0';?></td>
+						<td class="text-right"><?php echo $campaign_kpi['open_rate'].'%';?></td>
+						<td class="text-right"><?php echo $campaign_kpi['click_rate'].'%';?></td>
 						<td class="pl-1 py-3 text-gray-600 text-right"> 
 							<div>
 							<?php
@@ -51,15 +62,7 @@ if ( ! empty( $campaigns ) && count( $campaigns ) > 0 ) { ?>
 			?>
 		</tbody>
 	</table>
-	
-	<a href="<?php echo esc_url( $campaign_url ); ?>" class="primary">
-		<button type="button" class="primary">
-			<span>
-				<?php echo esc_html__( 'Create new campaign', 'email-subscribers' ); ?>
-			</span>
-		</button>
-	</a>
-<?php 
+	<?php 
 } else {
 	?>
 	<p class="px-2 py-2 text-sm leading-5 text-gray-900">

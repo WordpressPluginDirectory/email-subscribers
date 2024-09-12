@@ -603,7 +603,7 @@ table td
 }
 
 /* Audience page tooltip CSS */
-.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip, .icegram-express_page_es_forms .es-tooltip, .icegram-express_page_es_settings .es-tooltip {
+.icegram-express_page_es_subscribers .es-tooltip, .icegram-express_page_es_lists .es-tooltip, .icegram-express_page_es_forms .es-tooltip, .icegram-express_page_es_settings .es-tooltip, .toplevel_page_es_dashboard .es-tooltip {
   @apply align-middle;
   span.tooltip-text {
     @apply bg-white w-64 p-3 py-2 shadow-lg rounded-sm;
@@ -934,6 +934,10 @@ table td
 }
 /* End */
 
+body.admin-bar .sticky {
+  top: 32px; /* Adjust for standard admin bar height */
+}
+
 /* Dashboard page CSS */
 /* There are still some inline clasess used in dashboard.php. The clasess which are already available tailwind.css. */
 .recent-campaigns, .audience-activity, .forms-lists {
@@ -983,9 +987,37 @@ table td
     }
   }
 }
+
+.audience-activity {
+  @apply min-h-[562px];
+}
+
 .toplevel_page_es_dashboard {
   nav {
-    @apply pt-10;
+    @apply pt-5;
+  }
+  .main-section{
+    @apply col-span-2;
+  }
+  .col-section{
+    @apply col-span-1;
+  }
+  .forms-lists{
+    @apply grid grid-cols-2 gap-20;
+
+    .new_form_link, .new_list_link {
+      @apply italic text-xs font-normal text-[#9fa6b2] leading-7;
+    }
+  }
+  .lists-container{
+    @apply mt-0 !important;
+  }
+  .dashboard-kpi{
+    @apply ml-4;
+
+    .kpi-div {
+      @apply mr-20 p-1;
+    }
   }
 }
 
@@ -1005,7 +1037,7 @@ table td
   @apply flex flex-row;
 
   #ig-es-trial-expired-block, #ig-es-trial-active-block, #ig-es-trial-optin-block {
-    @apply pr-6 pl-6 pt-4 w-full;
+    @apply pr-6 pt-4 w-full;
 
     .sec-title {
       @apply py-2 text-lg font-medium leading-6 text-gray-400;
@@ -1047,6 +1079,10 @@ table td
     svg {
       @apply mt-1 w-full h-full text-indigo-700 transition duration-150 ease-in-out group-hover:text-indigo-600 group-focus:text-indigo-600;
     }
+  }
+
+  .tips-trick-section {
+    @apply ml-20;
   }
 }
 /* End */

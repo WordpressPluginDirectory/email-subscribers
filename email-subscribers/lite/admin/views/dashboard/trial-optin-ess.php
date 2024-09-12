@@ -148,7 +148,7 @@ foreach ( $trial_block as $feature => $data ) {
 				}
 				?>
 
-				<ul class="list-disc pl-5">
+				<ul class="list-disc">
 					<?php 
 					if (!empty($data['features_list'])) {
 						foreach ($data['features_list'] as $key => $val) {
@@ -171,7 +171,7 @@ foreach ( $trial_block as $feature => $data ) {
 					<?php 
 				}
 				?>
-				<ul class="list-disc pl-5">
+				<ul class="list-disc">
 					<?php 
 					if (!empty($data['features_sub_list'])) {
 						foreach ($data['features_sub_list'] as $key => $val) {
@@ -184,7 +184,7 @@ foreach ( $trial_block as $feature => $data ) {
 				</ul>
 				<?php if (!empty($data['cta_text']) && !empty($feature_url)) { ?>
 				<a id="ig-es-<?php echo esc_attr( $feature ); ?>-cta" href="<?php echo esc_url( $feature_url ); ?>" target="_blank">
-					<button type="button" class="primary mt-2">
+					<button type="button" class="secondary mt-2">
 						<?php echo esc_html( $data['cta_text'] ); ?> &rarr;
 					</button>
 				</a>
