@@ -781,6 +781,7 @@ if ( ! class_exists( 'Email_Subscribers' ) ) {
 				'lite/includes/services/class-es-service-process-email-content.php',
 				'lite/includes/services/class-es-email-auth-header-verify.php',
 				'lite/includes/services/class-es-service-email-sending.php',
+				'lite/includes/services/class-es-service-list-cleanup.php',
 
 				// Classes
 				'lite/includes/classes/class-es-list-table.php',

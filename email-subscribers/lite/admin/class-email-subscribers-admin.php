@@ -928,6 +928,7 @@ class Email_Subscribers_Admin {
 				'show_ess_promotion_notice',
 				'ig_es_show_feature_survey',
 				'ig_es_show_trial_optin_reminder_notice',
+				'show_list_cleanup_notice',
 			);
 		}
 

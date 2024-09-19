@@ -934,7 +934,7 @@ table td
 }
 /* End */
 
-body.admin-bar .sticky {
+.toplevel_page_es_dashboard .admin-bar .sticky {
   top: 32px; /* Adjust for standard admin bar height */
 }
 

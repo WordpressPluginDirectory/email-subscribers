@@ -168,6 +168,10 @@ if ( ! class_exists( 'ES_Icegram_Mailer' ) ) {
 		 * @since 5.6.0
 		 */
 		public function add_into_batch( $email, $merge_tags = array(), $message = null ) {
+
+			if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+				return;
+			}
 			
 			$name       = ig_es_get_data( $merge_tags, 'name', '' );
 			$first_name = ig_es_get_data( $merge_tags, 'first_name', '' );
