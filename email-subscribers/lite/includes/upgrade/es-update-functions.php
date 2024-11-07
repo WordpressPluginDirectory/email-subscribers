@@ -2286,29 +2286,6 @@ function ig_es_update_5725_db_version() {
 }
 /* --------------------- ES 5.7.25(End)--------------------------- */
 
-/* --------------------- ES 5.7.27(Start)--------------------------- */
-
-/**
- * Mark onboarding as completed in versions for which onboarding wasn't present
- */
-
-function ig_es_maybe_send_ess_used_limit() {
-	// Ensure reqiest is sent at random time and not all at once at ESS end
-	$ess = ES_Service_Email_Sending::get_instance();
-	$ess->send_used_limit_data_to_ess();
-}
-
-
- /**
- * Update DB version
- *
- * @since 5.7.27
- */
-function ig_es_update_5727_db_version() {
-	ES_Install::update_db_version( '5.7.27' );
-}
-/* --------------------- ES 5.7.27(End)--------------------------- */
-
 /* --------------------- ES 5.7.28(Start)--------------------------- */
 
 /**
@@ -2362,10 +2339,13 @@ function ig_es_add_premium_forms_templates() {
 		return $form['name'] !== 'First form';
 	});
 
-$forms_gallery = array_values($forms_gallery);
+	$forms_gallery = array_values($forms_gallery);
 	
 	foreach ( $forms_gallery as $form_gallery_data ) {
-		   $form_id = ES()->forms_db->add_form( $form_gallery_data );
+		if ( isset( $form_gallery_data['preview_image'] ) ) {
+			unset( $form_gallery_data['preview_image'] );
+		}
+		$form_id = ES()->forms_db->add_form( $form_gallery_data );
 	}
 }
 
@@ -2439,3 +2419,33 @@ function ig_es_update_5738_db_version() {
 }
 // phpcs:enable
 /* --------------------- ES 5.7.38(End)--------------------------- */
+
+/* --------------------- ES 5.7.38(Start)--------------------------- */
+
+/**
+ * Premium Form templates for existing users
+ */
+
+function ig_es_migrate_ess_data_to_mailer_settings() {
+
+	if ( ES_Service_Email_Sending::opted_for_sending_service() ) {
+		$mailer_settings = get_option( 'ig_es_mailer_settings', array() );
+		$mailer_settings['mailer'] = 'icegram';
+		$mailer_settings['icegram']['email'] = ES_Common::get_admin_email();
+		update_option( 'ig_es_mailer_settings', $mailer_settings );
+	}
+	
+}
+
+
+ /**
+ * Update DB version
+ *
+ * @since 5.7.38
+ */
+function ig_es_update_5739_db_version() {
+	ES_Install::update_db_version( '5.7.39' );
+}
+// phpcs:enable
+/* --------------------- ES 5.7.38(End)--------------------------- */
+
