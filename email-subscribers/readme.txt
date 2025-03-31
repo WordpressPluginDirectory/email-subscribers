@@ -6,7 +6,7 @@ Tags: email marketing, email subscribers, email newsletters, autoresponders, ema
 Requires at least: 3.9
 Tested up to: 6.7.1
 Requires PHP: 7.0
-Stable tag: 5.7.55
+Stable tag: 5.7.57.1
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -486,11 +486,24 @@ Option 2:
 
 == Upgrade Notice ==
 
-= 5.7.55 =
+= 5.7.57.1 =
 
-* Enhancement: Improved invalid email checks when sending via Icegram sending service
+* Fix: New release version was not getting reflected 
 
 == Changelog ==
+
+**5.7.57.1 (31.03.2025)**
+
+* Fix: New release version was not getting reflected 
+
+**5.7.57 (26.03.2025)**
+
+* Fix: Duplicate post notifications were getting sent for posts with multiple categories and recipients subscribed to multiple lists
+
+**5.7.56 (20.03.2025)**
+
+* Fix: Subscription confirmation error due to incorrect 'Content-Type' header on some sites
+* Fix: Open tracking is disabled in some cases when creating a campaign from a template
 
 **5.7.55 (12.03.2025)**
 
