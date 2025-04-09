@@ -117,7 +117,7 @@ class Email_Subscribers_Admin {
 
 		add_action( 'wp_ajax_ig_es_get_subscribers_stats', array( 'ES_Dashboard', 'get_subscribers_stats' ) );
 		add_action( 'wp_ajax_ig_es_add_list', array( $this, 'add_list_callback' ) );
-        //Quick help widget
+		//Quick help widget
 		add_filter( 'ig_active_plugins_for_quick_help', array( $this, 'get_active_quick_help_plugins' ), 10, 2 );
 	}
 
@@ -269,6 +269,9 @@ class Email_Subscribers_Admin {
 				/* translators: 1. Anchor start tag 2. Anchor end tag */
 				'bulk_contact_select_text'              => __( sprintf( 'Only contacts from the current page have been selected. %1$sClick here%2$s to select all matching contacts across pages.', '<a id="ig-es-select-all-contacts" class="hover:underline text-sm font-medium text-indigo-600" href="#">', '</a>' ), 'email-subscribers' ),
 				'all_page_contact_selected_text'              => __( 'All contacts matching the selected filters across all pages have been selected.', 'email-subscribers' ),
+				/* translators: 1. Anchor start tag 2. Anchor end tag */
+				'bulk_reports_select_text'              => __( sprintf( 'Only reports from the current page have been selected. %1$sClick here%2$s to select all matching reports across pages.', '<a id="ig-es-select-all-reports" class="hover:underline text-sm font-medium text-indigo-600" href="#">', '</a>' ), 'email-subscribers' ),
+				'all_page_reports_selected_text'              => __( 'All reports matching the selected filters across all pages have been selected.', 'email-subscribers' ),
 			),
 			'is_pro'     => ES()->is_pro() ? true : false,
 			'is_premium' => ES()->is_premium(),
@@ -937,6 +940,7 @@ class Email_Subscribers_Admin {
 				'ig_es_show_trial_optin_reminder_notice',
 				'show_list_cleanup_notice',
 				'show_ess_free_limit_decrease_notice',
+				'display_es_plugin_notice',
 			);
 		}
 
@@ -964,7 +968,6 @@ class Email_Subscribers_Admin {
 		if ( ! empty( $wp_filter['admin_notices']->callbacks ) && is_array( $wp_filter['admin_notices']->callbacks ) ) {
 			foreach ( $wp_filter['admin_notices']->callbacks as $priority => $callbacks ) {
 				foreach ( $callbacks as $name => $details ) {
-
 					if ( is_object( $details['function'] ) && $details['function'] instanceof \Closure ) {
 						unset( $wp_filter['admin_notices']->callbacks[ $priority ][ $name ] );
 						continue;
@@ -1865,16 +1868,16 @@ class Email_Subscribers_Admin {
 
 		$engage_plugin_path = 'icegram/icegram.php';
 
-    	if ( is_plugin_active($engage_plugin_path) ) { 
+		if ( is_plugin_active($engage_plugin_path) ) { 
 			return;
 		}
 
-		if( file_exists(WP_PLUGIN_DIR . '/' . $engage_plugin_path) ) {
+		if ( file_exists(WP_PLUGIN_DIR . '/' . $engage_plugin_path) ) {
 			$optin_url = admin_url( 'plugins.php' );
-			$optin_btn_txt = esc_html("Activate Icegram Engage", 'email-subscribers' );
+			$optin_btn_txt = esc_html('Activate Icegram Engage', 'email-subscribers' );
 		} else {
 			$optin_url = admin_url( 'plugin-install.php?s=Icegram%2520Engage%2520%25E2%2580%2593%2520Ultimate%2520WP%2520Popup%2520Builder%252C%2520Lead%2520Generation%252C%2520Optins%252C%2520and%2520CTA&tab=search&type=term' );
-			$optin_btn_txt = esc_html("Get start with engage", 'email-subscribers' );
+			$optin_btn_txt = esc_html('Get start with engage', 'email-subscribers' );
 		}
 		
 
