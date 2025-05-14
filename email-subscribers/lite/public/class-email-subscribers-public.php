@@ -129,13 +129,20 @@ class Email_Subscribers_Public {
 	}
 
 	public function es_email_subscribe_init() {
-		global $wpdb, $ig_es_tracker;
 		//initialize
 		new ES_Handle_Subscription();
 		new ES_Shortcode();
 
 		$option = ig_es_get_request_data( 'es' );
 		$hash   = ig_es_get_request_data( 'hash' );
+		
+		// This "es-list-unsubscribe-hash" param we add in the mailto email body sent in the List-Unsubscribe header.
+		// Some client like Apple mail create issue when "&" is present in URL(?es=unsubscribe&hash=<contact-hash>). So we are using one single param 'es-list-unsubscribe-hash' to detect unsubscribe request.
+		$list_unsubscribe_hash = ig_es_get_request_data( 'es-list-unsubscribe-hash' );
+		if ( ! empty( $list_unsubscribe_hash ) ) {
+			$option = 'unsubscribe';
+			$hash   = $list_unsubscribe_hash;
+		}
 
 		if ( ! empty( $hash ) ) {
 
@@ -276,6 +283,10 @@ class Email_Subscribers_Public {
 					if ( $campaign_id > 0 && $db_id > 0 ) {
 						do_action( 'ig_es_message_open', $db_id, $message_id, $campaign_id );
 					}
+
+					header('Content-Type: image/png');
+					echo esc_html( base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/UVu6egAAAAASUVORK5CYII=') );
+					exit;
 
 				}
 			} elseif ( 'click' === $option ) {
