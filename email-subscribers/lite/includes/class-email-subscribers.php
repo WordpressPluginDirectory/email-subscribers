@@ -1015,6 +1015,18 @@ if ( ! class_exists( 'Email_Subscribers' ) ) {
 				'lite/includes/controllers/class-es-gallery-controller.php',
 				'lite/includes/controllers/class-es-template-controller.php',
 
+				'lite/includes/controllers/class-es-form-controller.php',
+				'lite/includes/controllers/class-es-forms-controller.php',
+
+				'lite/includes/controllers/class-es-contact-controller.php',
+				'lite/includes/controllers/class-es-contacts-controller.php',
+				'lite/includes/controllers/class-es-contact-import-controller.php',
+				'lite/includes/controllers/class-es-contact-export-controller.php',
+
+				'lite/includes/controllers/class-es-dashboard-controller.php',
+
+				'lite/includes/controllers/class-es-settings-controller.php',
+
 				'starter/starter-class-email-subscribers.php',
 				'pro/pro-class-email-subscribers.php',
 
