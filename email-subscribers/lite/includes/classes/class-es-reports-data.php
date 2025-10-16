@@ -26,20 +26,44 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 		/**
 		 * Get total subscribed contacts in last $days
 		 *
-		 * @param int $days
+		 * @param array $args Filter arguments
 		 *
 		 * @return int
 		 *
 		 * @since 4.3.2
 		 * @since 4.3.5 Modified ES_DB_Lists_Contacts::get_total_subscribed_contacts to
 		 * ES()->lists_contacts_db->get_total_subscribed_contacts
-		 * @since 4.3.6 Modified function name from get_subscribed_contacts_count to get_subscribed_contacts_count
+		 * @since 4.3.6 Modified funct			$total_subscribed_args = array(
+				'list_id' => $				'average_daily_signups'  => $average_daily_signups,
+				'previous_total_unsubscribed' => $previous_unsubscribed,
+				'previous_average_daily_signups' => $previous_average_daily_signups,
+				'previous_engagement_rate' => 0,
+				'previous_inactive_contacts' => 0,
+				'previous_avg_bounce_rate' => 0,
+				'previous_average_score' => 0,
+				'current_period_signups' => $current_period_signups,_id'],
+				'days' => 0
+			);a			$previous_period_signups = 0;
+			$previous_average_daily_signups = 0;
+			$previous_unsubscribed = 0;
+			
+			if ( $days > 0 ) {
+				$previous_signups_args = array(
+					'list_id' => $args['list_id'],
+					'days' => $days * 2
+				);
+				$double_period_signups = self::get_total_subscribed_contacts( $previous_signups_args );bscribed_contacts_co				'average_daily_signups'  => $average_daily_signups,
+				'previous_total_unsubscribed' => $previous_unsubscribed,
+				'previous_average_daily_signups' => $previous_average_daily_signups,
+				'previous_engagement_rate' => 0,
+				'previous_inactive_contacts' => 0,
+				'previous_avg_bounce_rate' => 0,
+				'previous_average_score' => 0,
+				'current_period_signups' => $current_period_signups,_subscribed_contacts_count
+		 * @since 5.7.24 Moved SQL logic to ES_DB_Contacts class for better separation of concerns
 		 */
 		public static function get_total_subscribed_contacts( $args = array() ) {
-			$distinct = true;
-			$list_id  = ! empty( $args['list_id'] ) ? $args['list_id'] : 0;
-			$days     = ! empty( $args['days'] ) ? $args['days'] : 0;
-			return ES()->lists_contacts_db->get_contacts( 'subscribed', $list_id, $days, true, $distinct );
+			return ES()->contacts_db->get_total_subscribed_contacts_with_filters( $args );
 		}
 
 		/**
@@ -276,7 +300,7 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 			 */
 			$cache_key    = 'dashboard_reports_data';
 			$args['days'] = ! empty( $args['days'] ) ? $args['days'] : 7;
-
+			
 			if ( ! $override_cache ) {
 
 				$cached_data = ES_Cache::get_transient( $cache_key );
@@ -287,7 +311,7 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 			}
 			
 			$total_subscribed = self::get_total_subscribed_contacts( $args );
-
+ 
 			$action_types       = ES()->get_action_types();
 			$args['types']      = $action_types;
 			$actions_counts     = ES()->actions_db->get_actions_count( $args );
@@ -712,6 +736,118 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 		});
 	</script>
 	<?php
+		}
+
+		/**
+		 * Get audience insights data with enhanced metrics
+		 *
+		 * @param array $args
+		 *
+		 * @return array
+		 *
+		 * @since 5.7.20
+		 */
+		public static function get_audience_insights_data( $args = array() ) {
+
+			$list_id = isset( $args['list_id'] ) ? intval( $args['list_id'] ) : 0;
+			$days = isset( $args['days'] ) ? intval( $args['days'] ) : 7;
+			
+			try {
+  
+				// Get total subscribed contacts for the list - WITHOUT date filtering for total count
+				$total_subscribed_args = array(
+					'list_id' => $args['list_id'],
+					'days' => $days
+				);
+				
+				$total_contacts = self::get_all_total_contacts($total_subscribed_args);
+
+				$total_subscribed = self::get_total_subscribed_contacts( $total_subscribed_args );
+				
+			
+				$total_unsubscribed = self::get_total_unsubscribed_contacts( $args );
+				$current_period_signups = 0;
+				$average_daily_signups = 0;
+				if ( $days > 0 ) {
+
+					$current_signups_args = array(
+						'list_id' => $args['list_id'],
+						'days' => $days
+					);
+
+					$current_period_signups = self::get_total_subscribed_contacts( $current_signups_args );
+					$average_daily_signups = round( $current_period_signups / $days, 1 );
+				}
+				
+				$previous_period_signups = 0;
+				$previous_average_daily_signups = 0;
+				$previous_unsubscribed = 0;
+				
+				if ( $days > 0 ) {
+					$previous_signups_args = array(
+						'list_id' => $args['list_id'],
+						'days' => $days * 2
+					);
+					$double_period_signups = self::get_total_subscribed_contacts( $previous_signups_args );
+					// Previous period signups = total from double period - current period signups
+					$previous_period_signups = max( 0, $double_period_signups - $current_period_signups );
+					$previous_average_daily_signups = round( $previous_period_signups / $days, 1 );
+					
+					$previous_unsubscribed_args = array(
+						'list_id' => $args['list_id'],
+						'days' => $days * 2
+					);
+					$double_period_unsubscribed = self::get_total_unsubscribed_contacts( $previous_unsubscribed_args );
+					$previous_unsubscribed = max( 0, $double_period_unsubscribed - $total_unsubscribed );
+				}
+				
+				$audience_insights_data = array(
+					'total_contacts'         => $total_contacts,
+					'total_subscribed'       => $total_subscribed,
+					'engagement_rate'        => 0, 
+					'inactive_contacts'      => 0, 
+					'total_unsubscribed'     => $total_unsubscribed,
+					'avg_bounce_rate'        => 0, 
+					'average_score'          => 0, 
+					'average_daily_signups'  => $average_daily_signups,
+					// Previous period data for comparison
+					'previous_total_unsubscribed' => $previous_unsubscribed,
+					'previous_average_daily_signups' => $previous_average_daily_signups,
+					'previous_engagement_rate' => 0,
+					'previous_inactive_contacts' => 0,
+					'previous_avg_bounce_rate' => 0,
+					'previous_average_score' => 0,
+					// Additional debug info
+					'current_period_signups' => $current_period_signups,
+					'previous_period_signups' => $previous_period_signups
+				);
+			
+			$audience_insights_data = apply_filters( 'ig_es_audience_insights_data', $audience_insights_data, $args );				return $audience_insights_data;
+				
+			} catch ( Exception $e ) {
+				return array(
+					'total_contacts'         => 0,
+					'total_subscribed'       => 0,
+					'engagement_rate'        => 0,
+					'inactive_contacts'      => 0,
+					'total_unsubscribed'     => 0,
+					'avg_bounce_rate'        => 0,
+					'average_score'          => 0,
+					'average_daily_signups'  => 0,
+					'previous_total_unsubscribed' => 0,
+					'previous_average_daily_signups' => 0,
+					'previous_engagement_rate' => 0,
+					'previous_inactive_contacts' => 0,
+					'previous_avg_bounce_rate' => 0,
+					'previous_average_score' => 0,
+					'current_period_signups' => 0,
+					'previous_period_signups' => 0
+				);
+			}
+		}
+
+		public static function get_all_total_contacts( $args = array() ) {
+			return ES()->contacts_db->get_all_total_contacts_with_filters( $args );
 		}
 	}
 

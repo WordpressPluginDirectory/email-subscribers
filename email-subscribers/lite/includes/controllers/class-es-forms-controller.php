@@ -32,30 +32,164 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 		public function register_hooks() {
 		}
 
-		public static function duplicate_form( $args ) {
+		/**
+		 * Get single form by ID
+		 *
+		 * @param array $args Arguments containing form_id
+		 *
+		 * @return array|false
+		 */
+		public static function get_form( $args ) {
+			if ( is_string( $args ) ) {
+				$decoded = json_decode( $args, true );
+				if ( $decoded ) {
+					$args = $decoded;
+				}
+			}
 
 			if ( empty( $args['form_id'] ) ) {
 				return false;
 			}
+
+		$form_id = intval( $args['form_id'] );
+		$form = ES()->forms_db->get_form_by_id( $form_id );
 		
-		$duplicated_form_id = ES()->forms_db->duplicate_form( $args['form_id'] );
+			if ( empty( $form ) ) {
+				return false;
+			}		
+		$form_array = (array) $form;
+		$form_array['subscriber_count'] = ES()->contacts_db->get_total_contacts_by_form_id( $form_id, 0 );
+
+		$settings = ! empty( $form_array['settings'] ) ? maybe_unserialize( $form_array['settings'] ) : [];
+		
+		$list_ids = [];
+			if ( ! empty( $settings['lists'] ) ) {
+				$list_ids = is_array( $settings['lists'] ) ? $settings['lists'] : [ intval( $settings['lists'] ) ];
+			} else {
+				if ( ! empty( $form_array['lists'] ) ) {
+					$old_lists = maybe_unserialize( $form_array['lists'] );
+					if ( is_array( $old_lists ) ) {
+						$list_ids = $old_lists;
+					} elseif ( is_numeric( $old_lists ) ) {
+						$list_ids = [ intval( $old_lists ) ];
+					}
+				}
+			}
+
+		$list_names = [];
+			if ( ! empty( $list_ids ) ) {
+				foreach ( $list_ids as $list_id ) {
+					$list_name = ES()->lists_db->get_list_name_by_id( $list_id );
+					if ( $list_name ) {
+						$list_names[] = $list_name;
+					}
+				}
+			}
+
+		$form_array['list_names'] = ! empty( $list_names ) ? implode( ', ', $list_names ) : '';
+		
+			if ( ! empty( $settings ) ) {
+				$form_array['settings'] = $settings;
+			}
+		
+		$form_array['lists'] = $list_ids;
+		$form_array['show_in_popup'] = isset( $settings['show_in_popup'] ) ? $settings['show_in_popup'] : 
+			( isset( $form_array['afg'] ) ? $form_array['afg'] : 'no' ); // 'afg' might be old field name
+		$form_array['name_visible'] = isset( $settings['name_visible'] ) ? $settings['name_visible'] : 
+			( isset( $form_array['name_visible'] ) ? $form_array['name_visible'] : '' );
+		$form_array['list_visible'] = isset( $settings['list_visible'] ) ? $settings['list_visible'] : 
+			( isset( $form_array['list_visible'] ) ? $form_array['list_visible'] : '' );
+		$form_array['gdpr_consent'] = isset( $settings['gdpr']['consent'] ) ? $settings['gdpr']['consent'] : 
+			( isset( $settings['gdpr_consent'] ) ? $settings['gdpr_consent'] : 
+			( isset( $form_array['gdpr_consent'] ) ? $form_array['gdpr_consent'] : '' ) );
+		$form_array['gdpr_consent_text'] = isset( $settings['gdpr']['consent_text'] ) ? $settings['gdpr']['consent_text'] : 
+			( isset( $settings['gdpr_consent_text'] ) ? $settings['gdpr_consent_text'] : '' );
+		$form_array['captcha'] = isset( $settings['captcha'] ) ? $settings['captcha'] : 
+			( isset( $form_array['captcha'] ) ? $form_array['captcha'] : '' );
+		
+			if ( ! empty( $form_array['body'] ) ) {
+				$body_data = maybe_unserialize( $form_array['body'] );
+				if ( is_array( $body_data ) ) {
+					$extracted_values = array();
+					foreach ( $body_data as $field ) {
+						if ( isset( $field['id'] ) && isset( $field['value'] ) ) {
+							$extracted_values[ $field['id'] ] = $field['value'];
+						}
+					}
+					if ( ! empty( $extracted_values ) ) {
+						$form_array['form_values'] = $extracted_values;
+					}
+				}
+			}
+		
+		return $form_array;
+		}
+
+		public static function duplicate_form( $args ) {
+			if ( is_string( $args ) ) {
+				$decoded = json_decode( $args, true );
+				if ( $decoded ) {
+					$args = $decoded;
+				}
+			}
+
+			if ( empty( $args['form_id'] ) ) {
+				return false;
+			}
+
+			$form_id = intval( $args['form_id'] );
+		
+			$duplicated_form_id = ES()->forms_db->duplicate_form( $form_id );
+		
 			if ( empty( $duplicated_form_id ) ) {
 				return false;
 			}
 
-		return $duplicated_form_id;
+			return $duplicated_form_id;
 		}
-	 /**
-	 * Retrieve lists data from the database
+	
+	/**
+	 * Delete a form
 	 *
-	 * @param int $per_page
-	 * @param int $page_number
+	 * @param array $args Arguments containing form_id
 	 *
-	 * @return mixed  
-	 */ 
-		public static function get_forms( $args) {
+	 * @return bool
+	 */
+		public static function delete_form( $args ) {
+			if ( is_string( $args ) ) {
+				$decoded = json_decode( $args, true );
+				if ( $decoded ) {
+					$args = $decoded;
+				}
+			}
+
+			if ( empty( $args['form_id'] ) ) {
+				return false;
+			}
+
+			$form_id = intval( $args['form_id'] );
+			$deleted = ES()->forms_db->delete( $form_id );
+		
+			return $deleted !== false;
+		}
+	
+	/**
+	 * Retrieve forms data from the database
+	 *
+	 * @param array $args Arguments for the query
+	 *
+	 * @return mixed
+	 */
+		public static function get_forms( $args ) {
 
 			global $wpdb, $wpbd;
+
+			if ( is_string( $args ) ) {
+				$decoded = json_decode( $args, true );
+				if ( $decoded ) {
+					$args = $decoded;
+				}
+			}
 
 			$order_by     = isset( $args['order_by'] ) ? esc_sql( $args['order_by'] ) : 'created_at';
 			$order        = isset( $args['order'] ) ? strtoupper( $args['order'] ) : 'DESC';
@@ -71,14 +205,14 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 				$sql = "SELECT * FROM {$forms_table}";
 			}
 
-			$args  = array();
+			$sql_args  = array();
 			$query = array();
 
 			$add_where_clause = false;
 
 			if ( ! empty( $search ) ) {
 				$query[] = ' name LIKE %s ';
-				$args[]  = '%' . $wpdb->esc_like( $search ) . '%';
+				$sql_args[]  = '%' . $wpdb->esc_like( $search ) . '%';
 
 				$add_where_clause = true;
 			}
@@ -88,8 +222,8 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 
 				if ( count( $query ) > 0 ) {
 					$sql .= implode( ' AND ', $query );
-					if ( count( $args ) > 0 ) {
-						$sql = $wpbd->prepare( $sql, $args );
+					if ( count( $sql_args ) > 0 ) {
+						$sql = $wpbd->prepare( $sql, $sql_args );
 					}
 				}
 			}
@@ -104,7 +238,7 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 
 				$default_order_by = esc_sql( 'created_at' );
 
-				$expected_order_by_values = array( 'name', 'created_at' );
+				$expected_order_by_values = array( 'name', 'created_at', 'updated_at' );
 
 				if ( ! in_array( $order_by, $expected_order_by_values ) ) {
 					$order_by_clause = " ORDER BY {$default_order_by} DESC";
@@ -118,6 +252,32 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 				$sql .= ' OFFSET ' . ( $page_number - 1 ) * $per_page;
 
 				$result = $wpbd->get_results( $sql, 'ARRAY_A' );
+				
+				if ( ! empty( $result ) ) {
+					foreach ( $result as &$form ) {
+						$form_id = ! empty( $form['id'] ) ? intval( $form['id'] ) : 0;
+
+						$form['subscriber_count'] = ES()->contacts_db->get_total_contacts_by_form_id( $form_id, 0 );
+
+						$settings = ! empty( $form['settings'] ) ? maybe_unserialize( $form['settings'] ) : [];
+						
+						$form['settings'] = $settings;
+
+						$list_ids = [];
+						if ( ! empty( $settings['lists'] ) ) {
+							$list_ids = is_array( $settings['lists'] ) ? $settings['lists'] : [ intval( $settings['lists'] ) ];
+						}
+
+						$list_names = [];
+						if ( ! empty( $list_ids ) ) {
+							foreach ( $list_ids as $list_id ) {
+								$list_names[] = ES()->lists_db->get_list_name_by_id( $list_id );
+							}
+						}
+
+						$form['list_names'] = ! empty( $list_names ) ? implode( ', ', $list_names ) : '';
+					}
+				}
 			} else {
 				$result = $wpbd->get_var( $sql );
 			}
@@ -162,19 +322,15 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 				$embed_html .= "<form method='post' action='$form_action_url' class='ig-es-embeded-from'>";
 
 				if ( ! $is_dnd_editor ) {
-					//To avoid Captcha in embed form
 					$form_data['captcha'] = 'no';
-					//Name field
 					$show_name        = ! empty( $form_data['name_visible'] ) ? strtolower( $form_data['name_visible'] ) : false;
 					$name_required    = ! empty( $form_data['name_required'] ) ? $form_data['name_required'] : false;
 					$name_label       = ! empty( $form_data['name_label'] ) ? $form_data['name_label'] : '';
 					$name_placeholder = ! empty( $form_data['name_place_holder'] ) ? $form_data['name_place_holder'] : '';
-					//Email field
 					$email_label       = ! empty( $form_data['email_label'] ) ? $form_data['email_label'] : '';
 					$email_placeholder = ! empty( $form_data['email_place_holder'] ) ? $form_data['email_place_holder'] : '';
 	
 					$button_label = ! empty( $form_data['button_label'] ) ? $form_data['button_label'] : __( 'Subscribe', 'email-subscribers' );
-					//List Field
 					$list_label = ! empty( $form_data['list_label'] ) ? $form_data['list_label'] : __( 'Select list(s)', 'email-subscribers' );
 					$show_list  = ! empty( $form_data['list_visible'] ) ? $form_data['list_visible'] : false;
 					$list       = ! empty( $form_data['list'] ) ? $form_data['list'] : 0;
@@ -182,7 +338,6 @@ if ( ! class_exists( 'ES_Forms_Controller' ) ) {
 					$desc         = ! empty( $form_data['desc'] ) ? $form_data['desc'] : '';
 				
 	
-					//GDRP content
 					$gdpr_consent      = ! empty( $form_data['gdpr_consent'] ) ? $form_data['gdpr_consent'] : 'no';
 					$gdpr_consent_text = ! empty( $form_data['gdpr_consent_text'] ) ? $form_data['gdpr_consent_text'] : '';
 

@@ -120,7 +120,11 @@ class Email_Subscribers_Admin {
 		//Quick help widget
 		add_filter( 'ig_active_plugins_for_quick_help', array( $this, 'get_active_quick_help_plugins' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_gutenberg_editor' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'ig_es_enqueue_gutenberg_editor_scripts' ) );
+		
+		// Fix campaigns menu visibility issues
+		add_action( 'admin_head', array( $this, 'fix_campaigns_menu_visibility' ) );
 	}
 
 	/**
@@ -201,6 +205,10 @@ class Email_Subscribers_Admin {
 		$page = ig_es_get_request_data( 'page' );
 
 		wp_enqueue_script( $this->email_subscribers, plugin_dir_url( __FILE__ ) . 'js/email-subscribers-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tabs' ), $this->version, false );
+
+		if ( in_array( $page, array( 'es_dashboard', 'es_forms' ) ) ) {
+			wp_enqueue_media();
+		}
 
 		$ig_es_js_data = array(
 			'security'   => wp_create_nonce( 'ig-es-admin-ajax-nonce' ),
@@ -380,14 +388,25 @@ class Email_Subscribers_Admin {
 			wp_enqueue_script( 'frappe-js', plugin_dir_url( __FILE__ ) . 'js/frappe-charts.min.iife.js', array( 'jquery' ), '1.5.2', false );
 		}
 
-		if ( ( 'es_dashboard' === $page && IG_ES_Onboarding::is_onboarding_completed() ) || 'es_pricing' === $page ) {
-			wp_register_script( 'es-shadcn-dashboard', plugin_dir_url( __FILE__ ) . 'shadcn-frontend/index.js', array( 'react', 'react-dom' ), $this->version, true );
+		if ( 'es_dashboard' === $page  || 'es_pricing' === $page ) {
+			wp_register_script( 'es-shadcn-dashboard', plugin_dir_url( __FILE__ ) . 'shadcn-frontend/dist/index.js', array('wp-element'), $this->version, true );
+			$current_user = wp_get_current_user();
 			wp_localize_script( 'es-shadcn-dashboard', 'icegramExpressAdminData', array(
 				'apiUrl' => admin_url( 'admin-ajax.php' ),
-				'baseUrl' => ES_PLUGIN_URL . 'lite/admin/shadcn-frontend',
+				'baseUrl' => ES_PLUGIN_URL . 'lite/admin/shadcn-frontend/dist/',
+				'siteUrl' => home_url(),
+				'adminUrl' => admin_url(),
+				'onboardingdata' => get_option('ig_es_onboarding_complete', 'no'),
 				'security'    => wp_create_nonce( 'ig-es-admin-ajax-nonce' ),
+				'plan' => ES()->get_plan(),
+				'currentUser' => array(
+					'displayName' => $current_user->display_name,
+					'firstName' => $current_user->first_name,
+					'lastName' => $current_user->last_name,
+					'email' => $current_user->user_email,
+				),
 			) );
-			wp_register_style( 'es-shadcn-dashboard', plugin_dir_url( __FILE__ ) . 'shadcn-frontend/index.css', array(), $this->version );
+			wp_register_style( 'es-shadcn-dashboard', plugin_dir_url( __FILE__ ) . 'shadcn-frontend/dist/index.css', array(), $this->version );
 			wp_enqueue_script( 'es-shadcn-dashboard' );
 			wp_enqueue_style( 'es-shadcn-dashboard' );
 		}
@@ -412,6 +431,8 @@ class Email_Subscribers_Admin {
 
 		$accessible_sub_menus = ES_Common::ig_es_get_accessible_sub_menus();
 
+        $main_menu_url = admin_url( '/admin.php?page=es_dashboard' );
+		
 		if ( count( $accessible_sub_menus ) > 0 ) {
 
 			$menu_title = ES()->get_admin_menu_title();
@@ -430,9 +451,7 @@ class Email_Subscribers_Admin {
 
 		if ( in_array( 'audience', $accessible_sub_menus ) ) {
 			// Add Contacts Submenu
-			$hook = add_submenu_page( 'es_dashboard', __( 'Audience', 'email-subscribers' ), __( 'Audience', 'email-subscribers' ), 'edit_posts', 'es_subscribers', array( $this, 'render_contacts' ) );
-			add_action( "load-$hook", array( 'ES_Contacts_Table', 'screen_options' ) );
-
+			add_submenu_page( 'es_dashboard', __( 'Audience', 'email-subscribers' ), __( 'Audience', 'email-subscribers' ), 'edit_posts', $main_menu_url . '#audience', null );
 			// Add Lists Submenu
 			$hook = add_submenu_page( 'es_dashboard', __( 'Lists', 'email-subscribers' ), '<span id="ig-es-lists">' . __( 'Lists', 'email-subscribers' ) . '</span>', 'edit_posts', 'es_lists', array( $this, 'render_lists' ) );
 			add_action( "load-$hook", array( 'ES_Lists_Table', 'screen_options' ) );
@@ -440,13 +459,20 @@ class Email_Subscribers_Admin {
 
 		if ( in_array( 'forms', $accessible_sub_menus ) ) {
 			// Add Forms Submenu
+			add_submenu_page( 'es_dashboard', __( 'Forms', 'email-subscribers' ), __( 'Forms', 'email-subscribers' ), 'edit_posts', $main_menu_url . '#forms', null );
+
 			$hook = add_submenu_page( 'es_dashboard', __( 'Forms', 'email-subscribers' ), __( 'Forms', 'email-subscribers' ), 'edit_posts', 'es_forms', array( $this, 'render_forms' ) );
+
 			add_action( "load-$hook", array( 'ES_Forms_Table', 'screen_options' ) );
+			
 		}
 
 		if ( in_array( 'campaigns', $accessible_sub_menus ) ) {
 			// Add Campaigns Submenu
+			add_submenu_page( 'es_dashboard', __( 'Campaigns', 'email-subscribers' ), __( 'Campaigns', 'email-subscribers' ), 'edit_posts', $main_menu_url . '#campaigns', null );
+
 			$hook = add_submenu_page( 'es_dashboard', __( 'Campaigns', 'email-subscribers' ), __( 'Campaigns', 'email-subscribers' ), 'edit_posts', 'es_campaigns', array( $this, 'render_campaigns' ) );
+
 			add_action( "load-$hook", array( 'ES_Campaigns_Table', 'screen_options' ) );
 
 			// Start-IG-Code.
@@ -715,6 +741,15 @@ class Email_Subscribers_Admin {
 	}
 
 	/**
+	 * Load Shortcode Test Page
+	 * 
+	 * @since 5.8.0
+	 */
+	public function load_shortcode_test() {
+		include ES_PLUGIN_DIR . 'lite/admin/views/shortcode-test.php';
+	}
+
+	/**
 	 * Redirect to icegram if required
 	 *
 	 * @since 4.4.1
@@ -770,13 +805,13 @@ class Email_Subscribers_Admin {
 		$ig_es_db_update_history  = ES_Common::get_ig_option( 'db_update_history', array() );
 		$ig_es_4015_db_updated_at = ( is_array( $ig_es_db_update_history ) && isset( $ig_es_db_update_history['4.0.15'] ) ) ? $ig_es_db_update_history['4.0.15'] : false;
 
-		$is_sa_option_exists = get_option( 'current_sa_email_subscribers_db_version', false );
-		$onboarding_status   = get_option( 'ig_es_onboarding_complete', 'no' );
-		if ( ! $is_sa_option_exists && ! $ig_es_4015_db_updated_at && 'yes' !== $onboarding_status ) {
-			$this->show_onboarding();
-		} else {
+		// $is_sa_option_exists = get_option( 'current_sa_email_subscribers_db_version', false );
+		// $onboarding_status   = get_option( 'ig_es_onboarding_complete', 'no' );
+		// if ( ! $is_sa_option_exists && ! $ig_es_4015_db_updated_at && 'yes' !== $onboarding_status ) {
+		// 	//$this->show_onboarding();
+		// } else {
 			$this->show_dashboard();
-		}
+		//}
 	}
 
 	/**
@@ -2111,6 +2146,20 @@ class Email_Subscribers_Admin {
 		$active_plugins['ig_sku'] = 'icegram-express';
 	
 		return $active_plugins;
+	}
+
+	/**
+	 * Fix campaigns menu visibility issues
+	 *
+	 * @since 4.2.1
+	 */
+	public function fix_campaigns_menu_visibility() {
+		echo '<style>
+			ul#adminmenu li#toplevel_page_es_dashboard ul li:nth-child(8),
+			ul#adminmenu li#toplevel_page_es_dashboard ul li:nth-child(6){
+				display: none !important;
+			}
+		</style>';
 	}
 	
 }

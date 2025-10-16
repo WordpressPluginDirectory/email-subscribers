@@ -6,7 +6,7 @@ Tags: email subscribers, newsletter, subscription form, post notifications, wooc
 Requires at least: 3.9
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 5.9.1
+Stable tag: 5.9.6
 License: GPLv3
 
 License URI: http://www.gnu.org/licenses
@@ -341,11 +341,47 @@ Option 2:
 
 == Upgrade Notice ==
 
-= 5.9.1 =
+= 5.9.6 =
 
-* Fix: Issue related to access to different dashboards from the main dashboard
+* New: Revamped Campaign Dashboard UI for a more modern and intuitive experience
+* Improvements: Audience dashboard now loads faster
+* Fix: Pagination issue fixed on the Audience page
+* Fix: Emails were not sent correctly to manually added contacts
+* Fix: Fixed bug where clicking the "Subscribe" button unintentionally created a new form
+* Fix: Fixed GDPR and Captcha field configuration problems
+* Fix: Subscribers now added only to selected lists when subscribing
 
 == Changelog ==
+
+**5.9.6 (16.10.2025)**
+
+* New: Revamped Campaign Dashboard UI for a more modern and intuitive experience
+* Improvements: Audience dashboard now loads faster
+* Fix: Pagination issue fixed on the Audience page
+* Fix: Emails were not sent correctly to manually added contacts
+* Fix: Fixed bug where clicking the "Subscribe" button unintentionally created a new form
+* Fix: Fixed GDPR and Captcha field configuration problems
+* Fix: Subscribers now added only to selected lists when subscribing
+
+**5.9.5 (07.10.2025)**
+
+* New: Revamped Audience Dashboard UI for clearer insights
+* Fix: Dashboard not loading due to "MonsterInsights – Google Analytics" plugin conflict
+
+**5.9.4 (23.09.2025)**
+
+* New: Simplified onboarding so you can focus on what matters most
+* Improvements: Prevented unnecessary cron job scheduling when WordPress cron is disabled in the plugin settings
+* Update: Resolved "Toolset Forms" plugin conflict when sending campaigns with attachments
+
+**5.9.3 (16.09.2025)**
+
+* New: Enhanced Forms Dashboard – Choose from ready-made templates or build forms step by step.
+
+**5.9.2 (05.09.2025)**
+
+* New: Dashboard UI improvements
+* New: Added subscribers growth chart in Dashboard
 
 **5.9.1 (29.08.2025)**
 

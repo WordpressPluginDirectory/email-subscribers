@@ -284,6 +284,11 @@ class ES_DB_Actions extends ES_DB {
 		global $wpbd;
 
 		$where = array();
+
+		if ( ! empty( $args['contact_id'] ) && intval($args['contact_id']) > 0 ) {
+			$where[] = $wpbd->prepare( 'contact_id = %d', intval($args['contact_id']) );
+		}
+		
 		if ( ! empty( $args['type'] ) ) {
 			if ( is_array( $args['type'] ) ) {
 				$types_count        = count( $args['type'] );

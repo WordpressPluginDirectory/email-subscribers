@@ -557,7 +557,7 @@ class ES_DB_Lists_Contacts extends ES_DB {
 
 		if ( ! empty( $where ) ) {
 			$query .= " WHERE $where";
-		}
+		} 
 
 		return $wpbd->get_var( $query );
 	}
@@ -1018,5 +1018,72 @@ class ES_DB_Lists_Contacts extends ES_DB {
 		}
 
 		return $this->remove_all_contacts_from_list( $list_id );
+	}
+
+	/**
+	 * Get list statuses by contact ID
+	 *
+	 * @param int $contact_id Contact ID
+	 * @return array
+	 */
+	public function get_list_statuses_by_contact_id( $contact_id ) {
+		
+		global $wpdb;
+
+		$contact_id = intval( $contact_id );
+		
+		$sql = "SELECT lc.list_id, l.name as list_name, lc.status 
+				FROM {$this->table_name} lc
+				LEFT JOIN " . IG_LISTS_TABLE . " l ON lc.list_id = l.id
+				WHERE lc.contact_id = %d";
+		
+		$sql = $wpdb->prepare( $sql, $contact_id );
+		
+		return $wpdb->get_results( $sql, 'ARRAY_A' );
+	}
+
+	/**
+	 * Get contact IDs by criteria
+	 *
+	 * @param array $args Criteria arguments
+	 * @return array
+	 */
+	public function get_contact_ids_by_criteria( $args = array() ) {
+		
+		global $wpdb; 
+
+		$where_clause = '';
+		$query_params = array();
+		
+		if ( ! empty( $args['list_id'] ) ) {
+			$where_clause .= ' AND list_id = %d';
+			$query_params[] = intval( $args['list_id'] );
+		}
+		
+		if ( ! empty( $args['status'] ) ) {
+			$where_clause .= ' AND status = %s';
+			$query_params[] = sanitize_text_field( $args['status'] );
+		}
+		
+		if ( ! empty( $args['bounce_status'] ) ) {
+			$where_clause .= ' AND bounce_status = %d';
+			$query_params[] = intval( $args['bounce_status'] );
+		}
+		
+		$sql = "SELECT DISTINCT contact_id FROM {$this->table_name}";
+		
+		if ( ! empty( $where_clause ) ) {
+			$sql .= ' WHERE 1=1 ' . $where_clause;
+		}
+		
+		if ( ! empty( $query_params ) ) { 
+			$params = array_merge( array( $sql ), $query_params );
+        	$sql = call_user_func_array( array( $wpdb, 'prepare' ), $params );
+		}
+
+		$ids = $wpdb->get_col( $sql );
+
+		return array_values( array_map( 'intval', array_filter( (array) $ids, 'is_numeric' ) ) );
+  
 	}
 }

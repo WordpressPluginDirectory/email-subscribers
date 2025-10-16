@@ -143,25 +143,23 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 		 */
 		private $from_rainmaker = false;
 
-		/**
-		 * ES_Handle_Subscription constructor.
-		 *
-		 * @param bool $from_rainmaker
-		 *
-		 * @since 4.0.0
-		 */
-		public function __construct( $from_rainmaker = false ) {
-			if ( defined( 'DOING_AJAX' ) && ( true === DOING_AJAX ) ) {
-				add_action( 'wp_ajax_es_add_subscriber', array( $this, 'process_ajax_request' ), 10 );
-				add_action( 'wp_ajax_nopriv_es_add_subscriber', array( $this, 'process_ajax_request' ), 10 );
-			}
-
-			$this->from_rainmaker = $from_rainmaker;
-
-			$this->handle_subscription();
+	/**
+	 * ES_Handle_Subscription constructor.
+	 *
+	 * @param bool $from_rainmaker
+	 *
+	 * @since 4.0.0
+	 */
+	public function __construct( $from_rainmaker = false ) {
+		if ( defined( 'DOING_AJAX' ) && ( true === DOING_AJAX ) ) {
+			add_action( 'wp_ajax_es_add_subscriber', array( $this, 'process_ajax_request' ), 10 );
+			add_action( 'wp_ajax_nopriv_es_add_subscriber', array( $this, 'process_ajax_request' ), 10 );
 		}
 
-		/**
+		$this->from_rainmaker = $from_rainmaker;
+
+		$this->handle_subscription();
+	}		/**
 		 * Process form submission via ajax call
 		 */
 		public function process_ajax_request() {
@@ -173,6 +171,26 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 
 			if ( ! empty( $es_subscribe ) ) {
 				defined( 'IG_ES_RETURN_HANDLE_RESPONSE' ) || define( 'IG_ES_RETURN_HANDLE_RESPONSE', true );
+				
+				// Check if this is a WYSIWYG form submission
+				$form_id = ! empty( $_POST['esfpx_form_id'] ) ? (int) $_POST['esfpx_form_id'] : 0;
+				if ( $form_id ) {
+					$form = ES()->forms_db->get_form_by_id( $form_id );
+					if ( $form ) {
+						$settings = ! empty( $form['settings'] ) ? maybe_unserialize( $form['settings'] ) : array();
+						$editor_type = ! empty( $settings['editor_type'] ) ? $settings['editor_type'] : '';
+						
+						// If it's a WYSIWYG form, transform the data and use standard processor
+						if ( 'wysiwyg' === $editor_type ) {
+							$transformed_data = $this->transform_wysiwyg_form_data( wp_unslash( $_POST ), $form_id );
+							$response = $this->process_request( $transformed_data );
+							$response = $this->do_response( $response );
+							wp_send_json( $response );
+							return;
+						}
+					}
+				}
+				
 				$response = $this->process_request( wp_unslash( $_POST ) );
 			} else {
 				$response = array( 'status' => 'ERROR', 'message' => 'es_unexpected_error_notice', );
@@ -211,14 +229,11 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 			$doing_ajax      = defined( 'DOING_AJAX' ) && DOING_AJAX;
 			$return_response = defined( 'IG_ES_RETURN_HANDLE_RESPONSE' ) && IG_ES_RETURN_HANDLE_RESPONSE;
 
-			// Verify nonce only if it is submitted through Icegram Express' subscription form else check if we have form data in $external_form_data.
 			if ( ( 'subscribe' === $es ) || ! empty( $external_form_data ) ) {
 
-				// Get form data from external source if passed.
 				if ( ! empty( $external_form_data ) ) {
 					$form_data = $external_form_data;
 				} else {
-					// If external form data is not passed then get form data from $_POST.
 					$form_data = wp_unslash( $_POST );
 				}
 				$validate_response = $this->validate_data( $form_data );
@@ -226,8 +241,6 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 
 				if ( 'ERROR' === $validate_response['status'] ) {
 
-					// We want to pretend as "SUCCESS" for blocked emails.
-					// So, we are setting as "SUCCESS" even if this email is blocked
 					if ( 'es_email_address_blocked' === $validate_response['message'] ) {
 						$validate_response['status']  = 'SUCCESS';
 						$validate_response['message'] = 'es_optin_success_message';
@@ -250,7 +263,6 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 				$first_name = '';
 				$last_name  = '';
 				if ( ! empty( $name ) ) {
-					// Get First Name and Last Name from Name.
 					$name_parts = ES_Common::prepare_first_name_last_name( $name );
 					$first_name = $name_parts['first_name'];
 					$last_name  = $name_parts['last_name'];
@@ -264,6 +276,52 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 				$this->list_hashes    = isset( $form_data['esfpx_lists'] ) ? $form_data['esfpx_lists'] : array();
 				$this->es_nonce       = isset( $form_data['esfpx_es-subscribe'] ) ? trim( $form_data['esfpx_es-subscribe'] ) : '';
 				$this->form_id        = isset( $form_data['esfpx_form_id'] ) ? trim( $form_data['esfpx_form_id'] ) : 0;
+
+
+
+			
+				if ( ! empty( $this->form_id ) ) {
+					$form = ES()->forms_db->get_form_by_id( $this->form_id );
+					if ( $form && ! empty( $form['settings'] ) ) {
+						$settings = maybe_unserialize( $form['settings'] );
+						
+						$has_list_field = ! empty( $settings['has_list_field'] ) && 'yes' === $settings['has_list_field'];
+						
+						$backend_list_ids = array();
+						if ( ! empty( $settings['lists'] ) && is_array( $settings['lists'] ) ) {
+							$backend_list_ids = array_map( 'intval', $settings['lists'] );
+						} elseif ( ! empty( $settings['lists'] ) && is_numeric( $settings['lists'] ) ) {
+							$backend_list_ids = array( intval( $settings['lists'] ) );
+						}
+						
+						if ( $has_list_field ) {
+							if ( empty( $this->list_hashes ) ) {
+								$this->list_hashes = array();
+							}
+						} else {
+							if ( ! empty( $backend_list_ids ) ) {
+								$backend_lists = ES()->lists_db->get_lists_by_id( $backend_list_ids );
+								$backend_list_hashes = array();
+								
+								if ( ! empty( $backend_lists ) ) {
+									foreach ( $backend_lists as $list ) {
+										if ( ! empty( $list['hash'] ) ) {
+											$backend_list_hashes[] = $list['hash'];
+										}
+									}
+								}
+								
+								$this->list_hashes = $backend_list_hashes;
+							} else {
+								$this->list_hashes = array();
+							}
+						}
+					} else {
+						// No form settings found - fallback to existing behavior
+					}
+				} else {
+					// No form ID provided - fallback to existing behavior
+				}
 				$this->reference_site = isset( $form_data['esfpx_reference_site'] ) ? esc_url_raw( $form_data['esfpx_reference_site'] ) : null;
 				$this->es_optin_type  = get_option( 'ig_es_optin_type' );
 				$this->guid           = ES_Common::generate_guid();
@@ -474,8 +532,9 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 		public function do_response( $response ) {
 
 			$message                  = isset( $response['message'] ) ? $response['message'] : '';
-			$response['message_text'] = '';
-			if ( ! empty( $message ) ) {
+			
+			// Only set message_text if it's not already set (preserve form-specific messages)
+			if ( empty( $response['message_text'] ) && ! empty( $message ) ) {
 				$response['message_text'] = $this->get_messages( $message );
 			}
 
@@ -563,6 +622,42 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 
 			return $es_response;
 		}
+
+		/**
+		 * Transform WYSIWYG form data to standard format
+		 * 
+		 * @param array $form_data Original form data
+		 * @param int $form_id Form ID
+		 * 
+		 * @return array Transformed form data
+		 * 
+		 * @since 5.8.0
+		 */
+		private function transform_wysiwyg_form_data( $form_data, $form_id ) {
+			$transformed_data = $form_data;
+			
+			// Ensure required fields
+			if ( empty( $transformed_data['esfpx_es_hp_email'] ) ) {
+				$transformed_data['esfpx_es_hp_email'] = '';
+			}
+			
+			if ( empty( $transformed_data['es'] ) ) {
+				$transformed_data['es'] = 'subscribe';
+			}
+			
+			// Get form settings for success message handling
+			$form = ES()->forms_db->get_form_by_id( $form_id );
+			if ( $form ) {
+				$settings = ! empty( $form['settings'] ) ? maybe_unserialize( $form['settings'] ) : array();
+				
+				// Store form-specific success message for later use
+				if ( ! empty( $settings['success_message'] ) ) {
+					$transformed_data['_wysiwyg_success_message'] = $settings['success_message'];
+				}
+			}
+			
+			return $transformed_data;
+		}
 				
 		/**
 		 * Get Message description based on message
@@ -578,10 +673,10 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 		public function get_messages( $message ) {
 			$ig_es_form_submission_success_message = get_option( 'ig_es_form_submission_success_message' );
 			$form_data 							   = ES()->forms_db->get_form_by_id( $this->form_id );
+			$success_message 					   = ''; // Initialize to empty string
 			
 			if ( ! empty( $form_data['settings'] ) ) {
 				$settings        = maybe_unserialize( $form_data['settings'] );
-				
 				$success_message = ! empty( $settings['success_message'] ) ? $settings['success_message'] : '';
 			}
 
@@ -599,7 +694,7 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 				'es_no_list_selected'         => __( 'Please select the list', 'email-subscribers' ),
 				'es_invalid_captcha'          => __( 'Invalid Captcha', 'email-subscribers' ),
 			);
-
+			
 			$messages = apply_filters( 'ig_es_subscription_messages', $messages );
 
 			if ( ! empty( $messages ) ) {
@@ -648,7 +743,6 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 						'esfpx_lists'       => $lists_hash,
 						'form_type'         => 'external',
 					);
-
 					$response = $this->process_request( $form_data );
 					wp_send_json( $response );
 				}
@@ -659,14 +753,34 @@ if ( ! class_exists( 'ES_Handle_Subscription' ) ) {
 			if ( ! $doing_ajax ) {
 				$es_action = ig_es_get_post_data( 'es' );				
 				if ( ! empty( $es_action ) && 'subscribe' === $es_action ) {
-					// Store the response, so that it can be shown while outputting the subscription form HTML.
-					$response = $this->process_request();
-					if ( ! empty ( $response['redirection_url'] ) ) {
-						wp_redirect( $response['redirection_url'] );
-						exit;
-					} 
-
-					ES_Shortcode::$response = $response;
+					// Check if this is a WYSIWYG form submission
+					$form_id = ig_es_get_post_data( 'esfpx_form_id' );
+					if ( ! empty( $form_id ) ) {
+						$form = ES()->forms_db->get_form_by_id( $form_id );
+						if ( $form ) {
+							$settings = ! empty( $form['settings'] ) ? maybe_unserialize( $form['settings'] ) : array();
+							$editor_type = ! empty( $settings['editor_type'] ) ? $settings['editor_type'] : '';
+							
+							// If it's a WYSIWYG form, transform the data and use standard processor
+							if ( 'wysiwyg' === $editor_type ) {
+								$transformed_data = $this->transform_wysiwyg_form_data( wp_unslash( $_POST ), $form_id );
+								$response = $this->process_request( $transformed_data );
+								if ( ! empty( $response['redirection_url'] ) ) {
+									wp_redirect( $response['redirection_url'] );
+									exit;
+								}
+								ES_Shortcode::$response = $response;
+								return;
+							}
+						}
+					}
+					
+				// Store the response, so that it can be shown while outputting the subscription form HTML.
+				$response = $this->process_request();
+				if ( ! empty( $response['redirection_url'] ) ) {
+					wp_redirect( $response['redirection_url'] );
+					exit;
+				}					ES_Shortcode::$response = $response;
 				}
 			}
 		}

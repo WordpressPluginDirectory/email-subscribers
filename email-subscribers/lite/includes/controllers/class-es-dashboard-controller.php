@@ -31,48 +31,56 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 		public function register_hooks() {
 		}
 
-		public static function get_subscribers_stats( $data = array() ) {
-			
-			if ( is_string( $data ) ) {
-				$decoded_data = json_decode( $data, true );
-				if ( $decoded_data ) {
-					$data = $decoded_data;
-				}
+	public static function get_subscribers_stats( $data = array() ) {
+		
+		if ( is_string( $data ) ) {
+			$decoded_data = json_decode( $data, true );
+			if ( $decoded_data ) {
+				$data = $decoded_data;
 			}
-			
-			$page           = '';
-			$days           = '';
-			$list_id        = '';
-			$override_cache = true;
-			
-			if ( isset( $data['page'] ) || isset( $data['days'] ) || isset( $data['list_id'] ) ) {
-				$page           = isset( $data['page'] ) ? $data['page'] : 'es_dashboard';
-				$days           = isset( $data['days'] ) ? $data['days'] : '';
-				$list_id        = isset( $data['list_id'] ) ? $data['list_id'] : '';
-				$override_cache = isset( $data['override_cache'] ) ? $data['override_cache'] : true;
-			} 
-			
-			if ( empty( $days ) || ! is_numeric( $days ) ) {
-				$days = 7;
-			} else {
-				$days = intval( $days );
-			}
-			
-			if ( ! empty( $list_id ) && ! is_numeric( $list_id ) ) {
-				$list_id = '';
-			}
+		} 
+		
+		$page           = '';
+		$days           = '';
+		$list_id        = '';
+		$override_cache = true;
+		
+		if ( isset( $data['page'] ) || isset( $data['days'] ) || isset( $data['list_id'] ) ) {
+			$page           = isset( $data['page'] ) ? $data['page'] : 'es_dashboard';
+			$days           = isset( $data['days'] ) ? $data['days'] : '';
+			$list_id        = isset( $data['list_id'] ) ? $data['list_id'] : '';
+			$override_cache = isset( $data['override_cache'] ) ? $data['override_cache'] : true;
+		} 
+		
+		if ( empty( $days ) || ! is_numeric( $days ) ) {
+			$days = 7;
+		} else {
+			$days = intval( $days );
+		} 
 
-			$reports_args = array(
-				'list_id' => $list_id,
-				'days'    => $days,
-			);
-			
-			
-			$reports_data = ES_Reports_Data::get_dashboard_reports_data( $page, $override_cache, $reports_args );
-			return $reports_data;
+		if ( ! empty( $list_id ) && $list_id !== 'all' && ! is_numeric( $list_id ) ) {
+			$list_id = 0;
 		}
 
-		public static function get_dashboard_data( $args ) {
+		if ( $list_id === 'all' ) {
+			$list_id = 0;
+		}
+ 
+		$reports_args = array(
+			'list_id' => $list_id,
+			'days'    => $days,
+		);
+		
+		// Get enhanced audience insights data
+		$enhanced_data = ES_Reports_Data::get_audience_insights_data( $reports_args );
+		
+		// Get basic dashboard reports data and merge with enhanced data
+		$reports_data = ES_Reports_Data::get_dashboard_reports_data( $page, $override_cache, $reports_args );
+		
+		return array_merge( $reports_data, $enhanced_data );
+	}		
+	
+	public static function get_dashboard_data( $args ) {
 			$dashboard_kpi = ES_Reports_Data::get_dashboard_reports_data( 'es_dashboard', true, $args );
 			
 			$campaign_args = array(
@@ -122,6 +130,14 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 
 			$lists = array_slice( array_reverse( ES()->lists_db->get_lists() ), 0, 2 );
 			$workflows = ES()->workflows_db->get_workflows();
+
+			
+			$onboarding_tasks_status = array(
+				'sendFirstCampaign' => ! empty( $campaigns ) ? 'yes' : 'no',
+				'importContacts' => ! empty( $dashboard_kpi['total_subscribers'] ) && $dashboard_kpi['total_subscribers'] > 0 ? 'yes' : 'no',
+				'createSubscriptionFormDone' => ! empty( $forms ) ? 'yes' : 'no',
+				'createWorkflowDone' => ! empty( $workflows ) ? 'yes' : 'no'
+			);
 			
 			$icegram_plugins = self::get_icegram_plugins_info();
 			
@@ -134,6 +150,7 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 				'dashboard_kpi'     => $dashboard_kpi,
 				'plan'              => $plan,
 				'icegram_plugins'   => $icegram_plugins,
+				'onboarding_tasks_status' => $onboarding_tasks_status
 			);
 		}
 		
@@ -143,7 +160,6 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 				$data = ig_es_get_request_data( 'data', array(), false );
 			}
 			
-			// Handle if data is JSON string
 			if ( is_string( $data ) ) {
 				$decoded = json_decode( $data, true );
 				if ( $decoded ) {
@@ -154,7 +170,6 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 			$workflow_type = isset( $data['workflow_type'] ) ? sanitize_text_field( $data['workflow_type'] ) : '';
 			
 			
-			// Check for abandoned cart email - requires pro plan
 			if ('abandoned-cart-email' === $workflow_type  ||  'abandoned-cart' === $workflow_type ) {
 				$is_pro = ES()->is_pro();
 				$plan = ES()->get_plan();
@@ -200,10 +215,8 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 				);
 			}
 			
-			// Convert to integer and verify
 			$workflow_id = intval( $workflow_id );
 			
-			// Verify workflow was created
 			$workflow_from_db = ES()->workflows_db->get_workflow( $workflow_id );
 			
 			if ( ! $workflow_from_db ) {
@@ -390,7 +403,157 @@ if ( ! class_exists( 'ES_Dashboard_Controller' ) ) {
 
 			return $campaign;
 		}
-	
+
+		/**
+		 * Save onboarding step to WordPress options
+		 *
+		 * @param array $data
+		 * @return array
+		 */
+		public static function save_onboarding_step( $data = array() ) {
+			if ( is_string( $data ) ) {
+				$decoded_data = json_decode( $data, true );
+				if ( $decoded_data ) {
+					$data = $decoded_data;
+				}
+			}
+
+			$step_name = isset( $data['step_name'] ) ? sanitize_text_field( $data['step_name'] ) : '';
+			$value = isset( $data['value'] ) ? sanitize_text_field( $data['value'] ) : 'no';
+
+			if ( empty( $step_name ) ) {
+				return array(
+					'success' => false,
+					'message' => 'Step name is required'
+				);
+			}
+
+			// Define valid step names
+			$valid_steps = array(
+				'sendFirstCampaign',
+				'importContacts', 
+				'createSubscriptionForm',
+				'createWorkflow'
+			);
+
+			if ( ! in_array( $step_name, $valid_steps ) ) {
+				return array(
+					'success' => false,
+					'message' => 'Invalid step name'
+				);
+			}
+
+			$option_name = 'ig_es_onboarding_' . $step_name;
+			$updated = update_option( $option_name, $value, false );
+
+			return array(
+				'success' => true,
+				'message' => 'Onboarding step saved successfully',
+				'data' => array(
+					'step' => $step_name,
+					'value' => $value
+				)
+			);
+		}
+
+		/**
+		 * Get all onboarding steps from WordPress options
+		 *
+		 * @return array
+		 */
+		public static function get_onboarding_steps() {
+			$steps = array(
+				'sendFirstCampaign' => 'sendFirstCampaign',
+				'importContacts' => 'importContacts',
+				'createWorkflow' => 'createWorkflow',
+				'createSubscriptionForm' => 'createSubscriptionForm'
+			);
+
+			$campaign_args = array(
+				'status'          => array(
+					IG_ES_CAMPAIGN_STATUS_IN_ACTIVE,
+					IG_ES_CAMPAIGN_STATUS_ACTIVE,
+				),
+				'order_by_column' => 'ID',
+				'limit'           => '5',
+				'order'           => 'DESC',
+			);
+			$campaigns = ES()->campaigns_db->get_campaigns( $campaign_args );
+
+			$forms_args = array(
+				'order_by_column' => 'ID',
+				'limit'           => '5',
+				'order'           => 'DESC',
+			);
+			$forms = ES()->forms_db->get_forms( $forms_args );
+
+			$workflows = ES()->workflows_db->get_workflows();
+			$imported_contacts_count = ES()->contacts_db->get_contacts_count_by_source( 'import' );
+
+			$onboarding_data = array(
+				'sendFirstCampaign' => ! empty( $campaigns ),
+				'importContacts' => $imported_contacts_count > 0,
+				'createSubscriptionForm' => ! empty( $forms ),
+				'createWorkflow' => ! empty( $workflows )
+			);
+
+			return array(
+				'success' => true,
+				'data' => $onboarding_data
+			);
+		}
+
+
+
+		public static function get_audience_growth_stats( $data = array() ) {
+    
+			if ( is_string( $data ) ) {
+				$decoded_data = json_decode( $data, true );
+				if ( $decoded_data ) {
+					$data = $decoded_data;
+				}
+			}
+			
+			$days = isset( $data['days'] ) ? intval( $data['days'] ) : 30;
+			
+			try { 
+				
+				$end_date = current_time( 'Y-m-d' );
+				$start_date = date( 'Y-m-d', strtotime( "-{$days} days" ) );
+
+				$contacts_db = ES()->contacts_db;
+				
+				$current_total = $contacts_db->get_total_contacts();
+				$total_before_period = $contacts_db->get_total_subscribed_contacts_before_days( $days );
+				
+				$new_contacts = $current_total - $total_before_period;
+				
+				$subscribed_args = array(
+					'days' => $days
+				);
+				$subscribed = ES_Reports_Data::get_total_subscribed_contacts( $subscribed_args );
+				
+				$non_subscribed = $new_contacts - $subscribed;
+				$non_subscribed = $non_subscribed > 0 ? $non_subscribed : 0;
+
+				$growth_stats = array(
+					'new_contacts' => intval( $new_contacts ),
+					'non_subscribed' => $non_subscribed > 0 ? $non_subscribed : 0,
+					'subscribed' => intval( $subscribed ),
+					'start_date' => $start_date,
+					'end_date' => $end_date
+				);
+				
+				return $growth_stats;
+				
+			} catch ( Exception $e ) {
+				return array(
+					'success' => false,
+					'message' => 'Failed to fetch audience growth statistics: ' . $e->getMessage()
+				);
+			}
+		}  
+
 	}
 
 }

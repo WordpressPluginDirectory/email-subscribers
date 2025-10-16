@@ -448,8 +448,9 @@ class ES_Contacts_Table extends ES_List_Table {
 			if ( wp_verify_nonce( $contact_nonce, 'ig-es-contact-nonce' ) ) {
 
 			$contact_data = ig_es_get_data( $_POST, 'contact_data', array(), true );
-			$contact_data['id'] = $id;
 			
+			$contact_data['id'] = $id;
+
 			$save_result = ES_Contact_Controller::process_contact_save( $contact_data );
 
 				if ( ! empty( $save_result['errors'] ) ) {

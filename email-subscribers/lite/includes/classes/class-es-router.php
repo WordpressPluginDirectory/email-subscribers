@@ -42,7 +42,7 @@ if ( ! class_exists( 'ES_Router' ) ) {
 		 */
 		public function handle_ajax_request() {
 
-			check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' ); //For testing we need to comment
+			check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
 		
 			$can_access_audience  = ES_Common::ig_es_can_access( 'audience' );
 			$can_access_campaign  = ES_Common::ig_es_can_access( 'campaigns' );
@@ -77,12 +77,24 @@ if ( ! class_exists( 'ES_Router' ) ) {
 			
 			$data   = ig_es_get_request_data( 'data', array(), false );
 			if ( isset( $_FILES['async-upload']['tmp_name'] ) ) {
+				// Ensure $data is an array when handling file uploads
+				if ( ! is_array( $data ) ) {
+					if ( is_string( $data ) && ! empty( $data ) ) {
+						$decoded = json_decode( $data, true );
+						$data = is_array( $decoded ) ? $decoded : array();
+					} else {
+						$data = array();
+					}
+				}
 				$data['file'] =  sanitize_text_field( $_FILES['async-upload']['tmp_name'] );
 			}
 			
 			$result = call_user_func( array( $handler_class, $method ), $data );
 
-			if ( $result ) {
+			if ( is_array( $result ) && isset( $result['error'] ) ) {
+				$response['success'] = false;
+				$response['message'] = $result['error'];
+			} elseif ( $result !== false && $result !== null ) {
 				$response['success'] = true;
 				$response['data']    = $result;
 			} else {
