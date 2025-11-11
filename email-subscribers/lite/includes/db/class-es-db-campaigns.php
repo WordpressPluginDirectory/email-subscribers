@@ -967,6 +967,7 @@ class ES_DB_Campaigns extends ES_DB {
 	
 		$query[] = "(deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')";
 		$query[] = "type != 'workflow_email'";
+		$query[] = "type != 'sequence_message'";
 	
 		if (!empty($args['search_text'])) {
 			$query[] = 'name LIKE %s';
@@ -1009,7 +1010,7 @@ class ES_DB_Campaigns extends ES_DB {
 				$order = 'desc';
 			}
 	
-			$default_order_by = esc_sql('created_at');
+			$default_order_by = esc_sql('id');
 	
 			$expected_order_by_values = array('name', 'type', 'created_at');
 			if (!in_array($order_by, $expected_order_by_values)) {

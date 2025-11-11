@@ -65,6 +65,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		}
 
 		public static function save( $campaign_data ) {
+			$campaign_data = ES_Common::decode_args( $campaign_data );
+			
 			$response          = array();
 			$campaign_status   = ! empty( $campaign_data['status'] ) ? (int) $campaign_data['status'] : 0;
 			if ( IG_ES_CAMPAIGN_STATUS_ACTIVE === $campaign_status || IG_ES_CAMPAIGN_STATUS_SCHEDULED === $campaign_status ) {
@@ -81,15 +83,15 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				}
 			}
 			
-			$campaign_data     = self::prepare_campaign_data( $campaign_data );
-			$saved_campaign_id = self::save_campaign( $campaign_data );
-			if ( $saved_campaign_id ) {
-				$response['campaign_id'] = $saved_campaign_id;
-				
-				$campaign_type = $campaign_data['type'];
-				if ( self::is_post_campaign( $campaign_type ) && IG_ES_CAMPAIGN_STATUS_ACTIVE == $campaign_data['status']) {
-						
-					$meta = maybe_unserialize($campaign_data['meta']);
+		
+		$campaign_data     = self::prepare_campaign_data( $campaign_data );
+		$saved_campaign_id = self::save_campaign( $campaign_data );
+		if ( $saved_campaign_id ) {
+			$response['campaign_id'] = $saved_campaign_id;
+			
+			$campaign_type = isset( $campaign_data['type'] ) ? $campaign_data['type'] : '';
+			$campaign_status = isset( $campaign_data['status'] ) ? $campaign_data['status'] : 0;
+			if ( self::is_post_campaign( $campaign_type ) && IG_ES_CAMPAIGN_STATUS_ACTIVE == $campaign_status ) {					$meta = maybe_unserialize($campaign_data['meta']);
 					if ( ! empty( $meta['send_posts_now'] ) && 'yes' === $meta['send_posts_now']) {
 					
 					  $mailing_queue_id = self::generateReport($saved_campaign_id);
@@ -231,6 +233,8 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		}
 
 		public static function save_and_schedule( $campaign_data ) {
+			$campaign_data = ES_Common::decode_args( $campaign_data );
+			
 			$response = array();
 			$meta     = ! empty( $campaign_data['meta'] ) ? $campaign_data['meta'] : array();
 			if ( ! empty( $meta['list_conditions'] ) ) {
@@ -326,29 +330,24 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			$template_id = ! empty( $campaign_data['template_id'] ) ? $campaign_data['template_id']: '';
 			$meta        = ! empty( $campaign_data['meta']    ) ? $campaign_data['meta']           : array();
 			
-			$campaign_data['subject']          = ! empty( $campaign_data['subject'] ) ? wp_strip_all_tags( $campaign_data['subject'] ) : '';
-			$campaign_data['base_template_id'] = $template_id;
-			$campaign_data['list_ids']         = $list_id;
-			$meta                              = ! empty( $campaign_data['meta'] ) ? $campaign_data['meta'] : array();
-			 $meta['scheduling_option']         = ! empty( $campaign_data['scheduling_option'] ) ? $campaign_data['scheduling_option'] : 'schedule_now';
-
-			$meta['es_schedule_date']          = ! empty( $campaign_data['es_schedule_date'] ) ? $campaign_data['es_schedule_date'] : '';
+		$campaign_data['subject']          = ! empty( $campaign_data['subject'] ) ? wp_strip_all_tags( $campaign_data['subject'] ) : '';
+		$campaign_data['base_template_id'] = $template_id;
+		$campaign_data['list_ids']         = $list_id;
+		$meta['scheduling_option']         = ! empty( $campaign_data['scheduling_option'] ) ? $campaign_data['scheduling_option'] : 'schedule_now';			$meta['es_schedule_date']          = ! empty( $campaign_data['es_schedule_date'] ) ? $campaign_data['es_schedule_date'] : '';
 			$meta['es_schedule_time']          = ! empty( $campaign_data['es_schedule_time'] ) ? $campaign_data['es_schedule_time'] : '';
 
-			if ( ! empty( $meta['list_conditions'] ) ) {
-				$meta['list_conditions'] = IG_ES_Campaign_Rules::remove_empty_conditions( $meta['list_conditions'] );
-			}
+		if ( ! empty( $meta['list_conditions'] ) ) {
+			$meta['list_conditions'] = IG_ES_Campaign_Rules::remove_empty_conditions( $meta['list_conditions'] );
+		}
 
-			$campaign_type = $campaign_data['type'];
-			if ( self::is_post_campaign( $campaign_type ) ) {
-				$campaign_body = $campaign_data['body'];
-				if ( ! ES_Common::contains_posts_block( $campaign_body ) ) {
-					$campaign_body         = ES_Common::wrap_post_keywords_between_campaign_posts_keyword( $campaign_body );
-					$campaign_data['body'] = $campaign_body;
-				}
+		$campaign_type = isset( $campaign_data['type'] ) ? $campaign_data['type'] : '';
+		if ( self::is_post_campaign( $campaign_type ) ) {
+			$campaign_body = isset( $campaign_data['body'] ) ? $campaign_data['body'] : '';
+			if ( ! ES_Common::contains_posts_block( $campaign_body ) ) {
+				$campaign_body         = ES_Common::wrap_post_keywords_between_campaign_posts_keyword( $campaign_body );
+				$campaign_data['body'] = $campaign_body;
 			}
-			
-			$meta = apply_filters( 'ig_es_before_save_campaign_meta', $meta, $campaign_data );
+		}			$meta = apply_filters( 'ig_es_before_save_campaign_meta', $meta, $campaign_data );
 
 			$campaign_data['meta'] = maybe_serialize( $meta );
 			
@@ -358,7 +357,6 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		public static function save_campaign( $campaign_data ) {
 			$campaign_id   = ! empty( $campaign_data['id'] ) ? $campaign_data['id'] : 0;
 			$campaign_type = ! empty( $campaign_data['type'] ) ? $campaign_data['type'] : IG_ES_DRAG_AND_DROP_EDITOR;
-
 
 			$campaign_data['name'] = !empty($campaign_data['name']) ? $campaign_data['name'] : $campaign_data['subject'];
 			$campaign_data['slug'] = sanitize_title( sanitize_text_field( $campaign_data['name'] ) );
@@ -422,10 +420,12 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				}
 				// Merge categories and selected custom post types.
 				$categories = '##' . implode( '|', $category_array ) . '##';
+				// Note: Don't assign here if categories already passed (from Mithril/React new flow)
+				// This fallback logic is for old format data only
 				//$campaign_data['categories'] = $categories;
 			} else {
 				$categories         = ! empty( $campaign_data['es_note_cat'] ) ? $campaign_data['es_note_cat'] : array();
-				$es_note_cat_parent = $campaign_data['es_note_cat_parent'];
+				$es_note_cat_parent = ! empty( $campaign_data['es_note_cat_parent'] ) ? $campaign_data['es_note_cat_parent'] : '';
 				$categories         = ( ! empty( $es_note_cat_parent ) && in_array( $es_note_cat_parent, array( '{a}All{a}', '{a}None{a}' ), true ) ) ? array( $es_note_cat_parent ) : $categories;
 	
 				// Check if custom post types are selected.
@@ -611,12 +611,10 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 	 * @since 4.0.0
 	 * @since 4.3.2 Call ES()->mailer->send_test_email() method to send test email
 	 */
-		public static function send_test_email( $campaign_data) {
-		check_ajax_referer( 'ig-es-admin-ajax-nonce', 'security' );
-	
-		$response = array();
-	
-		// Sanitize and validate inputs
+	public static function send_test_email( $campaign_data) {
+		$campaign_data = ES_Common::decode_args( $campaign_data );
+
+		$response = array();		// Sanitize and validate inputs
 		$email         = isset( $campaign_data['es_test_email'] ) ? sanitize_email( $campaign_data['es_test_email'] ) : '';
 		$campaign_id   = isset( $campaign_data['id'] ) ? absint( $campaign_data['id'] ) : 0;
 		$campaign_type = isset( $campaign_data['type'] ) ? sanitize_text_field( $campaign_data['type'] ) : '';
@@ -684,13 +682,13 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 	 *
 	 * @since 4.6.1
 	 */
-		public static function get_spam_score( $campaign_data) {
-			$response = [
-			'status'        => 'error',
-			'error_message' => __('Something went wrong', 'email-subscribers'),
-			];
-	
-			$admin_email = ES_Common::get_admin_email();
+	public static function get_spam_score( $campaign_data) {
+		$campaign_data = ES_Common::decode_args( $campaign_data );
+		
+		$response = [
+		'status'        => 'error',
+		'error_message' => __('Something went wrong', 'email-subscribers'),
+		];			$admin_email = ES_Common::get_admin_email();
 	
 			$sender_data = [
 			'from_name'  => $campaign_data['from_name'],
@@ -761,17 +759,22 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			return implode("\n", $headers);
 		}
 
-		/**
-		 * Method to get preview HTML for campaign
-		 *
-		 * @return $response
-		 *
-		 * @since 4.4.7
-		 */
-		public static function save_and_preview( $campaign_data ) {
-			$response = array();
+	/**
+	 * Method to get preview HTML for campaign
+	 *
+	 * @return $response
+	 *
+	 * @since 4.4.7
+	 */
+	public static function save_and_preview( $campaign_data ) {
+		$response = array();
 
-			$result = self::save( $campaign_data );
+		// save() will decode and process, but we need decoded data after save for preview
+		$result = self::save( $campaign_data );
+		
+		// NOW decode for use in this function (after save has already decoded it internally)
+		$campaign_data = ES_Common::decode_args( $campaign_data );
+			
 			if ( ! empty( $result['campaign_id'] ) ) {
 				$campaign_data['id'] = $result['campaign_id'];
 				$template_data                = array();
@@ -782,6 +785,9 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 				$campaign_data            = self::add_campaign_body_data( $campaign_data );
 				$response['preview_html'] = $campaign_data['body'];
 				$response['id'] = $campaign_data['id'];
+			} else {
+				$response['success'] = false;
+				$response['message'] = 'Failed to save campaign';
 			}
 
 
@@ -880,16 +886,14 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 			return $campaign_data;
 		}
 
-		public static function replace_post_notification_merge_tags_with_sample_post( $campaign_data ) {
-			if ( ! empty( $campaign_data['id'] ) ) {
+	public static function replace_post_notification_merge_tags_with_sample_post( $campaign_data ) {
+		if ( ! empty( $campaign_data['id'] ) ) {
 
-				$categories_str  = $campaign_data['categories'];
-				$categories      = ES_Common::convert_categories_string_to_array( $categories_str, true );
-				$meta            = $campaign_data['meta'];
-				$no_of_posts     = ( ! empty( $meta['rules'] ) && ! empty( $meta['rules']['no_of_posts'] ) ) ? $meta['rules']['no_of_posts'] : array();
-				$categories_data = $categories;
-
-				foreach ($categories_data as $index => $category ) {
+			$categories_str  = ! empty( $campaign_data['categories'] ) ? $campaign_data['categories'] : '';
+			$categories      = ES_Common::convert_categories_string_to_array( $categories_str, true );
+			$meta            = ! empty( $campaign_data['meta'] ) ? $campaign_data['meta'] : array();
+			$no_of_posts     = ( ! empty( $meta['rules'] ) && ! empty( $meta['rules']['no_of_posts'] ) ) ? $meta['rules']['no_of_posts'] : array();
+			$categories_data = $categories;				foreach ($categories_data as $index => $category ) {
 					$include_all_post = false;
 					$include_no_post  = false;
 					$cpt_categories = explode( '|', $category );
@@ -1236,50 +1240,59 @@ if ( ! class_exists( 'ES_Campaign_Controller' ) ) {
 		}
 
 
-		public static function get_matching_recipients_count ( $recipient_rule) {
-	
-			$can_access_audience = ES_Common::ig_es_can_access( 'audience' );
-			$can_access_campaign = ES_Common::ig_es_can_access( 'campaigns' );
-			if ( ! ( $can_access_audience || $can_access_campaign ) ) {
-				return 0;
+
+	public static function get_matching_recipients_count ( $recipient_rule) {
+
+		// Decode JSON string if needed
+		if ( is_string( $recipient_rule ) && ! empty( $recipient_rule ) ) {
+			$decoded_data = json_decode( $recipient_rule, true );
+			if ( is_array( $decoded_data ) ) {
+				$recipient_rule = $decoded_data;
 			}
-			$status     = $recipient_rule['status'];
-			$conditions = $recipient_rule['list_conditions'];
-		
-			$expected_statuses = array( 'subscribed', 'unsubscribed', 'unconfirmed', 'confirmed', 'all' );
-	
-			if ( ! in_array( $status, $expected_statuses, true ) ) {
-				return 0;
-			}
-	
-			$response_data = array();
-	
-			if ( ! empty( $conditions ) ) {
-				$conditions = IG_ES_Campaign_Rules::remove_empty_conditions( $conditions );
-				
-				if ( ! empty( $conditions ) ) {
-					$args                   = array(
-						'conditions'        => $conditions,
-						'status'            => $status,
-						'subscriber_status' => array( 'verified' ),
-						'return_count'      => true,
-					);
-					$query                  = new IG_ES_Subscribers_Query();
-					$response_data['total'] = $query->run( $args );
-						
-				} else {
-					$response_data['total'] = 0;
-				}
-			
-			} else {
-				$response_data['total'] = ES()->lists_contacts_db->get_total_count_by_list($status );
-			}
-			if ( ! empty( $response_data['total'] ) ) {
-				$response_data['total'] = number_format_i18n( $response_data['total'] );
-			}
-			
-			return $response_data;
 		}
+
+		$can_access_audience = ES_Common::ig_es_can_access( 'audience' );
+	$can_access_campaign = ES_Common::ig_es_can_access( 'campaigns' );
+	if ( ! ( $can_access_audience || $can_access_campaign ) ) {
+		return 0;
+	}
+	
+	$status     = isset( $recipient_rule['status'] ) ? $recipient_rule['status'] : 'subscribed';
+	$conditions = isset( $recipient_rule['list_conditions'] ) ? $recipient_rule['list_conditions'] : array();
+
+	$expected_statuses = array( 'subscribed', 'unsubscribed', 'unconfirmed', 'confirmed', 'all' );
+
+	if ( ! in_array( $status, $expected_statuses, true ) ) {
+		return 0;
+	}		$response_data = array();
+
+		if ( ! empty( $conditions ) ) {
+			$conditions = IG_ES_Campaign_Rules::remove_empty_conditions( $conditions );
+			
+			if ( ! empty( $conditions ) ) {
+				$args                   = array(
+					'conditions'        => $conditions,
+					'status'            => $status,
+					'subscriber_status' => array( 'verified' ),
+					'return_count'      => true,
+				);
+				
+				$query                  = new IG_ES_Subscribers_Query();
+				$response_data['total'] = $query->run( $args );
+					
+			} else {
+				$response_data['total'] = 0;
+			}
+		
+		} else {
+			$response_data['total'] = ES()->lists_contacts_db->get_total_count_by_list($status );
+		}
+		if ( ! empty( $response_data['total'] ) ) {
+			$response_data['total'] = number_format_i18n( $response_data['total'] );
+		}
+		
+		return $response_data;
+	}
 		
 		public static function get_posts_by_post_type( $post_type) {
 			$posts  = ES()->campaigns_db->get_posts_by_type( $post_type );

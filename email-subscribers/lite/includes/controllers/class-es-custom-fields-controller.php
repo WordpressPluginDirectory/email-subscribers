@@ -123,7 +123,22 @@ class ES_Custom_Fields_Controller {
 		if ( ! empty( $custom_fields ) ) {
 			foreach ( $custom_fields as &$field ) {
 				if ( ! empty( $field['meta'] ) ) {
-					$field['meta'] = ig_es_maybe_unserialize( $field['meta'] );
+					if ( is_string( $field['meta'] ) ) {
+						$decoded = json_decode( $field['meta'], true );
+						if ( json_last_error() === JSON_ERROR_NONE && is_array( $decoded ) ) {
+							$field['meta'] = $decoded;
+						} else {
+							$field['meta'] = ig_es_maybe_unserialize( $field['meta'] );
+							if ( is_string( $field['meta'] ) ) {
+								$field['meta'] = array();
+							}
+						}
+					}
+					if ( ! is_array( $field['meta'] ) ) {
+						$field['meta'] = array();
+					}
+				} else {
+					$field['meta'] = array();
 				}
 			}
 		}

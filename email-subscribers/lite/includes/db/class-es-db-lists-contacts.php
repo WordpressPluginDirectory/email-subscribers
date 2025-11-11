@@ -1086,4 +1086,81 @@ class ES_DB_Lists_Contacts extends ES_DB {
 		return array_values( array_map( 'intval', array_filter( (array) $ids, 'is_numeric' ) ) );
   
 	}
+
+	/**
+	 * Get contact IDs filtered by status with operator support
+	 * 
+	 * @param array  $status_values Array of status values to filter by
+	 * @param int    $list_id Optional list ID to filter by (0 for all lists)
+	 * @param string $operator The operator to use for filtering
+	 * 
+	 * @return array Array of contact IDs
+	 * 
+	 * @since 5.7.47
+	 */
+	public function get_contact_ids_by_status_operator( $status_values = array(), $list_id = 0, $operator = 'is equal to' ) {
+		global $wpdb;
+
+		if ( empty( $status_values ) ) {
+			return array();
+		}
+
+		// Sanitize status values
+		$status_values = array_map( 'sanitize_text_field', $status_values );
+		$status_count = count( $status_values );
+
+		// Base query
+		$sql = "SELECT DISTINCT contact_id FROM {$this->table_name} WHERE 1=1";
+
+		// Add list filter if specified
+		if ( ! empty( $list_id ) ) {
+			$sql .= $wpdb->prepare( " AND list_id = %d", intval( $list_id ) );
+		}
+
+		// Build status condition based on operator
+		switch ( $operator ) {
+			case 'is equal to':
+				// Match any of the provided statuses
+				$placeholders = implode( ', ', array_fill( 0, $status_count, '%s' ) );
+				$sql .= " AND status IN ($placeholders)";
+				break;
+
+			case 'is not equal to':
+				// Exclude all provided statuses
+				$placeholders = implode( ', ', array_fill( 0, $status_count, '%s' ) );
+				$sql .= " AND status NOT IN ($placeholders)";
+				break;
+
+			case 'contains':
+				// Same as 'is equal to' for status (exact match values)
+				$placeholders = implode( ', ', array_fill( 0, $status_count, '%s' ) );
+				$sql .= " AND status IN ($placeholders)";
+				break;
+
+			case 'does not contain':
+				// Same as 'is not equal to' for status (exclude values)
+				$placeholders = implode( ', ', array_fill( 0, $status_count, '%s' ) );
+				$sql .= " AND status NOT IN ($placeholders)";
+				break;
+
+			// TODO: Add support for additional operators:
+			// - 'starts with': Use LIKE 'value%'
+			// - 'ends with': Use LIKE '%value'
+			// - 'is empty': Use IS NULL or = ''
+			// - 'is not empty': Use IS NOT NULL and != ''
+
+			default:
+				// Fallback to 'is equal to'
+				$placeholders = implode( ', ', array_fill( 0, $status_count, '%s' ) );
+				$sql .= " AND status IN ($placeholders)";
+				break;
+		}
+
+		// Prepare and execute query
+		$params = array_merge( array( $sql ), $status_values );
+		$prepared_sql = call_user_func_array( array( $wpdb, 'prepare' ), $params );
+		$ids = $wpdb->get_col( $prepared_sql );
+
+		return array_values( array_map( 'intval', array_filter( (array) $ids, 'is_numeric' ) ) );
+	}
 }

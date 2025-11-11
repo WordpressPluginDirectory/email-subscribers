@@ -41,7 +41,6 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 		 * @return mixed
 		 */
 		public static function get_subscribers( $contact_args ) {
-
 			if ( is_string( $contact_args ) ) {
 				$decoded = json_decode( $contact_args, true );
 				if ( $decoded ) {
@@ -65,6 +64,7 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 			
 			$list_filters = array();
     		$other_filters = array();
+			$status_filters = array();
     
 			if ( is_array( $advanced_filter ) && ! empty( $advanced_filter ) ) {
 
@@ -75,6 +75,8 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 					if ( $filter['field'] === 'List' ) {
 						$list_filters[] = $filter;
 						
+					} elseif ( $filter['field'] === 'Status' ) {
+						$status_filters[] = $filter;
 					} else {
 						$other_filters[] = $filter; 
 					}
@@ -127,6 +129,49 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 						return $do_count_only ? 0 : array();
 					}
 				}
+
+				// Handle Status filtering (from ig_lists_contacts table)
+			    if ( ! empty( $status_filters ) ) {
+			        $status_values = array();
+			        $status_operator = 'is equal to'; // Default operator
+				
+			        // Extract all status values and operator from filters
+			        foreach ( $status_filters as $status_filter ) {
+			            if ( is_array( $status_filter['value'] ) ) {
+			                $status_values = array_merge( $status_values, $status_filter['value'] );
+			            } else {
+			                $status_values[] = $status_filter['value'];
+			            }
+			            
+			            // Get operator from first filter (all Status filters should have same operator)
+			            if ( isset( $status_filter['operator'] ) ) {
+			                $status_operator = $status_filter['operator'];
+			            }
+			        }
+				
+			        // Remove duplicates
+			        $status_values = array_unique( $status_values );
+				
+		        	if ( ! empty( $status_values ) ) {
+		        	    // Use DB class method for status filtering with operator support
+		        	    $lists_contacts_db = new ES_DB_Lists_Contacts();
+		        	    $status_filtered_contact_ids = $lists_contacts_db->get_contact_ids_by_status_operator( $status_values, $filter_by_list_id, $status_operator );
+					
+		        	    			            
+						if ( ! empty( $filtered_contact_ids ) ) {
+			    	            // Intersect with existing contact IDs from other advanced filters
+			    	            $filtered_contact_ids = array_intersect( $filtered_contact_ids, $status_filtered_contact_ids );
+			    	        } else {
+			    	            // Only status filtering
+			    	            $filtered_contact_ids = $status_filtered_contact_ids;
+			    	        }
+						
+			    	        if ( empty( $filtered_contact_ids ) ) {
+			    	            return $do_count_only ? 0 : array();
+			    	        }
+			    	    }
+			    }
+
 
 				// Handle List filtering (from advanced_filter and filter_by_list_id)
 				$all_list_ids = array();
@@ -218,6 +263,13 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 							$contact['list_statuses'] = array();
 							$contact['lists'] = array();
 						}
+
+						if ( isset( $contact['created_at'] ) ) {
+    				        $contact['created_at'] = ig_es_format_date_time( $contact['created_at'] );
+    				    }
+    				    if ( isset( $contact['average_opened_at'] ) ) {
+    				        $contact['average_opened_at'] = ig_es_format_date_time( $contact['average_opened_at'] );
+    				    }
 					}
 				}
 			}
@@ -366,7 +418,66 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 			return $response;
 		}
 
-		public static function change_contact_status( $args = array() ) {
+	/**
+	 * Resend confirmation email to a single contact
+	 * 
+	 * @param array $args
+	 * @return array
+	 * 
+	 * @since 5.7.54
+	 */
+	public static function resend_confirmation_email( $args = array() ) {
+		if ( is_string( $args ) ) {
+			$decoded = json_decode( $args, true );
+			if ( $decoded ) {
+				$args = $decoded;
+			}
+		}
+		
+		// Get single contact_id directly
+		$contact_id = isset( $args['contact_id'] ) ? intval( $args['contact_id'] ) : 0;
+
+		if ( empty( $contact_id ) ) {
+			return array(
+				'success' => false,
+				'message' => __( 'Contact ID is required.', 'email-subscribers' )
+			);
+		}
+
+		$subscriber = ES()->contacts_db->get_by_id( $contact_id );
+		
+		if ( empty( $subscriber ) || empty( $subscriber['email'] ) ) {
+			return array(
+				'success' => false,
+				'message' => __( 'Contact not found.', 'email-subscribers' )
+			);
+		}
+
+		$email = $subscriber['email'];
+		$merge_tags = array(
+			'contact_id' => $subscriber['id'],
+		);
+
+		try {
+			$response = ES()->mailer->send_double_optin_email( $email, $merge_tags );
+			if ( $response ) {
+				return array(
+					'success' => true,
+					'message' => __( 'Confirmation email sent successfully.', 'email-subscribers' )
+				);
+			} else {
+				return array(
+					'success' => false,
+					'message' => __( 'Failed to send confirmation email.', 'email-subscribers' )
+				);
+			}
+		} catch ( Exception $e ) {
+			return array(
+				'success' => false,
+				'message' => __( 'Failed to send confirmation email.', 'email-subscribers' )
+			);
+		}
+	}		public static function change_contact_status( $args = array() ) {
 
 			if ( is_string( $args ) ) {
 				$decoded = json_decode( $args, true );
@@ -511,13 +622,18 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 		}
 
 		public static function get_countries() {
-			$countries = ES_Geolocation::get_countries();
-			return $countries;
-		}
-		  
-		private static function get_filtered_contact_ids_direct( $advanced_filter ) {
+		$countries = ES_Geolocation::get_countries();
+		return $countries;
+	}
 
-			global $wpdb;
+	/**
+	 * Get filtered contact IDs directly using ES query format
+	 * 
+	 * @deprecated Method replaced by DB class methods for better architecture
+	 * @see ES_DB_Lists_Contacts::get_contact_ids_by_status_operator() for Status filtering
+	 */
+	private static function get_filtered_contact_ids_direct( $advanced_filter ) {			
+		global $wpdb;
 			
 			$contacts_table = IG_CONTACTS_TABLE;
 			$where_conditions = array();
@@ -554,6 +670,21 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 					case 'contains':
 						$where_conditions[] = "{$field} LIKE %s";
 						$where_params[] = '%' . $value . '%';
+						break;
+
+					case 'does_not_contain':
+						$where_conditions[] = "{$field} NOT LIKE %s";
+						$where_params[] = '%' . $wpdb->esc_like($value) . '%';
+						break;
+					
+					case 'starts_with':
+						$where_conditions[] = "{$field} LIKE %s";
+						$where_params[] = $wpdb->esc_like($value) . '%';
+						break;		
+
+					case 'ends_with':
+						$where_conditions[] = "{$field} LIKE %s";
+						$where_params[] = '%' . $wpdb->esc_like($value);
 						break;
 						
 					case 'in':
@@ -658,7 +789,8 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 				'Country' => 'subscribers.country_code',
 				'Bounce Status' => 'subscribers.bounce_status',
 				'Subscribed' => 'subscribers.created_at',
-				'Engagement Score' => 'subscribers.engagement_score', 
+				'Engagement Score' => 'subscribers.engagement_score',
+				'Status' => 'subscribers.status', 
 			);
 			
 			return isset($field_mapping[$field]) ? $field_mapping[$field] : null;
@@ -694,7 +826,14 @@ if ( ! class_exists( 'ES_Contacts_Controller' ) ) {
 						return $value;
 					}
 					return $value;
-					
+				
+				case 'Status':
+            		if (is_array($value)) {
+            		    // Ensure all values are strings
+            		    return array_map('sanitize_text_field', $value);
+            		}
+            		return sanitize_text_field($value);	
+				
 				case 'Country':
 					if (is_array($value) && isset($value['name'])) {
 						return $value['name'];

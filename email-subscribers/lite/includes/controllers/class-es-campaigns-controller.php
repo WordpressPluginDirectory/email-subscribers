@@ -30,12 +30,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 		}
 		
 		public static function get_campaigns_count( $args) {
-			if ( is_string( $args ) ) {
-				$args = json_decode( $args, true );
-			}
-			if ( ! is_array( $args ) ) {
-				$args = array();
-			}
+			$args = ES_Common::decode_args( $args );
 			
 			$per_page = ! empty( $args['per_page'] ) ? (int) $args['per_page'] : 20;
 			$current_page = ! empty( $args['currentPage'] ) ? $args['currentPage'] : 1;
@@ -46,11 +41,21 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 				$filter_args['search_text'] = sanitize_text_field( $args['search'] );
 			}
 			
-			if ( ! empty( $args['type'] ) ) {
+			// Handle include_types (old Mithril approach) - convert array to single campaign_type for get_lists
+			if ( ! empty( $args['include_types'] ) && is_array( $args['include_types'] ) ) {
+				// Use first type from include_types array for get_lists method
+				$filter_args['campaign_type'] = sanitize_text_field( $args['include_types'][0] );
+			} elseif ( ! empty( $args['type'] ) ) {
+				// New React approach - single type parameter
 				$filter_args['campaign_type'] = sanitize_text_field( $args['type'] );
 			}
 			
-			if ( isset( $args['status'] ) ) {
+			// Handle status arrays (old Mithril approach) - convert array to single campaign_status for get_lists
+			if ( ! empty( $args['status'] ) && is_array( $args['status'] ) ) {
+				// Use first status from status array for get_lists method
+				$filter_args['campaign_status'] = sanitize_text_field( $args['status'][0] );
+			} elseif ( isset( $args['status'] ) && ! is_array( $args['status'] ) ) {
+				// New React approach - single status parameter
 				$filter_args['campaign_status'] = sanitize_text_field( $args['status'] );
 			}
 			
@@ -61,12 +66,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 		}
 
 		public static function get_campaigns( $args ) {
-			if ( is_string( $args ) ) {
-				$args = json_decode( $args, true );
-			}
-			if ( ! is_array( $args ) ) {
-				$args = array();
-			}
+			$args = ES_Common::decode_args( $args );
 			
 			$per_page = ! empty( $args['per_page'] ) ? (int) $args['per_page'] : 20;
 			$current_page = ! empty( $args['currentPage'] ) ? $args['currentPage'] : 1;
@@ -76,15 +76,25 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 				'order' => ! empty( $args['order'] ) && in_array( strtoupper( $args['order'] ), array( 'ASC', 'DESC' ) ) ? strtoupper( $args['order'] ) : 'DESC'
 			);
 			
+			// Support both old Mithril order_by_column and new React order_by
+			if ( ! empty( $args['order_by_column'] ) ) {
+				$filter_args['order_by'] = sanitize_text_field( $args['order_by_column'] );
+			}
+			
 			if ( ! empty( $args['search'] ) ) {
 				$filter_args['search_text'] = sanitize_text_field( $args['search'] );
 			}
 			
-			if ( ! empty( $args['type'] ) ) {
+			if ( ! empty( $args['include_types'] ) && is_array( $args['include_types'] ) ) {
+				$filter_args['campaign_type'] = sanitize_text_field( $args['include_types'][0] );
+			} elseif ( ! empty( $args['type'] ) ) {
 				$filter_args['campaign_type'] = sanitize_text_field( $args['type'] );
 			}
 			
-			if ( isset( $args['status'] ) ) {
+			if ( ! empty( $args['status'] ) && is_array( $args['status'] ) ) {
+				$filter_args['campaign_status'] = sanitize_text_field( $args['status'][0] );
+			} elseif ( isset( $args['status'] ) && ! is_array( $args['status'] ) ) {
+				// New React approach - single status parameter
 				$filter_args['campaign_status'] = sanitize_text_field( $args['status'] );
 			}
 			
@@ -105,7 +115,36 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 			
 		}
 
-		private static function format_campaign_data( $campaign ) {
+		public static function get( $request_data ) {
+			if ( is_string( $request_data ) ) {
+				$request_data = json_decode( $request_data, true );
+			}
+			if ( ! is_array( $request_data ) ) {
+				$request_data = array();
+			}
+			
+			$campaign_id = ! empty( $request_data['id'] ) ? (int) $request_data['id'] : 0;
+			
+			if ( $campaign_id <= 0 ) {
+				return array(
+					'success' => false,
+					'message' => __( 'Invalid campaign ID', 'email-subscribers' )
+				);
+			}
+			
+		$campaign = ES()->campaigns_db->get( $campaign_id );
+		
+		if ( empty( $campaign ) ) {
+			return array(
+				'success' => false,
+				'message' => __( 'Campaign not found', 'email-subscribers' )
+			);
+		}
+		
+		$campaign = self::format_campaign_data( $campaign );
+		
+		return $campaign;
+	}		private static function format_campaign_data( $campaign ) {
 			if ( ! empty( $campaign ) ) {
 				$campaign['es_admin_email'] = ES_Common::get_admin_email();
 				$campaign_id = $campaign['id'];
@@ -116,8 +155,15 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 				
 				$all_list_ids = ES()->campaigns_db->get_list_ids( $campaign_id );
 				
+				// Store list_ids as comma-separated string for frontend
 				if ( ! empty( $all_list_ids ) ) {
 					$all_list_ids = array_map( 'intval', array_filter( $all_list_ids ) );
+					$campaign['list_ids'] = implode( ',', $all_list_ids );
+				} else {
+					$campaign['list_ids'] = '';
+				}
+				
+				if ( ! empty( $all_list_ids ) ) {
 					if ( ! empty( $all_list_ids ) ) {
 						$list_names = ES()->lists_db->get_list_name_by_ids( $all_list_ids );
 						if ( ! empty( $list_names ) && is_array( $list_names ) ) {
@@ -167,7 +213,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 				$report = ES_DB_Mailing_Queue::get_notification_by_campaign_id( $campaign_id );
 				
 				if ( self::is_post_campaign( $campaign_type ) ) {
-					if ( $report ) {
+					if ( $report && isset( $report['post_id'] ) ) {
 						$post_id = $report['post_id'];
 						$post = get_post( $post_id );
 						if ( $post ) {
@@ -198,12 +244,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 		}
 
 		public static function get_kpis( $args ) {
-			if ( is_string( $args ) ) {
-				$args = json_decode( $args, true );
-			}
-			if ( ! is_array( $args ) ) {
-				$args = array();
-			} 
+			$args = ES_Common::decode_args( $args );
 
 			$page           = 'es_campaigns';
 			$override_cache = true;
@@ -212,12 +253,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 		}
 
 		public static function delete_campaigns( $args ) {
-			if ( is_string( $args ) ) {
-				$args = json_decode( $args, true );
-			}
-			if ( ! is_array( $args ) ) {
-				$args = array();
-			}
+			$args = ES_Common::decode_args( $args );
 			
 			$campaign_ids = $args['campaign_ids'];
 			if ( ! empty( $campaign_ids ) ) {
@@ -234,12 +270,7 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 		 * @since 4.6.3
 		 */
 		public static function duplicate_campaign( $args ) {
-			if ( is_string( $args ) ) {
-				$args = json_decode( $args, true );
-			}
-			if ( ! is_array( $args ) ) {
-				$args = array();
-			}
+			$args = ES_Common::decode_args( $args );
 			
 			$plan = ES()->get_plan();
 			if ( 'pro' !== strtolower( $plan ) ) {
@@ -359,6 +390,30 @@ if ( ! class_exists( 'ES_Campaigns_Controller' ) ) {
 				case 5:
 					return 'Sent';
 			}
+		}
+
+		/**
+		 * Toggle campaign status (enable/disable)
+		 *
+		 * @param array $args Campaign IDs and new status
+		 * @return bool Success status
+		 *
+		 * @since 4.4.4
+		 */
+		public static function toggle_status( $args ) {
+			$args = ES_Common::decode_args( $args );
+			
+			if ( isset( $args['campaign_ids'], $args['new_status'] ) ) {
+				$campaign_ids = isset($args['campaign_ids']) ? $args['campaign_ids'] : array();
+				$campaign_ids = array_map('absint', $campaign_ids);
+				$new_status   = absint( $args['new_status'] ); // Convert to integer
+		
+				if (!empty($campaign_ids)) {
+					$status_updated = ES()->campaigns_db->update_status( $campaign_ids, $new_status );
+					return $status_updated;
+				}
+			}
+			return false; 
 		}
 
 		// Note: paginate_campaigns method removed as it's not needed for React UI

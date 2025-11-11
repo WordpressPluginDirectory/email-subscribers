@@ -264,7 +264,7 @@ class ES_DB_Contacts extends ES_DB {
 	 * @since 4.3.2
 	 */
 	public function update_contact( $contact_id = 0, $data = array() ) {
-
+		
 		if ( ! empty( $contact_id ) ) {
 
 			$email = ! empty( $data['email'] ) ? sanitize_email( $data['email'] ) : '';
@@ -284,7 +284,7 @@ class ES_DB_Contacts extends ES_DB {
 					if ( strpos( $key, 'cf_') !== false ) {
 						$data_to_update[$key] = sanitize_text_field( $value );
 					}
-				} 
+				}  
 
 				$this->update( $contact_id, $data_to_update );
 			}

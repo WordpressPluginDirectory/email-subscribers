@@ -672,7 +672,7 @@ if ( ! class_exists( 'ES_Contact_Import_Controller' ) ) {
 								$bulkdata['lines']--;
 								continue;
 							}
-							$data       = str_getcsv( $line, $bulkdata['separator'], '"' );
+							$data       = str_getcsv( $line, $bulkdata['separator'], '"', '\\' );
 							$cols_count = count( $data );
 							$insert     = array();
 							for ( $col = 0; $col < $cols_count; $col++ ) {
@@ -800,27 +800,54 @@ if ( ! class_exists( 'ES_Contact_Import_Controller' ) ) {
 
 					if ( count( $current_batch_emails ) > 0 ) {
 
-						$current_batch_emails = array_unique( $current_batch_emails );
-					
-						$existing_contacts_email_id_map = ES()->contacts_db->get_email_id_map( $current_batch_emails );
+					$current_batch_emails = array_unique( $current_batch_emails );
+				
+					$existing_contacts_email_id_map = ES()->contacts_db->get_email_id_map( $current_batch_emails );
 
-						if ( $need_to_update_subscribers_data ) {
-							if ( ! empty( $existing_contacts_email_id_map ) ) {
-								$existing_contacts 	   = array_intersect_key( $contacts_data, $existing_contacts_email_id_map );
-								$updated_contacts  = ES()->contacts_db->bulk_update( $existing_contacts, 100 );		
-								if ( ! empty( $updated_contacts ) ) {
-									$bulkdata['updated_contacts'] += $updated_contacts; 
+					if ( $need_to_update_subscribers_data ) {
+						if ( ! empty( $existing_contacts_email_id_map ) ) {
+							$existing_contacts = array_intersect_key( $contacts_data, $existing_contacts_email_id_map );
+							
+							// Filter out any custom field keys that don't exist as actual database columns
+							// to prevent issues in bulk_update
+							$valid_columns = array_keys( ES()->contacts_db->get_columns() );
+							$filtered_existing_contacts = array();
+							foreach ( $existing_contacts as $email => $contact_fields ) {
+								$filtered_contact = array();
+								foreach ( $contact_fields as $field_key => $field_value ) {
+									if ( in_array( $field_key, $valid_columns, true ) ) {
+										$filtered_contact[$field_key] = $field_value;
+									}
 								}
+								$filtered_existing_contacts[$email] = $filtered_contact;
+							}
+							
+							$updated_contacts = ES()->contacts_db->bulk_update( $filtered_existing_contacts, 100 );
+							if ( ! empty( $updated_contacts ) ) {
+								$bulkdata['updated_contacts'] += $updated_contacts; 
 							}
 						}
-					
+					}
+				
 
-						if ( ! empty( $existing_contacts_email_id_map ) ) {
-							$contacts_data = array_diff_key( $contacts_data, $existing_contacts_email_id_map );
-						}
-
-						if ( ! empty( $contacts_data ) ) {
-							$insert_ids = ES()->contacts_db->bulk_insert( $contacts_data, 100, true );
+					if ( ! empty( $existing_contacts_email_id_map ) ) {
+						$contacts_data = array_diff_key( $contacts_data, $existing_contacts_email_id_map );
+					}						if ( ! empty( $contacts_data ) ) {
+							// Filter out any custom field keys that don't exist as actual database columns
+							// to prevent placeholder count mismatch in bulk_insert
+							$valid_columns = array_keys( ES()->contacts_db->get_columns() );
+							$filtered_contacts_data = array();
+							foreach ( $contacts_data as $email => $contact_fields ) {
+								$filtered_contact = array();
+								foreach ( $contact_fields as $field_key => $field_value ) {
+									if ( in_array( $field_key, $valid_columns, true ) ) {
+										$filtered_contact[$field_key] = $field_value;
+									}
+								}
+								$filtered_contacts_data[$email] = $filtered_contact;
+							}
+							
+							$insert_ids = ES()->contacts_db->bulk_insert( $filtered_contacts_data, 100, true );
 							if ( ! empty( $insert_ids ) && $need_to_send_welcome_emails ) {
 								$imported_contacts_transient = get_transient( 'ig_es_imported_contact_ids_range' );
 								if ( ! empty( $imported_contacts_transient ) && is_array( $imported_contacts_transient ) && isset( $imported_contacts_transient['rows'] ) ) {
@@ -993,14 +1020,12 @@ if ( ! class_exists( 'ES_Contact_Import_Controller' ) ) {
 			$entries = $metadata['entries'];
 			$data = $metadata['data'];
 
-			$first = ig_es_maybe_unserialize( base64_decode( $entries->first ) );
-			$last  = ig_es_maybe_unserialize( base64_decode( $entries->last ) );
+		$first = ig_es_maybe_unserialize( base64_decode( $entries->first ) );
+		$last  = ig_es_maybe_unserialize( base64_decode( $entries->last ) );
 
-			$sample_data = str_getcsv( $first[0], $data['separator'], '"' );
-			$cols_count = count( $sample_data );
-			$contact_count = $data['lines'];
-
-			$fields = array(
+		$sample_data = str_getcsv( $first[0], $data['separator'], '"', '\\' );
+		$cols_count = count( $sample_data );
+		$contact_count = $data['lines'];			$fields = array(
 				'email'      => __( 'Email', 'email-subscribers' ),
 				'first_name' => __( 'First Name', 'email-subscribers' ),
 				'last_name'  => __( 'Last Name', 'email-subscribers' ),
@@ -1027,20 +1052,18 @@ if ( ! class_exists( 'ES_Contact_Import_Controller' ) ) {
 				$headers = $data['headers'];
 			}
 
-			$sample_rows = array();
-			$phpmailer = ES()->mailer->get_phpmailer();
+		$sample_rows = array();
+		$phpmailer = ES()->mailer->get_phpmailer();
 
-			for ( $i = 0; $i < min( 3, $contact_count ); $i++ ) {
-				$row_data = str_getcsv( $first[$i], $data['separator'], '"' );
-				$sample_rows[] = $row_data;
-			}
+		for ( $i = 0; $i < min( 3, $contact_count ); $i++ ) {
+			$row_data = str_getcsv( $first[$i], $data['separator'], '"', '\\' );
+			$sample_rows[] = $row_data;
+		}
 
-			if ( $contact_count > 3 ) {
-				$last_row_data = str_getcsv( array_pop( $last ), $data['separator'], '"' );
-				$sample_rows[] = $last_row_data;
-			}
-
-			$suggested_mappings = array();
+		if ( $contact_count > 3 ) {
+			$last_row_data = str_getcsv( array_pop( $last ), $data['separator'], '"', '\\' );
+			$sample_rows[] = $last_row_data;
+		}			$suggested_mappings = array();
 			for ( $i = 0; $i < $cols_count; $i++ ) {
 				$col_data = trim( $sample_data[$i] );
 				
@@ -1453,6 +1476,33 @@ if ( ! class_exists( 'ES_Contact_Import_Controller' ) ) {
 					'message' => $e->getMessage() 
 				);
 			}
+		}
+
+		/**
+		 * Get available WordPress roles for import
+		 *
+		 * Returns all WordPress roles that can be used for user import filtering.
+		 * This includes default WordPress roles and custom roles from plugins/themes.
+		 *
+		 * @return array Array of roles with slug and display name
+		 * @since 5.9.7
+		 */
+		public static function get_wordpress_roles() {
+			if ( ! function_exists( 'get_editable_roles' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/user.php';
+			}
+			
+			$roles = get_editable_roles();
+			$formatted_roles = array();
+			
+			foreach ( $roles as $role_slug => $role_data ) {
+				$formatted_roles[] = array(
+					'slug' => $role_slug,
+					'name' => translate_user_role( $role_data['name'] )
+				);
+			}
+			
+			return $formatted_roles;
 		}
 
 	}

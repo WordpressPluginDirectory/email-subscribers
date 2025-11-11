@@ -394,23 +394,7 @@ class ES_Shortcode {
 			$enable_ajax_form_submission = get_option( 'ig_es_enable_ajax_form_submission', 'yes' );
 			$extra_form_class            = ( 'yes' == $enable_ajax_form_submission ) ? ' es_ajax_subscription_form' : '';
 
-			$form_style = '';
-			$styles = ! empty( $data['styles'] ) ? $data['styles'] : array();
-			if ( ! empty( $styles ) && is_array( $styles ) ) {
-				if ( ! empty( $styles['form_bg_color'] ) ) {
-					$form_style .= 'background: transparent !important;';
-				}
-			}
-
-			if ( ! empty( $styles['custom_css'] ) ) {
-				$form_header_html .= '<style>' . esc_html( wp_strip_all_tags( $styles['custom_css'] ) ) . '</style>';
-			}
-
-			$form_header_html .= '<form action="' . $form_action_url . '#es_form_' . self::$form_identifier . '" method="post" class="es_subscription_form es_shortcode_form ' . esc_attr( $extra_form_class ) . '" id="es_subscription_form_' . $unique_id . '" data-source="ig-es" data-form-id="' . $form_id . '"';
-			if ( $form_style ) {
-				$form_header_html .= ' style="' . esc_attr( $form_style ) . '"';
-			}
-			$form_header_html .= '>';
+			$form_header_html .= '<form action="' . $form_action_url . '#es_form_' . self::$form_identifier . '" method="post" class="es_subscription_form es_shortcode_form ' . esc_attr( $extra_form_class ) . '" id="es_subscription_form_' . $unique_id . '" data-source="ig-es" data-form-id="' . $form_id . '">';
 				
 			if ( '' != $desc ) {
 				$form_header_html .= '<div class="es_caption">' . $desc . '</div>';
@@ -486,29 +470,8 @@ class ES_Shortcode {
 		
 		$form_data_html .= '<span class="es_subscription_message ' . $message_class . '" id="es_subscription_message_' . $unique_id . '" role="alert" aria-live="assertive">' . $message_text . '</span>';
 
-		// Apply wrapper styles for classic forms
-		$classic_wrapper_style = '';
-		$styles = ! empty( $data['styles'] ) ? $data['styles'] : array();
-		$settings = ! empty( $data['settings'] ) ? $data['settings'] : array();
-		if ( ! empty( $styles ) && is_array( $styles ) ) {
-			// Only apply custom background color for basic styles like 'inherit' or 'theme-styling'
-			$form_style_setting = ! empty( $settings['form_style'] ) ? $settings['form_style'] : 'inherit';
-			$should_apply_custom_bg = in_array( $form_style_setting, array( 'inherit', 'theme-styling' ), true );
-			
-			if ( ! empty( $styles['form_bg_color'] ) && $should_apply_custom_bg ) {
-				$classic_wrapper_style .= 'background-color: ' . esc_attr( $styles['form_bg_color'] ) . ' !important;';
-			}
-			if ( ! empty( $styles['form_width'] ) ) {
-				$classic_wrapper_style .= 'max-width: ' . esc_attr( $styles['form_width'] ) . 'px;';
-			}
-		}
-
 		// Wrap form html inside a container.
-		$form_data_html = '<div class="emaillist" id="es_form_' . self::$form_identifier . '"';
-		if ( $classic_wrapper_style ) {
-			$form_data_html .= ' style="' . esc_attr( $classic_wrapper_style ) . '"';
-		}
-		$form_data_html .= '>' . $form_data_html . '</div>';
+		$form_data_html = '<div class="emaillist" id="es_form_' . self::$form_identifier . '">' . $form_data_html . '</div>';
 		$form_data_html = ES_Common::strip_js_code($form_data_html);
 		$form = str_replace(['`', '´','&#096;'], '', $form_data_html);
 
@@ -595,7 +558,7 @@ class ES_Shortcode {
 	public static function prepare_lists_checkboxes( $lists, $list_ids = array(), $columns = 3, $selected_lists = array(), $list_label = '', $contact_id = 0, $name = 'lists[]', $lists_id_hash_map = array() ) {
 
 		$list_label = ! empty( $list_label ) ? $list_label : __( 'Select list(s)', 'email-subscribers' );
-		$lists_html = '<div><p><b class="font-medium text-gray-500 pb-2">' . $list_label . '*</b></p><table class="ig-es-form-list-selection"><tr>';
+		$lists_html = '<div class="es-field-wrap es-list-field"><p><b style="font-weight: 600; color: #374151; font-size: 14px; display: block; margin-bottom: 8px;">' . $list_label . '*</b></p>';
 		$i          = 0;
 
 		if ( ! empty( $contact_id ) ) {
@@ -605,9 +568,6 @@ class ES_Shortcode {
 		$lists = apply_filters( 'ig_es_lists', $lists );
 
 		foreach ( $lists as $list_id => $list_name ) {
-			if ( 0 != $i && 0 === ( $i % $columns ) ) {
-				$lists_html .= '</tr><tr>';
-			}
 			$status_span = '';
 			if ( in_array( $list_id, $list_ids ) ) {
 
@@ -618,20 +578,42 @@ class ES_Shortcode {
 					$list_value = $list_id;
 				}
 				
-				if ( in_array( $list_id, $selected_lists ) ) {
-					if ( ! empty( $contact_id ) ) {
-						$status_span = '<span class="es_list_contact_status ' . $list_contact_status_map[ $list_id ] . '" title="' . ucwords( $list_contact_status_map[ $list_id ] ) . '">';
-					}
-					$lists_html .= '<td class="pt-4">';
-					$lists_html .= $status_span . '<label class="flex items-center"><input type="checkbox" class="form-checkbox" name="' . $name . '" checked="checked" value="' . $list_value . '" style="margin-right: 8px;" /><span class="text-gray-500 text-sm font-normal">' . $list_name . '</span></label></td>';
-				} else {
-					$lists_html .= '<td class="pt-4"><label class="flex items-center"><input type="checkbox" class="form-checkbox" name="' . $name . '" value="' . $list_value . '" style="margin-right: 8px;" /><span class="text-gray-500 text-sm font-normal">' . $list_name . '</span></label></td>';
+				$unique_id = 'list_' . $list_id . '_' . uniqid();
+				$checked = in_array( $list_id, $selected_lists ) ? 'checked' : '';
+				
+				if ( ! empty( $contact_id ) && in_array( $list_id, $selected_lists ) ) {
+					$status_span = '<span class="es_list_contact_status ' . $list_contact_status_map[ $list_id ] . '" title="' . ucwords( $list_contact_status_map[ $list_id ] ) . '">';
 				}
+				
+				$lists_html .= '<div style="margin-bottom: 8px;">';
+				$lists_html .= '<label for="' . esc_attr( $unique_id ) . '" style="display: flex; align-items: center; cursor: pointer; user-select: none;">';
+				$lists_html .= '<div style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 8px;">';
+				$lists_html .= '<input type="checkbox" id="' . esc_attr( $unique_id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $list_value ) . '" ' . $checked . ' style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; margin: 0;" />';
+				$lists_html .= '<div style="width: 20px; height: 20px; border: 2px solid #d1d5db; border-radius: 4px; background: white; transition: all 0.2s; pointer-events: none;"></div>';
+				$lists_html .= '<svg style="position: absolute; width: 12px; height: 12px; fill: white; opacity: 0; transition: opacity 0.2s; pointer-events: none;" viewBox="0 0 12 9"><path d="M10.28.28a.75.75 0 0 1 .976.073l.084.094a.75.75 0 0 1-.073.976l-.094.084-6.5 5.25a.75.75 0 0 1-.871.031l-.088-.062-3.25-2.75a.75.75 0 0 1 .896-1.198l.081.06 2.807 2.375L10.28.28Z"></path></svg>';
+				$lists_html .= '</div>';
+				$lists_html .= $status_span . '<span style="color: #4b5563; font-size: 14px;">' . esc_html( $list_name ) . '</span>';
+				$lists_html .= '</label>';
+				$lists_html .= '</div>';
 				$i ++;
 			}
 		}
 
-		$lists_html .= '</tr></table></div>';
+		$lists_html .= '</div>';
+		
+		// Add CSS for styled checkbox
+		$lists_html .= '<style>
+		.es-list-field input[type="checkbox"]:checked + div {
+			background-color: #3b82f6 !important;
+			border-color: #3b82f6 !important;
+		}
+		.es-list-field input[type="checkbox"]:checked + div + svg {
+			opacity: 1 !important;
+		}
+		.es-list-field input[type="checkbox"]:hover:not(:checked) + div {
+			border-color: #9ca3af !important;
+		}
+		</style>';
 
 		return $lists_html;
 	}
@@ -805,13 +787,10 @@ class ES_Shortcode {
 		$form_class = 'ig_es_subscription_form es_subscription_form es_widget_form wysiwyg-form es_shortcode_form';
 		$form_style = '';
 		
-		// Add form style class if specified in settings
 		if ( ! empty( $settings['form_style'] ) ) {
-			// Sanitize form style name for CSS class
 			$sanitized_style = sanitize_html_class( str_replace( ' ', '-', strtolower( $settings['form_style'] ) ) );
 			$form_class .= ' es-form-style-' . $sanitized_style;
 			
-			// Also add the original style name as class for backward compatibility
 			$original_style = sanitize_html_class( str_replace( ' ', '.', $settings['form_style'] ) );
 			if ( $original_style !== $sanitized_style ) {
 				$form_class .= ' es-form-style-' . $original_style;
@@ -821,12 +800,6 @@ class ES_Shortcode {
 		if ( ! empty( $styles ) && is_array( $styles ) ) {
 			if ( ! empty( $styles['custom_css'] ) ) {
 			}
-			$form_style_setting = ! empty( $settings['form_style'] ) ? $settings['form_style'] : 'inherit';
-			$should_apply_custom_bg = in_array( $form_style_setting, array( 'inherit', 'theme-styling' ), true );
-			
-			if ( ! empty( $styles['form_bg_color'] ) && $should_apply_custom_bg ) {
-				$form_style .= 'background: transparent !important;';
-			}
 		}
 		
 		$unique_id = uniqid();
@@ -835,15 +808,93 @@ class ES_Shortcode {
 		$extra_form_class = ( 'yes' == $enable_ajax_form_submission ) ? ' es_ajax_subscription_form' : '';
 		
 		$wrapper_style = '';
+		$form_style = '';
 		if ( ! empty( $styles ) && is_array( $styles ) ) {
-			$form_style_setting = ! empty( $settings['form_style'] ) ? $settings['form_style'] : 'inherit';
-			$should_apply_custom_bg = in_array( $form_style_setting, array( 'inherit', 'theme-styling' ), true );
+			$selected_form_style = ! empty( $settings['form_style'] ) ? $settings['form_style'] : 'inherit';
+			$styles_supporting_custom_bg = array(
+				'inherit',
+				'straight-border', 
+				'rounded-border',
+				'compact'
+			);
 			
-			if ( ! empty( $styles['form_bg_color'] ) && $should_apply_custom_bg ) {
-				$wrapper_style .= 'background-color: ' . esc_attr( $styles['form_bg_color'] ) . ' !important;';
+			$styles_with_fixed_bg = array(
+				'minimalistic',  
+				'inline',       
+				'dark',         
+				'grey-background' 
+			);
+			
+			if ( ! empty( $styles['form_bg_color'] ) && 'transparent' !== $styles['form_bg_color'] ) {
+				if ( in_array( $selected_form_style, $styles_supporting_custom_bg ) ) {
+					switch ( $selected_form_style ) {
+						case 'straight-border':
+							$form_style .= 'background-color: ' . esc_attr( $styles['form_bg_color'] ) . ' !important; padding: 20px; border: 1px solid #d1d5db; border-radius: 0;';
+							break;
+						case 'rounded-border':
+							$form_style .= 'background-color: ' . esc_attr( $styles['form_bg_color'] ) . ' !important; padding: 20px; border: 1px solid #d1d5db; border-radius: 8px;';
+							break;
+						case 'compact':
+							$form_style .= 'background-color: ' . esc_attr( $styles['form_bg_color'] ) . ' !important; padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px;';
+							break;
+						case 'inherit':
+						default:
+							$form_style .= 'background-color: ' . esc_attr( $styles['form_bg_color'] ) . ' !important; padding: 20px; border-radius: 8px;';
+							break;
+					}
+				} elseif ( in_array( $selected_form_style, $styles_with_fixed_bg ) ) {
+					switch ( $selected_form_style ) {
+						case 'dark':
+							$form_style .= 'background-color: #1e293b !important; color: white !important; padding: 20px; border-radius: 8px;';
+							break;
+						case 'grey-background':
+							$form_style .= 'background-color: #d1d5db !important; padding: 20px; border: 2px solid #3b82f6; border-radius: 8px;';
+							break;
+						case 'minimalistic':
+							// Minimalistic should have no background, minimal styling
+							$form_style .= 'background-color: transparent !important; border: none; box-shadow: none;';
+							break;
+						case 'inline':
+							// Inline should be transparent for inline display
+							$form_style .= 'background-color: transparent !important; border: none;';
+							break;
+					}
+				}
+			} else {
+				// No custom background color specified, apply default style-specific styling
+				switch ( $selected_form_style ) {
+					case 'dark':
+						$form_style .= 'background-color: #1e293b !important; color: white !important; padding: 20px; border-radius: 8px;';
+						break;
+					case 'grey-background':
+						$form_style .= 'background-color: #d1d5db !important; padding: 20px; border: 2px solid #3b82f6; border-radius: 8px;';
+						break;
+					case 'straight-border':
+						$form_style .= 'background-color: white !important; padding: 20px; border: 1px solid #d1d5db; border-radius: 0;';
+						break;
+					case 'rounded-border':
+						$form_style .= 'background-color: white !important; padding: 20px; border: 1px solid #d1d5db; border-radius: 8px;';
+						break;
+					case 'compact':
+						$form_style .= 'background-color: white !important; padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px;';
+						break;
+					case 'minimalistic':
+						$form_style .= 'background-color: transparent !important; border: none; box-shadow: none;';
+						break;
+					case 'inline':
+						$form_style .= 'background-color: transparent !important; border: none;';
+						break;
+					case 'inherit':
+					default:
+						$form_style .= 'background-color: white !important; padding: 20px; border-radius: 8px;';
+						break;
+				}
 			}
+			
+			// Apply form width if specified (for all WYSIWYG forms)
 			if ( ! empty( $styles['form_width'] ) ) {
-				$wrapper_style .= 'max-width: ' . esc_attr( $styles['form_width'] ) . 'px;';
+				$width_value = is_numeric( $styles['form_width'] ) ? $styles['form_width'] . 'px' : $styles['form_width'];
+				$wrapper_style .= 'max-width: ' . esc_attr( $width_value ) . '; width: 100%; margin: 0 auto; box-sizing: border-box;';
 			}
 		}
 		
@@ -888,6 +939,14 @@ class ES_Shortcode {
 			echo '<style>' . esc_html( wp_strip_all_tags( $styles['custom_css'] ) ) . '</style>';
 		}
 		
+		// Add form style-specific CSS
+		if ( ! empty( $settings['form_style'] ) ) {
+			$form_style_css = self::get_form_style_css( $settings['form_style'], $form_id );
+			if ( ! empty( $form_style_css ) ) {
+				echo '<style>' . $form_style_css . '</style>';
+			}
+		}
+		
 		
 		$form_tag = '<form action="' . esc_url( $form_action_url ) . '#es_form_' . esc_attr( $form_identifier ) . '" method="post" class="' . esc_attr( $form_class . $extra_form_class ) . '" id="es_subscription_form_' . esc_attr( $unique_id ) . '" data-source="ig-es" data-form-id="' . esc_attr( $form_id ) . '"';
 		if ( $form_style ) {
@@ -907,84 +966,28 @@ class ES_Shortcode {
 			return $order_a - $order_b;
 		});
 		
-		$form_fields_html = '';
-		foreach ( $enabled_fields as $field ) {
-			$form_fields_html .= self::render_new_form_field( $field, $settings, $submitted_data, $form_id, $custom_logo_html );
-		}
-		
-		$filter_data = array( 'captcha' => ! empty( $settings['captcha'] ) ? $settings['captcha'] : 'no' );
-		$form_fields_html = apply_filters( 'ig_es_after_form_fields', $form_fields_html, $filter_data );
-		
-		// phpcs:disable-next-line WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $form_fields_html;
-		
-		// phpcs:disable-next-line WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo self::get_hidden_form_fields( $form_id, $form_identifier, $unique_id, $settings );
-		
-		if ( ! empty( $settings['gdpr']['consent'] ) && 'yes' === $settings['gdpr']['consent'] ) {
-			$gdpr_text = ! empty( $settings['gdpr']['consent_text'] ) ? $settings['gdpr']['consent_text'] : 
-						__( 'I agree to receive emails and accept the terms and conditions.', 'email-subscribers' );
-			echo '<div class="es-field-wrap es-gdpr-field">';
-			echo '<label style="display: inline"><input type="checkbox" name="es_gdpr_consent" value="true" required="required" />&nbsp;' . wp_kses_post( $gdpr_text ) . '</label>';
-			echo '</div>';
-		}
-		
-		// Check if there's a button field in the form body
-		$has_button_field = false;
-		foreach ( $enabled_fields as $field ) {
-			if ( ! empty( $field['type'] ) && ( 'button' === $field['type'] || 'submit' === $field['type'] ) ) {
-				$has_button_field = true;
-				break;
-			}
-		}
-		
-		// Only add automatic submit button if there's no button field in the form
-		if ( ! $has_button_field ) {
-			$button_label = ! empty( $settings['button_label'] ) ? $settings['button_label'] : __( 'Subscribe', 'email-subscribers' );
-			$button_style = '';
-			
-			if ( ! empty( $styles ) && is_array( $styles ) ) {
-				if ( ! empty( $styles['button_bg_color'] ) ) {
-					$button_style .= 'background-color: ' . esc_attr( $styles['button_bg_color'] ) . ' !important; background-image: none !important; background: ' . esc_attr( $styles['button_bg_color'] ) . ' !important;';
-				}
-				if ( ! empty( $styles['button_text_color'] ) ) {
-					$button_style .= 'color: ' . esc_attr( $styles['button_text_color'] ) . ' !important;';
-				}
-				if ( ! empty( $styles['button_border_color'] ) ) {
-					$button_style .= 'border-color: ' . esc_attr( $styles['button_border_color'] ) . ' !important; border: 1px solid ' . esc_attr( $styles['button_border_color'] ) . ' !important;';
-				}
-				if ( ! empty( $styles['button_border_radius'] ) ) {
-					$button_style .= 'border-radius: ' . esc_attr( $styles['button_border_radius'] ) . 'px;';
-				}
-				if ( ! empty( $styles['button_padding'] ) ) {
-					$button_style .= 'padding: ' . esc_attr( $styles['button_padding'] ) . 'px;';
-				}
-			}
-			
-			echo '<div class="es-field-wrap es-submit-container" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 100%;">';
-			
-			$submit_button = '<input type="submit" name="submit" class="es_subscription_form_submit es_submit_button es_textbox_button ig-es-submit-btn" id="es_subscription_form_submit_' . esc_attr( $unique_id ) . '" value="' . esc_attr( $button_label ) . '"';
-			if ( $button_style ) {
-				$submit_button .= ' style="' . esc_attr( $button_style ) . '"';
-			}
-			$submit_button .= ' />';
-			// phpcs:disable-next-line WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $submit_button;
-			
-			if ( ! empty( $custom_logo_html ) ) {
-				// phpcs:disable-next-line WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $custom_logo_html;
-			}
-			
-			echo '</div>';
-		}
-		
-		$spinner_image_path = ES_PLUGIN_URL . 'lite/public/images/spinner.gif';
-		echo '<span class="es_spinner_image" id="spinner-image"><img src="' . esc_url( $spinner_image_path ) . '" alt="Loading"/></span>';
-		
-		echo '</form>';
-		
-		$enable_ajax_form_submission = get_option( 'ig_es_enable_ajax_form_submission', 'yes' );
+	$form_fields_html = '';
+	foreach ( $enabled_fields as $field ) {
+		$form_fields_html .= self::render_new_form_field( $field, $settings, $submitted_data, $form_id, $custom_logo_html );
+	}
+	
+	// Don't apply captcha filter here since it's now handled per-field
+	// $filter_data = array( 'captcha' => ! empty( $settings['captcha'] ) ? $settings['captcha'] : 'no' );
+	// $form_fields_html = apply_filters( 'ig_es_after_form_fields', $form_fields_html, $filter_data );
+	
+	// phpcs:disable-next-line WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo $form_fields_html;
+	
+	// phpcs:disable-next-line WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo self::get_hidden_form_fields( $form_id, $form_identifier, $unique_id, $settings );
+	
+	// GDPR and Button fields are now rendered in their correct order positions through the field loop above
+	// The old hardcoded rendering after all fields has been removed to respect field ordering
+	
+	$spinner_image_path = ES_PLUGIN_URL . 'lite/public/images/spinner.gif';
+	echo '<span class="es_spinner_image" id="spinner-image"><img src="' . esc_url( $spinner_image_path ) . '" alt="Loading"/></span>';
+	
+	echo '</form>';		$enable_ajax_form_submission = get_option( 'ig_es_enable_ajax_form_submission', 'yes' );
 		if ( 'yes' == $enable_ajax_form_submission || ! empty( $message_text ) ) {
 			$display_message = ! empty( $message_text ) ? esc_html( $message_text ) : '';
 			$display_class = ! empty( $message_class ) ? esc_attr( $message_class ) : '';
@@ -996,6 +999,15 @@ class ES_Shortcode {
 			
 			if ( ! empty( $form_style_css ) ) {
 				echo '<style>' . wp_strip_all_tags( $form_style_css ) . '</style>';
+			}
+		}
+		
+		// Add our additional high-specificity button styling for WYSIWYG forms
+		if ( ! empty( $settings['form_style'] ) ) {
+			$additional_css = self::get_form_style_css( $settings['form_style'], $form_id );
+			
+			if ( ! empty( $additional_css ) ) {
+				echo '<style>' . wp_strip_all_tags( $additional_css ) . '</style>';
 			}
 		}
 		
@@ -1015,21 +1027,17 @@ class ES_Shortcode {
 	 * @since 5.8.0
 	 */
 	public static function render_new_form_field( $field, $settings = array(), $submitted_data = array(), $form_id = 0, $custom_logo_html = '' ) {
-		if ( empty( $field['type'] ) || empty( $field['enabled'] ) ) {
-			return '';
-		}
-		
-		$field_type = $field['type'];
-		$field_id = ! empty( $field['id'] ) ? $field['id'] : '';
-		
-		if ( 'captcha' === $field_type || 'captcha' === $field_id ) {
-			return '';
-		}
-		
-		$field_label = ! empty( $field['label'] ) ? $field['label'] : '';
-		$field_placeholder = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
-		
-		$field_required = false;
+	if ( empty( $field['type'] ) || empty( $field['enabled'] ) ) {
+		return '';
+	}
+	
+	$field_type = $field['type'];
+	$field_id = ! empty( $field['id'] ) ? $field['id'] : '';
+	
+	// Don't skip captcha or GDPR - handle them in the switch case below
+	
+	$field_label = ! empty( $field['label'] ) ? $field['label'] : '';
+	$field_placeholder = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';		$field_required = false;
 		if ( 'email' === $field_id ) {
 			$field_required = true; 
 		} else {
@@ -1154,22 +1162,70 @@ class ES_Shortcode {
 					$html = self::get_select_field_html( $field_args );
 					break;
 				
-				case 'checkbox':
-					if ( 'gdpr' === $field_id ) {
-						// Handle GDPR checkbox separately in main function
-						break;
-					}
-					$field_args = array(
-						'field_id' => $field_id,
-						'label' => $field_label,
-						'required' => $field_required,
-						'value' => $submitted_value,
-						'is_custom_field' => $is_custom_field
-					);
-					$html = self::get_checkbox_field_html( $field_args );
-					break;
+			case 'checkbox':
+				$options = ! empty( $field['options'] ) ? $field['options'] : array();
 				
-				case 'radio':
+				// Handle GDPR checkbox
+				if ( 'gdpr' === $field_id ) {
+					// Try multiple sources for GDPR text - placeholder contains the actual consent text
+					$gdpr_text = '';
+					if ( ! empty( $field['placeholder'] ) ) {
+						$gdpr_text = $field['placeholder'];
+					} elseif ( ! empty( $field['gdprText'] ) ) {
+						$gdpr_text = $field['gdprText'];
+					} elseif ( ! empty( $field['label'] ) ) {
+						$gdpr_text = $field['label'];
+					} elseif ( ! empty( $settings['gdpr']['consent_text'] ) ) {
+						$gdpr_text = $settings['gdpr']['consent_text'];
+					} else {
+						$gdpr_text = __( 'I agree to receive emails and accept the terms and conditions.', 'email-subscribers' );
+					}
+					
+					$unique_id = 'gdpr_consent_' . uniqid();
+					
+					$html = '<div class="es-field-wrap es-gdpr-field">';
+					$html .= '<label for="' . esc_attr( $unique_id ) . '" style="display: flex; align-items: center; cursor: pointer; user-select: none;">';
+					$html .= '<div style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 8px; flex-shrink: 0;">';
+					$html .= '<input type="checkbox" id="' . esc_attr( $unique_id ) . '" name="es_gdpr_consent" value="true" required="required" style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; margin: 0;" />';
+					$html .= '<div style="width: 20px; height: 20px; border: 2px solid #d1d5db; border-radius: 4px; background: white; transition: all 0.2s; pointer-events: none;"></div>';
+					$html .= '<svg style="position: absolute; width: 12px; height: 12px; fill: white; opacity: 0; transition: opacity 0.2s; pointer-events: none;" viewBox="0 0 12 9"><path d="M10.28.28a.75.75 0 0 1 .976.073l.084.094a.75.75 0 0 1-.073.976l-.094.084-6.5 5.25a.75.75 0 0 1-.871.031l-.088-.062-3.25-2.75a.75.75 0 0 1 .896-1.198l.081.06 2.807 2.375L10.28.28Z"></path></svg>';
+					$html .= '</div>';
+					$html .= '<span style="color: #4b5563; font-size: 14px;">' . wp_kses_post( $gdpr_text ) . '</span>';
+					$html .= '</label>';
+					$html .= '</div>';
+					
+					// Add CSS for styled GDPR checkbox
+					$html .= '<style>
+					.es-gdpr-field input[type="checkbox"]:checked + div {
+						background-color: #3b82f6 !important;
+						border-color: #3b82f6 !important;
+					}
+					.es-gdpr-field input[type="checkbox"]:checked + div + svg {
+						opacity: 1 !important;
+					}
+					.es-gdpr-field input[type="checkbox"]:hover:not(:checked) + div {
+						border-color: #9ca3af !important;
+					}
+					</style>';
+					break;
+				}
+				
+				$field_args = array(
+					'field_id' => $field_id,
+					'label' => $field_label,
+					'options' => $options,
+					'required' => $field_required,
+					'value' => $submitted_value,
+					'is_custom_field' => $is_custom_field
+				);
+				if ( ! empty( $options ) ) {
+					// Multiple checkbox options (like React)
+					$html = self::get_checkbox_multiple_field_html( $field_args );
+				} else {
+					// Single checkbox
+					$html = self::get_checkbox_field_html( $field_args );
+				}
+				break;				case 'radio':
 					$options = ! empty( $field['options'] ) ? $field['options'] : array();
 					$field_args = array(
 						'field_id' => $field_id,
@@ -1226,23 +1282,29 @@ class ES_Shortcode {
 						'custom_logo_html' => $custom_logo_html
 					);
 					$html = self::get_button_field_html( $button_args );
-					break;
-				
-				default:
-					$field_args = array(
-						'field_id' => $field_id,
-						'label' => $field_label,
-						'placeholder' => $field_placeholder,
-						'required' => $field_required,
-						'value' => $submitted_value,
-						'is_custom_field' => $is_custom_field
-					);
-					$html = self::get_text_field_html( $field_args );
-					break;
-			}
+				break;
+			
+			case 'captcha':
+				// Render captcha field using the filter
+				$captcha_html = '';
+				$filter_data = array( 'captcha' => 'yes' );
+				$captcha_html = apply_filters( 'ig_es_after_form_fields', '', $filter_data );
+				$html = $captcha_html;
+				break;
+			
+			default:
+				$field_args = array(
+					'field_id' => $field_id,
+					'label' => $field_label,
+					'placeholder' => $field_placeholder,
+					'required' => $field_required,
+					'value' => $submitted_value,
+					'is_custom_field' => $is_custom_field
+				);
+				$html = self::get_text_field_html( $field_args );
+				break;
 		}
-		
-		return $html;
+	}		return $html;
 	}
 	
 	/**
@@ -1465,9 +1527,10 @@ class ES_Shortcode {
 			$field_name = 'esfpx_' . $args['field_id'];
 		}
 		
-		$html = '<div class="es-field-wrap">';
-		$html .= '<label>' . esc_html( $args['label'] ) . $required_mark . '<br/>';
-		$html .= '<select name="' . esc_attr( $field_name ) . '" class="ig_es_form_field_select" ' . $required_attr . '>';
+		$html = '<div class="es-field-wrap ig-es-form-field">';
+		$html .= '<label class="es-field-label">' . esc_html( $args['label'] ) . $required_mark . '<br/>';
+		$html .= '<div class="es-select-wrapper" style="position: relative;">';
+		$html .= '<select name="' . esc_attr( $field_name ) . '" class="ig_es_form_field_select ig-es-form-input" ' . $required_attr . '>';
 		$html .= '<option value="">Select an option</option>';
 		
 		if ( is_array( $args['options'] ) ) {
@@ -1485,6 +1548,7 @@ class ES_Shortcode {
 		}
 		
 		$html .= '</select>';
+		$html .= '</div>';
 		$html .= '</label>';
 		$html .= '</div>';
 		
@@ -1525,14 +1589,130 @@ class ES_Shortcode {
 			$field_name = 'esfpx_' . $args['field_id'];
 		}
 		
-		$checked = ( true === $args['value'] || 'true' === $args['value'] || '1' === $args['value'] ) ? 'checked="checked"' : '';
+		$checked = ( true === $args['value'] || 'true' === $args['value'] || '1' === $args['value'] ) ? 'checked' : '';
+		$unique_id = 'checkbox_' . $args['field_id'] . '_' . uniqid();
 		
-		$html = '<div class="es-field-wrap">';
-		$html .= '<label style="display: inline">';
-		$html .= '<input type="checkbox" name="' . esc_attr( $field_name ) . '" value="true" ' . $checked . ' ' . $required_attr . ' />&nbsp;';
-		$html .= esc_html( $args['label'] );
+		$html = '<div class="es-field-wrap ig-es-form-field es-checkbox-field">';
+		$html .= '<label for="' . esc_attr( $unique_id ) . '" style="display: flex; align-items: center; cursor: pointer; user-select: none;">';
+		$html .= '<div style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 8px;">';
+		$html .= '<input type="checkbox" id="' . esc_attr( $unique_id ) . '" name="' . esc_attr( $field_name ) . '" value="true" ' . $checked . ' ' . $required_attr . ' style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; margin: 0;" />';
+		$html .= '<div style="width: 20px; height: 20px; border: 2px solid #d1d5db; border-radius: 4px; background: white; transition: all 0.2s; pointer-events: none;"></div>';
+		$html .= '<svg style="position: absolute; width: 12px; height: 12px; fill: white; opacity: 0; transition: opacity 0.2s; pointer-events: none;" viewBox="0 0 12 9"><path d="M10.28.28a.75.75 0 0 1 .976.073l.084.094a.75.75 0 0 1-.073.976l-.094.084-6.5 5.25a.75.75 0 0 1-.871.031l-.088-.062-3.25-2.75a.75.75 0 0 1 .896-1.198l.081.06 2.807 2.375L10.28.28Z"></path></svg>';
+		$html .= '</div>';
+		$html .= '<span style="color: #4b5563; font-size: 14px;">' . esc_html( $args['label'] ) . '</span>';
 		$html .= '</label>';
 		$html .= '</div>';
+		
+		// Add CSS for styled checkbox
+		$html .= '<style>
+		.es-checkbox-field input[type="checkbox"]:checked + div {
+			background-color: #3b82f6 !important;
+			border-color: #3b82f6 !important;
+		}
+		.es-checkbox-field input[type="checkbox"]:checked + div + svg {
+			opacity: 1 !important;
+		}
+		.es-checkbox-field input[type="checkbox"]:hover:not(:checked) + div {
+			border-color: #9ca3af !important;
+		}
+		</style>';
+		
+		return $html;
+	}
+	
+	/**
+	 * Get multiple checkbox field HTML for new forms (with options like React)
+	 *
+	 * @param array $args {
+	 *     Field arguments.
+	 *     @type string $field_id Field ID
+	 *     @type string $label Field label
+	 *     @type array  $options Checkbox options
+	 *     @type bool   $required Whether field is required
+	 *     @type mixed  $value Field value (array for multiple checkboxes)
+	 *     @type bool   $is_custom_field Whether this is a custom field
+	 * }
+	 *
+	 * @return string
+	 */
+	public static function get_checkbox_multiple_field_html( $args ) {
+		$defaults = array(
+			'field_id' => '',
+			'label' => '',
+			'options' => array(),
+			'required' => false,
+			'value' => array(),
+			'is_custom_field' => false
+		);
+		
+		$args = wp_parse_args( $args, $defaults );
+		
+		$required_attr = $args['required'] ? 'required="required"' : '';
+		$required_mark = $args['required'] ? '*' : '';
+		
+		$selected_values = is_array( $args['value'] ) ? $args['value'] : ( ! empty( $args['value'] ) ? array( $args['value'] ) : array() );
+		if ( $args['is_custom_field'] ) {
+			$field_name = 'es_custom_field[' . $args['field_id'] . ']';
+		} else {
+			$field_name = 'esfpx_' . $args['field_id'];
+		}
+		
+		$html = '<div class="es-field-wrap ig-es-form-field es-checkbox-multiple-field">';
+		$html .= '<label class="es-field-label" style="font-weight: 600; color: #374151; font-size: 14px; display: block; margin-bottom: 8px;">' . esc_html( $args['label'] ) . $required_mark . '</label>';
+		$html .= '<div class="es-checkbox-options">';
+		
+		if ( is_array( $args['options'] ) ) {
+			foreach ( $args['options'] as $option ) {
+				if ( is_array( $option ) && isset( $option['text'] ) ) {
+					$option_value = isset( $option['id'] ) ? $option['id'] : $option['text'];
+					$option_text = $option['text'];
+					$checked = in_array( $option_value, $selected_values ) || in_array( $option_text, $selected_values ) ? 'checked' : '';
+					$unique_id = 'checkbox_' . $args['field_id'] . '_' . sanitize_title( $option_value ) . '_' . uniqid();
+					
+					$html .= '<div style="margin-bottom: 8px;">';
+					$html .= '<label for="' . esc_attr( $unique_id ) . '" style="display: flex; align-items: center; cursor: pointer; user-select: none;">';
+					$html .= '<div style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 8px;">';
+					$html .= '<input type="checkbox" id="' . esc_attr( $unique_id ) . '" name="' . esc_attr( $field_name ) . '[]" value="' . esc_attr( $option_value ) . '" ' . $checked . ' ' . $required_attr . ' style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; margin: 0;" />';
+					$html .= '<div style="width: 20px; height: 20px; border: 2px solid #d1d5db; border-radius: 4px; background: white; transition: all 0.2s; pointer-events: none;"></div>';
+					$html .= '<svg style="position: absolute; width: 12px; height: 12px; fill: white; opacity: 0; transition: opacity 0.2s; pointer-events: none;" viewBox="0 0 12 9"><path d="M10.28.28a.75.75 0 0 1 .976.073l.084.094a.75.75 0 0 1-.073.976l-.094.084-6.5 5.25a.75.75 0 0 1-.871.031l-.088-.062-3.25-2.75a.75.75 0 0 1 .896-1.198l.081.06 2.807 2.375L10.28.28Z"></path></svg>';
+					$html .= '</div>';
+					$html .= '<span style="color: #4b5563; font-size: 14px;">' . esc_html( $option_text ) . '</span>';
+					$html .= '</label>';
+					$html .= '</div>';
+				} elseif ( is_string( $option ) ) {
+					$checked = in_array( $option, $selected_values ) ? 'checked' : '';
+					$unique_id = 'checkbox_' . $args['field_id'] . '_' . sanitize_title( $option ) . '_' . uniqid();
+					
+					$html .= '<div style="margin-bottom: 8px;">';
+					$html .= '<label for="' . esc_attr( $unique_id ) . '" style="display: flex; align-items: center; cursor: pointer; user-select: none;">';
+					$html .= '<div style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-right: 8px;">';
+					$html .= '<input type="checkbox" id="' . esc_attr( $unique_id ) . '" name="' . esc_attr( $field_name ) . '[]" value="' . esc_attr( $option ) . '" ' . $checked . ' ' . $required_attr . ' style="position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; margin: 0;" />';
+					$html .= '<div style="width: 20px; height: 20px; border: 2px solid #d1d5db; border-radius: 4px; background: white; transition: all 0.2s; pointer-events: none;"></div>';
+					$html .= '<svg style="position: absolute; width: 12px; height: 12px; fill: white; opacity: 0; transition: opacity 0.2s; pointer-events: none;" viewBox="0 0 12 9"><path d="M10.28.28a.75.75 0 0 1 .976.073l.084.094a.75.75 0 0 1-.073.976l-.094.084-6.5 5.25a.75.75 0 0 1-.871.031l-.088-.062-3.25-2.75a.75.75 0 0 1 .896-1.198l.081.06 2.807 2.375L10.28.28Z"></path></svg>';
+					$html .= '</div>';
+					$html .= '<span style="color: #4b5563; font-size: 14px;">' . esc_html( $option ) . '</span>';
+					$html .= '</label>';
+					$html .= '</div>';
+				}
+			}
+		}
+		
+		$html .= '</div>';
+		$html .= '</div>';
+		
+		// Add CSS for styled checkbox
+		$html .= '<style>
+		.es-checkbox-multiple-field input[type="checkbox"]:checked + div {
+			background-color: #3b82f6 !important;
+			border-color: #3b82f6 !important;
+		}
+		.es-checkbox-multiple-field input[type="checkbox"]:checked + div + svg {
+			opacity: 1 !important;
+		}
+		.es-checkbox-multiple-field input[type="checkbox"]:hover:not(:checked) + div {
+			border-color: #9ca3af !important;
+		}
+		</style>';
 		
 		return $html;
 	}
@@ -1574,9 +1754,9 @@ class ES_Shortcode {
 			$field_name = 'esfpx_' . $args['field_id'];
 		}
 		
-		$html = '<div class="es-field-wrap">';
-		$html .= '<fieldset>';
-		$html .= '<legend>' . esc_html( $args['label'] ) . $required_mark . '</legend>';
+		$html = '<div class="es-field-wrap ig-es-form-field">';
+		$html .= '<label class="es-field-label">' . esc_html( $args['label'] ) . $required_mark . '</label>';
+		$html .= '<div class="es-radio-options" style="margin-top: 8px;">';
 		
 		if ( is_array( $args['options'] ) ) {
 			foreach ( $args['options'] as $option ) {
@@ -1584,21 +1764,25 @@ class ES_Shortcode {
 					$option_value = isset( $option['id'] ) ? $option['id'] : $option['text'];
 					$option_text = $option['text'];
 					$checked = ( $args['value'] == $option_value || $args['value'] == $option_text ) ? 'checked="checked"' : '';
-					$html .= '<label style="display: block; margin: 5px 0;">';
-					$html .= '<input type="radio" name="' . esc_attr( $field_name ) . '" value="' . esc_attr( $option_value ) . '" ' . $checked . ' ' . $required_attr . ' />&nbsp;';
-					$html .= esc_html( $option_text );
+					$html .= '<div style="margin-bottom: 8px;">';
+					$html .= '<label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">';
+					$html .= '<input type="radio" name="' . esc_attr( $field_name ) . '" value="' . esc_attr( $option_value ) . '" ' . $checked . ' ' . $required_attr . ' style="margin: 0;" />';
+					$html .= '<span>' . esc_html( $option_text ) . '</span>';
 					$html .= '</label>';
+					$html .= '</div>';
 				} elseif ( is_string( $option ) ) {
 					$checked = ( $args['value'] == $option ) ? 'checked="checked"' : '';
-					$html .= '<label style="display: block; margin: 5px 0;">';
-					$html .= '<input type="radio" name="' . esc_attr( $field_name ) . '" value="' . esc_attr( $option ) . '" ' . $checked . ' ' . $required_attr . ' />&nbsp;';
-					$html .= esc_html( $option );
+					$html .= '<div style="margin-bottom: 8px;">';
+					$html .= '<label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">';
+					$html .= '<input type="radio" name="' . esc_attr( $field_name ) . '" value="' . esc_attr( $option ) . '" ' . $checked . ' ' . $required_attr . ' style="margin: 0;" />';
+					$html .= '<span>' . esc_html( $option ) . '</span>';
 					$html .= '</label>';
+					$html .= '</div>';
 				}
 			}
 		}
 		
-		$html .= '</fieldset>';
+		$html .= '</div>';
 		$html .= '</div>';
 		
 		return $html;
@@ -1620,7 +1804,6 @@ class ES_Shortcode {
 		$button_text = !empty( $args['label'] ) ? $args['label'] : 'Subscribe';
 		$button_value = !empty( $args['value'] ) ? $args['value'] : $button_text;
 		
-		// Define default theme values that shouldn't be overridden if not customized
 		$default_values = array(
 			'width' => '100%',
 			'height' => '40px',
@@ -2170,6 +2353,228 @@ class ES_Shortcode {
 			});
 		});
 		</script>';
+	}
+
+	/**
+	 * Get form style-specific CSS
+	 *
+	 * @param string $form_style The form style name
+	 * @param int $form_id The form ID for targeting
+	 *
+	 * @return string CSS styles for the specific form style
+	 *
+	 * @since 5.8.0
+	 */
+	public static function get_form_style_css( $form_style, $form_id ) {
+		$form_selector = 'body form.es_subscription_form[data-form-id="' . $form_id . '"].wysiwyg-form';
+		$button_selector = $form_selector . ' input.ig-es-submit-btn, ' . $form_selector . ' input.es-subscribe-btn, ' . $form_selector . ' .ig-es-submit-btn, ' . $form_selector . ' .es-subscribe-btn';
+		$css = '';
+
+		// Add base button styles that should apply to all form styles with maximum specificity
+		$css .= $button_selector . ' { ';
+		$css .= 'background-color: #007CBA !important; ';
+		$css .= 'background-image: none !important; ';
+		$css .= 'background: #007CBA !important; ';
+		$css .= 'color: #FFFFFF !important; ';
+		$css .= 'border: 1px solid #007CBA !important; ';
+		$css .= 'border-radius: 4px !important; ';
+		$css .= 'padding: 0 2em !important; ';
+		$css .= 'height: 2.4em !important; ';
+		$css .= 'font-size: 1em !important; ';
+		$css .= 'font-weight: bold !important; ';
+		$css .= 'cursor: pointer !important; ';
+		$css .= 'box-sizing: border-box !important; ';
+		$css .= 'white-space: nowrap !important; ';
+		$css .= 'text-decoration: none !important; ';
+		$css .= 'display: inline-block !important; ';
+		$css .= 'line-height: 1em !important; ';
+		$css .= 'margin-top: 1em !important; ';
+		$css .= '} ';
+
+		// Add dropdown arrow styling for all select fields
+		$css .= $form_selector . ' .ig_es_form_field_select { ';
+		$css .= 'appearance: none !important; ';
+		$css .= '-webkit-appearance: none !important; ';
+		$css .= '-moz-appearance: none !important; ';
+		$css .= 'background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3E%3Cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3E%3C/svg%3E") !important; ';
+		$css .= 'background-position: right 0.5rem center !important; ';
+		$css .= 'background-repeat: no-repeat !important; ';
+		$css .= 'background-size: 1.5em 1.5em !important; ';
+		$css .= 'padding-right: 2.5rem !important; ';
+		$css .= '} ';
+
+		switch ( $form_style ) {
+			case 'dark':
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'background-color: #2d2d2d !important; ';
+				$css .= 'color: white !important; ';
+				$css .= 'border: none !important; ';
+				$css .= 'border-radius: 4px !important; ';
+				$css .= '} ';
+				// Ensure select fields have proper padding for the dropdown arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				$css .= $form_selector . ' .ig-es-form-input::placeholder,';
+				$css .= $form_selector . ' .ig-es-form-field textarea::placeholder { ';
+				$css .= 'color: #9ca3af !important; ';
+				$css .= '} ';
+				$css .= $form_selector . ' .es-field-label { ';
+				$css .= 'color: white !important; ';
+				$css .= '} ';
+				$css .= $button_selector . ' { ';
+				$css .= 'background-color: #2d2d2d !important; ';
+				$css .= 'background-image: none !important; ';
+				$css .= 'background: #2d2d2d !important; ';
+				$css .= 'color: white !important; ';
+				$css .= 'border: 1px solid #2d2d2d !important; ';
+				$css .= 'border-radius: 0 !important; ';
+				$css .= '} ';
+				break;
+
+			case 'grey-background':
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'background-color: #f9fafb !important; ';
+				$css .= 'border: 1px solid #d1d5db !important; ';
+				$css .= 'border-radius: 4px !important; ';
+				$css .= '} ';
+				// Ensure select fields have proper padding for the dropdown arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				break;
+
+			case 'straight-border':
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'border: 1px solid #d1d5db !important; ';
+				$css .= 'border-radius: 0 !important; ';
+				$css .= 'background-color: white !important; ';
+				$css .= '} ';
+				// Ensure select fields have proper padding for the dropdown arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				$css .= $button_selector . ' { ';
+				$css .= 'border-radius: 0 !important; ';
+				$css .= '} ';
+				break;
+
+			case 'rounded-border':
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'border: 1px solid #d1d5db !important; ';
+				$css .= 'border-radius: 8px !important; ';
+				$css .= 'background-color: white !important; ';
+				$css .= '} ';
+				// Ensure select fields have proper padding for the dropdown arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				$css .= $button_selector . ' { ';
+				$css .= 'border-radius: 8px !important; ';
+				$css .= '} ';
+				break;
+
+			case 'minimalistic':
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'border: none !important; ';
+				$css .= 'border-bottom: 1px solid #d1d5db !important; ';
+				$css .= 'border-radius: 0 !important; ';
+				$css .= 'background-color: transparent !important; ';
+				$css .= 'padding-left: 0 !important; ';
+				$css .= 'padding-right: 0 !important; ';
+				$css .= '} ';
+				// For minimalistic style, we need to adjust the select padding-right to accommodate the arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				$css .= $button_selector . '.ig-es-submit-btn, ' . $button_selector . '.es-subscribe-btn { ';
+				$css .= 'border: 1px solid #374151 !important; ';
+				$css .= 'background-color: transparent !important; ';
+				$css .= 'background-image: none !important; ';
+				$css .= 'background: transparent !important; ';
+				$css .= 'color: #374151 !important; ';
+				$css .= 'border-radius: 0 !important; ';
+				$css .= 'text-transform: uppercase !important; ';
+				$css .= 'letter-spacing: 0.05em !important; ';
+				$css .= 'height: 2.4em !important; ';
+				$css .= 'padding: 0 2em !important; ';
+				$css .= 'font-size: 1em !important; ';
+				$css .= '} ';
+				break;
+
+			case 'compact':
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'border: 1px solid #d1d5db !important; ';
+				$css .= 'border-radius: 4px !important; ';
+				$css .= 'background-color: white !important; ';
+				$css .= 'padding: 6px 8px !important; ';
+				$css .= 'font-size: 14px !important; ';
+				$css .= '} ';
+				// Ensure select fields have proper padding for the dropdown arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				$css .= $button_selector . ' { ';
+				$css .= 'padding: 6px 12px !important; ';
+				$css .= 'font-size: 14px !important; ';
+				$css .= 'margin-top: 0.5em !important; ';
+				$css .= '} ';
+				$css .= $form_selector . ' .es-field-wrap { ';
+				$css .= 'margin-bottom: 4px !important; ';
+				$css .= '} ';
+				$css .= $form_selector . ' { ';
+				$css .= 'padding: 15px !important; ';
+				$css .= '} ';
+				break;
+
+			case 'inline':
+				$css .= $form_selector . ' { ';
+				$css .= 'display: flex !important; ';
+				$css .= 'flex-direction: row !important; ';
+				$css .= 'align-items: flex-end !important; ';
+				$css .= 'gap: 10px !important; ';
+				$css .= '} ';
+				$css .= $form_selector . ' .es-field-wrap { ';
+				$css .= 'flex: 1 !important; ';
+				$css .= 'margin-bottom: 0 !important; ';
+				$css .= 'min-width: 200px !important; ';
+				$css .= '} ';
+				$css .= $form_selector . ' .es-submit-container { ';
+				$css .= 'flex: 0 0 auto !important; ';
+				$css .= 'width: auto !important; ';
+				$css .= 'min-width: 120px !important; ';
+				$css .= '} ';
+				break;
+
+			case 'inherit':
+			default:
+				// Default styling - minimal changes to inherit theme styles
+				$css .= $form_selector . ' .ig-es-form-input,';
+				$css .= $form_selector . ' .ig-es-form-field textarea,';
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'border: 1px solid #d1d5db !important; ';
+				$css .= 'border-radius: 4px !important; ';
+				$css .= '} ';
+				// Ensure select fields have proper padding for the dropdown arrow
+				$css .= $form_selector . ' .ig_es_form_field_select { ';
+				$css .= 'padding-right: 2.5rem !important; ';
+				$css .= '} ';
+				break;
+		}
+
+		return $css;
 	}
 }
 

@@ -222,9 +222,20 @@ if ( ! class_exists( 'ES_Contact_Controller' ) ) {
 
 			foreach ( $prepare_activity as &$activity ) {
 				if ( ! empty( $activity['text'] ) ) {
-					$activity['text'] = preg_replace( '/<a\b[^>]*>.*?<\/a>/i', '', $activity['text'] );
-					$activity['text'] = strip_tags( $activity['text'] );
-					$activity['text'] = ucfirst(trim( $activity['text'] ));
+					
+					$text = $activity['text'];
+					
+					if ( preg_match( '/>([^<]+)<\/a>\s+list/i', $text, $matches ) ) {
+						$list_name = $matches[1];
+						$text = preg_replace( '/<a\b[^>]*>.*?<\/a>/i', '', $text );
+						$text = strip_tags( $text );
+						$text = preg_replace( '/(from|to)\s+list/i', '$1 list ' . $list_name, $text );
+					} else {
+						$text = preg_replace( '/<a\b[^>]*>.*?<\/a>/i', '', $text );
+						$text = strip_tags( $text );
+					}
+					
+					$activity['text'] = ucfirst(trim( $text ));
 				}
 			} 
 

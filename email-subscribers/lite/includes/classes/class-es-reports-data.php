@@ -766,32 +766,34 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 				
 			
 				$total_unsubscribed = self::get_total_unsubscribed_contacts( $args );
-				$current_period_signups = 0;
-				$average_daily_signups = 0;
+				$current_period_subscribers = 0;
+				$total_subscribers = 0;
 				if ( $days > 0 ) {
 
-					$current_signups_args = array(
+					$current_subscribers_args = array(
 						'list_id' => $args['list_id'],
 						'days' => $days
 					);
 
-					$current_period_signups = self::get_total_subscribed_contacts( $current_signups_args );
-					$average_daily_signups = round( $current_period_signups / $days, 1 );
+					$current_period_subscribers = self::get_total_subscribed_contacts( $current_subscribers_args );
+					// $average_daily_signups = round( $current_period_signups / $days, 1 )
+					$total_subscribers = $current_period_subscribers;
 				}
 				
-				$previous_period_signups = 0;
-				$previous_average_daily_signups = 0;
+				$previous_period_subscribers = 0;
+				$previous_total_subscribers = 0;
 				$previous_unsubscribed = 0;
 				
 				if ( $days > 0 ) {
-					$previous_signups_args = array(
+					$previous_subscribers_args = array(
 						'list_id' => $args['list_id'],
 						'days' => $days * 2
 					);
-					$double_period_signups = self::get_total_subscribed_contacts( $previous_signups_args );
+					$double_period_subscribers = self::get_total_subscribed_contacts( $previous_subscribers_args );
 					// Previous period signups = total from double period - current period signups
-					$previous_period_signups = max( 0, $double_period_signups - $current_period_signups );
-					$previous_average_daily_signups = round( $previous_period_signups / $days, 1 );
+					$previous_period_subscribers = max( 0, $double_period_subscribers - $current_period_subscribers );
+					// $previous_average_daily_signups = round( $previous_period_signups / $days, 1 );
+					$previous_total_subscribers = $previous_period_subscribers;
 					
 					$previous_unsubscribed_args = array(
 						'list_id' => $args['list_id'],
@@ -809,17 +811,17 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 					'total_unsubscribed'     => $total_unsubscribed,
 					'avg_bounce_rate'        => 0, 
 					'average_score'          => 0, 
-					'average_daily_signups'  => $average_daily_signups,
+					'total_subscribers'  => $total_subscribers,
 					// Previous period data for comparison
 					'previous_total_unsubscribed' => $previous_unsubscribed,
-					'previous_average_daily_signups' => $previous_average_daily_signups,
+					'previous_total_subscribers' => $previous_total_subscribers,
 					'previous_engagement_rate' => 0,
 					'previous_inactive_contacts' => 0,
 					'previous_avg_bounce_rate' => 0,
 					'previous_average_score' => 0,
 					// Additional debug info
-					'current_period_signups' => $current_period_signups,
-					'previous_period_signups' => $previous_period_signups
+					'current_period_subscribers' => $current_period_subscribers,
+					'previous_period_subscribers' => $previous_period_subscribers
 				);
 			
 			$audience_insights_data = apply_filters( 'ig_es_audience_insights_data', $audience_insights_data, $args );				return $audience_insights_data;
@@ -833,15 +835,15 @@ if ( ! class_exists( 'ES_Reports_Data' ) ) {
 					'total_unsubscribed'     => 0,
 					'avg_bounce_rate'        => 0,
 					'average_score'          => 0,
-					'average_daily_signups'  => 0,
+					'total_subscribers'  => 0,
 					'previous_total_unsubscribed' => 0,
-					'previous_average_daily_signups' => 0,
+					'previous_total_subscribers' => 0,
 					'previous_engagement_rate' => 0,
 					'previous_inactive_contacts' => 0,
 					'previous_avg_bounce_rate' => 0,
 					'previous_average_score' => 0,
-					'current_period_signups' => 0,
-					'previous_period_signups' => 0
+					'current_period_subscribers' => 0,
+					'previous_period_subscribers' => 0
 				);
 			}
 		}

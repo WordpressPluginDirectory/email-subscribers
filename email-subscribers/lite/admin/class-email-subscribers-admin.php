@@ -198,6 +198,8 @@ class Email_Subscribers_Admin {
 	 */
 	public function enqueue_scripts() {
 
+		global $ig_es_tracker;
+
 		if ( ! ES()->is_es_admin_screen() ) {
 			return;
 		}
@@ -388,9 +390,36 @@ class Email_Subscribers_Admin {
 			wp_enqueue_script( 'frappe-js', plugin_dir_url( __FILE__ ) . 'js/frappe-charts.min.iife.js', array( 'jquery' ), '1.5.2', false );
 		}
 
-		if ( 'es_dashboard' === $page  || 'es_pricing' === $page ) {
+		if ( 'es_dashboard' === $page  || 'es_pricing' === $page || 'es_subscribers' === $page ) {
+			$is_ig_mailer_plugin_active = $ig_es_tracker::is_plugin_activated( 'icegram-mailer/icegram-mailer.php' );
+			$is_opted_for_ess = false;
+			if ( $is_ig_mailer_plugin_active && is_callable( 'Icegram_Mailer_Account', 'is_opted_for_ess' ) ) {
+				$is_opted_for_ess = Icegram_Mailer_Account::is_opted_for_ess();
+			}
 			wp_register_script( 'es-shadcn-dashboard', plugin_dir_url( __FILE__ ) . 'shadcn-frontend/dist/index.js', array('wp-element'), $this->version, true );
 			$current_user = wp_get_current_user();
+
+			// Determine default route based on current page
+				$default_route = '';
+				if ( 'es_subscribers' === $page ) {
+					$default_route = '/audience';
+			}
+			
+			// Prepare post categories and custom post types data for campaigns
+			$post_categories = ES_Common::get_post_categories();
+			$post_types_name = ES_Common::get_post_types_name();
+			$custom_post_types_categories = array();
+			
+			if ( ! empty( $post_types_name ) && ES()->is_pro() ) {
+				$custom_post_types = array_keys( $post_types_name );
+				foreach ( $custom_post_types as $custom_post_type ) {
+					$custom_post_type_categories = ES_Common::get_post_type_categories( $custom_post_type );
+					if ( ! empty( $custom_post_type_categories ) ) {
+						$custom_post_types_categories[ $custom_post_type ] = $custom_post_type_categories;
+					}
+				}
+			}
+			
 			wp_localize_script( 'es-shadcn-dashboard', 'icegramExpressAdminData', array(
 				'apiUrl' => admin_url( 'admin-ajax.php' ),
 				'baseUrl' => ES_PLUGIN_URL . 'lite/admin/shadcn-frontend/dist/',
@@ -399,18 +428,29 @@ class Email_Subscribers_Admin {
 				'onboardingdata' => get_option('ig_es_onboarding_complete', 'no'),
 				'security'    => wp_create_nonce( 'ig-es-admin-ajax-nonce' ),
 				'plan' => ES()->get_plan(),
+				'defaultRoute' => $default_route,
 				'currentUser' => array(
 					'displayName' => $current_user->display_name,
 					'firstName' => $current_user->first_name,
 					'lastName' => $current_user->last_name,
 					'email' => $current_user->user_email,
 				),
+				'post_categories' => $post_categories,
+				'post_types_name' => $post_types_name,
+				'custom_post_types_categories' => $custom_post_types_categories,
+				'isIGMailerPluginActive' => $is_ig_mailer_plugin_active,
+				'isOptedForESS' => $is_opted_for_ess,
+				'tracking_details' => array(
+					'is_track_email_opens' => get_option( 'ig_es_track_email_opens', 'yes' ),
+					'ig_es_track_link_clicks' => get_option( 'ig_es_track_link_click', 'no' ),
+					'ig_es_track_utm' => get_option( 'ig_es_track_utm', 'no' ),
+				),
 			) );
 			wp_register_style( 'es-shadcn-dashboard', plugin_dir_url( __FILE__ ) . 'shadcn-frontend/dist/index.css', array(), $this->version );
 			wp_enqueue_script( 'es-shadcn-dashboard' );
 			wp_enqueue_style( 'es-shadcn-dashboard' );
 		}
-
+		
 	}
 
 	public function remove_submenu() {
@@ -451,7 +491,7 @@ class Email_Subscribers_Admin {
 
 		if ( in_array( 'audience', $accessible_sub_menus ) ) {
 			// Add Contacts Submenu
-			add_submenu_page( 'es_dashboard', __( 'Audience', 'email-subscribers' ), __( 'Audience', 'email-subscribers' ), 'edit_posts', $main_menu_url . '#audience', null );
+			add_submenu_page( 'es_dashboard', __( 'Audience', 'email-subscribers' ), __( 'Audience', 'email-subscribers' ), 'edit_posts', 'es_subscribers', array( $this, 'render_contacts' ) );
 			// Add Lists Submenu
 			$hook = add_submenu_page( 'es_dashboard', __( 'Lists', 'email-subscribers' ), '<span id="ig-es-lists">' . __( 'Lists', 'email-subscribers' ) . '</span>', 'edit_posts', 'es_lists', array( $this, 'render_lists' ) );
 			add_action( "load-$hook", array( 'ES_Lists_Table', 'screen_options' ) );

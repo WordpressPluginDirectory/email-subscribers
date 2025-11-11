@@ -663,34 +663,48 @@ abstract class ES_DB {
 			return false;
 		}
 
-		// Get the first value from an array to check data structure
-		$first_value = array_slice( $values, 0, 1 );
+	// Get the first value from an array to check data structure
+	$first_value = array_slice( $values, 0, 1 );
 
-		$data = array_shift( $first_value );
+	$data = array_shift( $first_value );
 
-		// Set default values
-		$data = wp_parse_args( $data, $this->get_column_defaults() );
+	// Set default values
+	$data = wp_parse_args( $data, $this->get_column_defaults() );
 
-		// Initialise column format array
-		$column_formats = $this->get_columns();
+	// Initialise column format array
+	$column_formats = $this->get_columns();
 
-		// Remove primary key as we don't require while inserting data
-		unset( $column_formats[ $this->primary_key ] );
+	// Remove primary key as we don't require while inserting data
+	unset( $column_formats[ $this->primary_key ] );
 
-		// Force fields to lower case
-		$data = array_change_key_case( $data );
+	// Force fields to lower case
+	$data = array_change_key_case( $data );
 
-		// White list columns
-		$data = array_intersect_key( $data, $column_formats );
+	// White list columns
+	$data = array_intersect_key( $data, $column_formats );
 
-		// Reorder $column_formats to match the order of columns given in $data
-		$data = wp_parse_args( $data, $this->get_column_defaults() );
+	// Reorder $column_formats to match the order of columns given in $data
+	$data = wp_parse_args( $data, $this->get_column_defaults() );
 
-		$data_keys = array_keys( $data );
+	// Collect ALL possible fields from ALL records in the batch to ensure consistent field list
+	$all_fields = array();
+	foreach ( $values as $single_value ) {
+		$single_value = array_change_key_case( $single_value );
+		$single_value = array_intersect_key( $single_value, $column_formats );
+		$all_fields = array_merge( $all_fields, array_keys( $single_value ) );
+	}
+	$all_fields = array_unique( $all_fields );
+	
+	// Update column_formats to include only the fields present across all records
+	$column_formats = array_intersect_key( $column_formats, array_flip( $all_fields ) );
+	
+	// Update data defaults to include all fields
+	$data = array_merge( array_fill_keys( $all_fields, null ), $data );
+	$data = array_intersect_key( $data, $column_formats );
 
-		$fields = array_keys( array_merge( array_flip( $data_keys ), $column_formats ) );
+	$data_keys = array_keys( $data );
 
-		// Convert Batches into smaller chunk
+	$fields = array_keys( array_merge( array_flip( $data_keys ), $column_formats ) );		// Convert Batches into smaller chunk
 		$batches = array_chunk( $values, $length );
 
 		$error_flag = false;
